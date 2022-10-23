@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Player {
+public class    Player {
     private String name;
     private int score;
     private ArrayList<String> rack;
@@ -9,6 +9,14 @@ public class Player {
         this.name = name;
         this.score = 0;
         this.rack = new ArrayList<>();
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
     /**
@@ -32,6 +40,19 @@ public class Player {
      */
     public int rackSize() {
         return this.rack.size();
+    }
+
+    /**
+     * String representation of Player's current rack
+     * @return String representation of rack
+     */
+    public String stringRack() {
+        String stringRack = "[";
+        for (String s: rack) {
+            stringRack += " " + s;
+        }
+        stringRack += " ]\n";
+        return stringRack;
     }
 
 }
