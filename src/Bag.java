@@ -33,6 +33,15 @@ public class Bag {
     }
 
     /**
+     * A method to return bag size
+     * @return size int, the size of the bag array
+     */
+    public int getSize(){
+        return letterBag.size();
+    }
+
+
+    /**
      * A method to return letter tiles to the bag
      * @param letter String, the letter
      */
