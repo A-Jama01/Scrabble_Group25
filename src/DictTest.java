@@ -4,7 +4,8 @@ public class DictTest {
 
     public static void main(String[] args) {
         String word = "ABLE";
-        System.out.println(Dictionary.check(word));
+        Dictionary dict = new Dictionary();
+        System.out.println(dict.check(word));
     }
 
 }

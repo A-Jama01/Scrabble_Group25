@@ -7,10 +7,12 @@ import java.util.Scanner;
 
 public class Dictionary {
 
+    public Dictionary(){}
+
     // This class will take a String input and will read through a text file to check
     // whether the word is in the file or not. If its in the file, the class will
     // return  boolean value of true, otherwise it will return false
-    public static boolean check(String word){
+    public boolean check(String word){
         try {
             File dictionary = new File("Dictionary.txt");
             Scanner words = new Scanner(dictionary);
