@@ -41,7 +41,7 @@ public class Word {
     //This function will check the score of the word inputted
     public int score(String word) {
         int sum = 0;
-        String[] letter = word.split("");
+        String[] letter = word.toUpperCase().split("");
         for(int i = 0; i < word.length();i++) {
             sum += this.letters.get(letter[i]);
         }
