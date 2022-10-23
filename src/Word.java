@@ -1,11 +1,14 @@
-//Monishkumar Sivakumar - 101115115
+/** Word Class - The class calculates the score of the word
+* 
+* @author Monishkumar Sivakumar
+**/
 import java.util.HashMap;
 
 public class Word {
 
     private HashMap<String, Integer> letters = new HashMap<String, Integer>();
 
-    //This class initializes the values for the Scrabble Letters
+    //This function initializes the values for the Scrabble Letters
     public Word(){
         this.letters.put("A", 1);
         this.letters.put("B", 3);
@@ -35,7 +38,7 @@ public class Word {
         this.letters.put("Z", 10);
     }
 
-    //This class will check the score of the word inputted
+    //This function will check the score of the word inputted
     public int score(String word) {
         int sum = 0;
         String[] letter = word.split("");
