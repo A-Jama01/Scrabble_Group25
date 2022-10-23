@@ -1,5 +1,7 @@
-//@author Monishkumar Sivakumar
-
+/** Dictionary Class - Checks whether the word is in the dictionary or not
+*
+* @author Monishkumar Sivakumar
+**/
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Locale;
@@ -9,8 +11,8 @@ public class Dictionary {
 
     public Dictionary(){}
 
-    // This class will take a String input and will read through a text file to check
-    // whether the word is in the file or not. If its in the file, the class will
+    // This function will take a String input and will read through a text file to check
+    // whether the word is in the file or not. If its in the file, the function will
     // return  boolean value of true, otherwise it will return false
     public boolean check(String word){
         try {
