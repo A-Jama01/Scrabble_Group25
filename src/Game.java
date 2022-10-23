@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 /**
  * Main class of Scrabble game. Initialize this class to play the game.
  *
@@ -127,3 +128,4 @@ public class Game {
     }
 
 }
+
