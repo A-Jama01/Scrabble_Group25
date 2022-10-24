@@ -15,7 +15,6 @@ public class Bag {
                     "T","T","T","T","T","T","L","L","L","L","S","S","S","S","U","U","U","U","Q",
                     "D","D","D","D","G","G","G","Z","B","B","C","C","M","M","P","P","F","F","H","H",
                     "V","V","W","W","Y","Y"));
-    private ArrayList<String> letterRack = new ArrayList<String>();
 
     /**
      * The constructor of the Bag class
@@ -23,21 +22,24 @@ public class Bag {
     public Bag() {}
 
     /**
-     * A method to get the drawn letter rack
-     * @return letterRack ArrayList<String>, the rack of letter tiles
+     * A method to draw letter tiles
+     * @return letter string, the drawn leter tile
      */
-    public ArrayList<String> getLetterRack(){ return letterRack;}
+    public String drawTile(){
+            int randomValue = (int)Math.floor(Math.random()*letterBag.size() +1);
+            String letter = letterBag.get(randomValue);
+            letterBag.remove(randomValue);
+            return letter;
+    }
 
     /**
-     * A method to draw letter tiles
+     * A method to return bag size
+     * @return size int, the size of the bag array
      */
-    public void drawTiles(){
-        for(int i=0;i<7;i++){
-            int randomValue = (int)Math.floor(Math.random()*letterBag.size() +1);
-            letterRack.add(letterBag.get(randomValue));
-            letterBag.remove(randomValue);
-        }
+    public int getSize(){
+        return letterBag.size();
     }
+
 
     /**
      * A method to return letter tiles to the bag
