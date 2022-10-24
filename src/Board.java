@@ -242,6 +242,52 @@ public class Board {
     }
 
     /**
+     * Check which letters of a word are already on the board,
+     * and return the word with lowercase letters where the
+     * letters are not yet placed.
+     *
+     * @param word The word, in uppercase
+     * @param pos The word's position
+     * @return The word with non-placed letters in lowercase,
+     * or null if placed letters conflict with the word
+     */
+    public String checkLetters(String word, String pos) {
+        int[] tuple = translateCoordinates(pos);
+        if (tuple == null) { return null; }
+        int startCol = tuple[0];
+        int startRow = tuple[1];
+        int dir = tuple[2];
+
+        String checkedWord = "";
+
+        if (dir == 0) {
+            for (int col = startCol; col < startCol + word.length(); col++) {
+                String currentLetter = word.substring(col - startCol, col - startCol + 1);
+                if (board[col][startRow].equals(currentLetter)) {
+                    checkedWord += board[col][startRow];
+                } else if (board[col][startRow].equals(EMPTY)) {
+                    checkedWord += currentLetter.toLowerCase();
+                } else {
+                    return null;
+                }
+            }
+        } else {  // dir == 1
+            for (int row = startRow; row < startRow + word.length(); row++) {
+                String currentLetter = word.substring(row - startRow, row - startRow + 1);
+                if (board[startCol][row].equals(currentLetter)) {
+                    checkedWord += board[startCol][row];
+                } else if (board[startCol][row].equals(EMPTY)) {
+                    checkedWord += currentLetter.toLowerCase();
+                } else {
+                    return null;
+                }
+            }
+        }
+
+        return checkedWord;
+    }
+
+    /**
      * Return a string representation of the board. Will
      * only render properly if printed in a monospace font.
      *
