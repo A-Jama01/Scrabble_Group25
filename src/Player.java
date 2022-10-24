@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class    Player {
+public class Player {
     private String name;
     private int score;
     private ArrayList<String> rack;
@@ -19,6 +19,10 @@ public class    Player {
         return this.score;
     }
 
+    public ArrayList<String> getRack() {
+        return this.rack;
+    }
+
     /**
      * Add to player score
      */
@@ -30,8 +34,12 @@ public class    Player {
      * Add tile to player's rack
      * @param tile  Tile to be added
      */
-    public void addTiles(String tile) {
+    public void addTile(String tile) {
         this.rack.add(tile);
+    }
+
+    public void removeTile(String tile) {
+        this.rack.remove(tile);
     }
 
     /**

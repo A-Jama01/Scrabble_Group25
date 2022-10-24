@@ -67,7 +67,7 @@ public class Game {
      */
     public void topUpRack(Player p) {
         while ((p.rackSize() < 7) && (bag.getSize() == 0)) {
-            p.addTiles(bag.drawTiles()); //assuming bag has method that will remove tile and return the tile removed
+            p.addTile(bag.drawTiles()); //assuming bag has method that will remove tile and return the tile removed
         }
     }
 
@@ -106,10 +106,14 @@ public class Game {
             gameOver = true;
             return true;
         }
-        else if (legalPlacement(userInput)) {
-            players.get(index).addPoints(tallyPoints(userInput)); //adds points to curr player
-            return true;
+        else if (tilesInRack(userInput, index)) {
+            if (legalPlacement(userInput)) {
+                players.get(index).addPoints(tallyPoints(userInput)); //adds points to curr player
+                removeTiles(userInput, index);
+                return true;
+            }
         }
+
         System.out.println("Invalid input received try again");
         return false;
     }
@@ -139,11 +143,41 @@ public class Game {
     /**
      * Checks if tiles to form word are in the player's rack
      *
-     * @param word String representing the word
+     * @param userInput String inputted by the user
+     * @param index Index of the current player
      * @return True if tiles are in rack and false otherwise
      */
-    public boolean tilesInRack(String word) {
+    public boolean tilesInRack(String userInput, int index) {
+        ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
+        ArrayList<String> playerRack = players.get(index).getRack();
 
+        for (String s: tilesNeeded) {
+            if (!(playerRack.contains(s))) { //check if tiles needed are in player's rack
+                return false;
+            }
+            playerRack.remove(s);
+        }
+        return true;
+    }
+
+    /**
+     * Get the tiles needed to be placed to make a word
+     * @param userInput String inputted by the user
+     * @param index Current player's index
+     * @return ArrayList<String> representing tiles needed
+     */
+    public ArrayList<String> tilesNeeded(String userInput, int index) {
+        String stringTiles = board.checkLetters(getSecondWord(userInput), getPos(userInput));
+        String listTiles[] = stringTiles.split("");
+        ArrayList<String> tilesNeeded = new ArrayList<>();
+        ArrayList<String> playerRack = players.get(index).getRack();
+
+        for(String s: listTiles) { //add lowerCase letters to tilesNeeded
+            if (s.equals(s.toLowerCase())) {
+                tilesNeeded.add(s.toUpperCase());//Tiles are in uppercase
+            }
+        }
+        return tilesNeeded;
     }
 
     /**
@@ -176,11 +210,17 @@ public class Game {
     }
 
     /**
-     * Remove the tiles need to make word from the players rack
-     * @param word String representing the word
+     * Remove the tiles used to make word from the players rack
+     *
+     * @param userInput String inputted by the user
+     * @param index Index of the current player
      */
-    public void removeTiles(String word) {
+    public void removeTiles(String userInput, int index) {
+        ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
 
+        for(String s: tilesNeeded) {
+            players.get(index).removeTile(s);
+        }
     }
 
     public int tallyPoints(String userInput) {
