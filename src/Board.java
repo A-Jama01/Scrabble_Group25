@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * The board is labeled with letters for columns (A-O),
  * and numbers for rows (1-15).
  *
- * @author Henry
+ * @author Henry Lin
  */
 
 public class Board {
@@ -17,15 +17,17 @@ public class Board {
     public static final String EMPTY = " ";
 
     public enum column {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O}
+    public final int BOARD_WIDTH = column.values().length;
+    public final int BOARD_HEIGHT = 15;
 
     /**
      * Create a Board object with default size and
      * all tiles set to empty.
      */
     public Board() {
-        board = new String[15][15];
-        for (int col = 0; col < board.length; col++) {
-            for (int row = 0; row < board[0].length; row++) {
+        board = new String[BOARD_WIDTH][BOARD_HEIGHT];
+        for (int col = 0; col < BOARD_WIDTH; col++) {
+            for (int row = 0; row < BOARD_HEIGHT; row++) {
                 board[col][row] = EMPTY;
             }
         }
@@ -80,13 +82,13 @@ public class Board {
      * The letter is uppercase if the tile is already
      * occupied, lowercase if it is empty.
      *
-     * @param col The column to check
-     * @param row The row to check
-     * @param word The word
+     * @param col     The column to check
+     * @param row     The row to check
+     * @param word    The word
      * @param wordPos The position of the word
      * @return The letter on the tile, or null if not part of word
      */
-    public String getWordLetterAt(int col, int row, String word, String wordPos) {
+    private String getWordLetterAt(int col, int row, String word, String wordPos) {
         int[] tuple = translateCoordinates(wordPos);
         if (tuple == null) { return null; }
         int startCol = tuple[0];
@@ -122,7 +124,7 @@ public class Board {
      * the letter already exists on the board, and
      * lowercase letters where they are yet to be placed.
      *
-     * @param word The word to be placed, in uppercase
+     * @param word     The word to be placed, in uppercase
      * @param position The position to place the word in scrabble notation
      * @return An ArrayList of Strings containing all combinations, or
      * null if the placement is not possible
@@ -137,11 +139,11 @@ public class Board {
             int dir = tuple[2];
             int horizontalLength;
             int verticalLength;
-            if (dir == 0 && word.length() <= board[0].length - col) {
+            if (dir == 0 && word.length() <= BOARD_WIDTH - col) {
                 // There is space in the row
                 horizontalLength = word.length();
                 verticalLength = 1;
-            } else if (dir == 1 && word.length() <= board.length - row) {
+            } else if (dir == 1 && word.length() <= BOARD_HEIGHT - row) {
                 // There is space in the column
                 horizontalLength = 1;
                 verticalLength = word.length();
@@ -156,7 +158,7 @@ public class Board {
                     combined = board[currentCol][upRow] + combined;
                 }
                 // Look for letters below the desired placement (including those to be placed)
-                for (int downRow = row; downRow < board.length; downRow++) {
+                for (int downRow = row; downRow < BOARD_HEIGHT; downRow++) {
                     String currentLetter = getWordLetterAt(currentCol, downRow, word, position);
                     if (board[currentCol][downRow].equals(EMPTY)) {
                         if (currentLetter != null) {
@@ -183,7 +185,7 @@ public class Board {
                     combined = board[leftCol][currentRow] + combined;
                 }
                 // Look for letters right of the desired placement (including those to be placed)
-                for (int rightCol = col; rightCol < board[0].length; rightCol++) {
+                for (int rightCol = col; rightCol < BOARD_WIDTH; rightCol++) {
                     String currentLetter = getWordLetterAt(rightCol, currentRow, word, position);
                     if (board[rightCol][currentRow].equals(EMPTY)) {
                         if (currentLetter != null) {
@@ -214,7 +216,7 @@ public class Board {
      * the word is placed horizontally. If column is first,
      * then the word is placed vertically.
      *
-     * @param word The word to be placed
+     * @param word     The word to be placed
      * @param position The position of the word in scrabble notation
      * @return true if placement is successful, false otherwise
      */
@@ -246,45 +248,43 @@ public class Board {
      * and return the word with lowercase letters where the
      * letters are not yet placed.
      *
-     * @param word The word, in uppercase
-     * @param pos The word's position
+     * @param word     The word, in uppercase
+     * @param position The word's position
      * @return The word with non-placed letters in lowercase,
      * or null if placed letters conflict with the word
      */
-    public String checkLetters(String word, String pos) {
-        int[] tuple = translateCoordinates(pos);
-        if (tuple == null) { return null; }
-        int startCol = tuple[0];
-        int startRow = tuple[1];
-        int dir = tuple[2];
-
-        String checkedWord = "";
-
-        if (dir == 0) {
-            for (int col = startCol; col < startCol + word.length(); col++) {
-                String currentLetter = word.substring(col - startCol, col - startCol + 1);
-                if (board[col][startRow].equals(currentLetter)) {
-                    checkedWord += board[col][startRow];
-                } else if (board[col][startRow].equals(EMPTY)) {
-                    checkedWord += currentLetter.toLowerCase();
-                } else {
-                    return null;
-                }
-            }
-        } else {  // dir == 1
-            for (int row = startRow; row < startRow + word.length(); row++) {
-                String currentLetter = word.substring(row - startRow, row - startRow + 1);
-                if (board[startCol][row].equals(currentLetter)) {
-                    checkedWord += board[startCol][row];
-                } else if (board[startCol][row].equals(EMPTY)) {
-                    checkedWord += currentLetter.toLowerCase();
-                } else {
-                    return null;
-                }
+    public String checkLetters(String word, String position) {
+        ArrayList<String> combinations = getCombinationsWith(word, position);
+        if (combinations != null) {
+            for (String combo : combinations) {
+                if (combo.equalsIgnoreCase(word)) { return combo; }
             }
         }
+        return null;
+    }
 
-        return checkedWord;
+    /**
+     * Return whether a given word crosses the centre square.
+     * @param word     The word
+     * @param position The word's position
+     * @return true if the word crosses centre, false otherwise
+     */
+    public boolean wordCrossesCentre(String word, String position) {
+        return getWordLetterAt(Math.ceilDiv(BOARD_WIDTH, 2) - 1, Math.ceilDiv(BOARD_HEIGHT, 2) - 1, word, position) != null;
+    }
+
+    /**
+     * Return whether a given word is attached to other existing words.
+     * Will also return false if the word cannot be placed.
+     * @param word     The word
+     * @param position The word's position
+     * @return true if the word is attached to at least one other word,
+     * false otherwise
+     */
+    public boolean wordIsAttached(String word, String position) {
+        ArrayList<String> combinations = getCombinationsWith(word, position);
+        if (combinations == null) { return false; }
+        return !(combinations.size() == 1 && combinations.get(0).equals(combinations.get(0).toLowerCase()));
     }
 
     /**
