@@ -1,5 +1,11 @@
 import java.util.*;
 
+/**
+ * Player of the scrabble game. Each player stores its score,
+ * name, and rack of tiles.
+ *
+ * @author Abdurahman Jama 101162633
+ */
 public class Player {
     private String name;
     private int score;

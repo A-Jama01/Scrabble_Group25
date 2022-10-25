@@ -31,6 +31,7 @@ public class Game {
         bag = new Bag();
         board = new Board();
         word = new Word();
+        players = new ArrayList<Player>();
         Player p1 = new Player("Player1");
         Player p2 = new Player("Player2");
         gameOver = false;
@@ -66,7 +67,7 @@ public class Game {
      * @param p Player in Scrabble game
      */
     public void topUpRack(Player p) {
-        while ((p.rackSize() < 7) && (bag.getSize() == 0)) {
+        while ((p.rackSize() < 7) && (bag.getSize() != 0)) {
             p.addTile(bag.drawTiles()); //assuming bag has method that will remove tile and return the tile removed
         }
     }
