@@ -68,7 +68,7 @@ public class Game {
      */
     public void topUpRack(Player p) {
         while ((p.rackSize() < 7) && (bag.getSize() != 0)) {
-            p.addTile(bag.drawTiles()); //assuming bag has method that will remove tile and return the tile removed
+            p.addTile(bag.drawTile()); //assuming bag has method that will remove tile and return the tile removed
         }
     }
 
