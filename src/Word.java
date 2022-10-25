@@ -1,6 +1,6 @@
 /** Word Class - The class calculates the score of the word
 * 
-* @author Monishkumar Sivakumar
+* @author Monishkumar Sivakumar 101115115
 **/
 import java.util.HashMap;
 

@@ -1,30 +1,56 @@
 import java.util.*;
 
+/**
+ * Player of the scrabble game. Each player stores its score,
+ * name, and rack of tiles.
+ *
+ * @author Abdurahman Jama 101162633
+ */
 public class Player {
     private String name;
     private int score;
     private ArrayList<String> rack;
 
+    /**
+     * Create a player
+     *
+     * @param name Player's name
+     */
     public Player(String name) {
         this.name = name;
         this.score = 0;
         this.rack = new ArrayList<>();
     }
 
+    /**
+     * Getter for player's name
+     *
+     * @return String representing player's name
+     */
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Getter for player's score
+     *
+     * @return Player's score
+     */
     public int getScore() {
         return this.score;
     }
 
+    /**
+     * Getter for player's tile Rack
+     *
+     * @return Player's rack
+     */
     public ArrayList<String> getRack() {
         return this.rack;
     }
 
     /**
-     * Add to player score
+     * Add points to player score
      */
     public void addPoints(int points) {
         this.score += points;
@@ -32,18 +58,25 @@ public class Player {
 
     /**
      * Add tile to player's rack
+     *
      * @param tile  Tile to be added
      */
     public void addTile(String tile) {
         this.rack.add(tile);
     }
 
+    /**
+     * Remove tile from player's rack
+     *
+     * @param tile Tile to be removed
+     */
     public void removeTile(String tile) {
         this.rack.remove(tile);
     }
 
     /**
      * Return the number of tiles in the players rack
+     *
      * @return int representing rack size
      */
     public int rackSize() {
@@ -52,6 +85,7 @@ public class Player {
 
     /**
      * String representation of Player's current rack
+     *
      * @return String representation of rack
      */
     public String stringRack() {

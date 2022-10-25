@@ -31,6 +31,7 @@ public class Game {
         bag = new Bag();
         board = new Board();
         word = new Word();
+        players = new ArrayList<Player>();
         Player p1 = new Player("Player1");
         Player p2 = new Player("Player2");
         gameOver = false;
@@ -66,8 +67,8 @@ public class Game {
      * @param p Player in Scrabble game
      */
     public void topUpRack(Player p) {
-        while ((p.rackSize() < 7) && (bag.getSize() == 0)) {
-            p.addTile(bag.drawTiles()); //assuming bag has method that will remove tile and return the tile removed
+        while ((p.rackSize() < 7) && (bag.getSize() != 0)) {
+            p.addTile(bag.drawTile()); //assuming bag has method that will remove tile and return the tile removed
         }
     }
 
@@ -162,6 +163,7 @@ public class Game {
 
     /**
      * Get the tiles needed to be placed to make a word
+     *
      * @param userInput String inputted by the user
      * @param index Current player's index
      * @return ArrayList<String> representing tiles needed
@@ -194,7 +196,7 @@ public class Game {
      * Check if user's input contains valid words and can be legally placed on the board
      *
      * @param userInput The string inputted by the user
-     * @return
+     * @return True if userInput contains a word that is in dictionary and can be placed on board
      */
     public boolean legalPlacement(String userInput) {
         ArrayList<String> wordCombos = wordCombos(userInput);
@@ -223,6 +225,12 @@ public class Game {
         }
     }
 
+    /**
+     * Tally total points scored from placing word
+     *
+     * @param userInput String inputted from user
+     * @return  Int representing total points scored
+     */
     public int tallyPoints(String userInput) {
         ArrayList<String> wordCombos = wordCombos(userInput);
         int score = 0;
@@ -232,12 +240,20 @@ public class Game {
         return score;
     }
 
+    /**
+     * Checks the game state if the player runs out of tiles the game ends.
+     *
+     * @param index Current player's index
+     */
     public void checkGameState(int index) {
         if (players.get(index).rackSize() == 0) {
             gameOver = true;
         }
     }
 
+    /**
+     * Ending message when game is over
+     */
     public void endMsg() {
         System.out.println("Game Over\n");
         for (Player p: players) {
@@ -253,6 +269,10 @@ public class Game {
         }
     }
 
+    /**
+     * Gets the index of the player with the highest score or a negative in case of tie
+     * @return  Index of winner
+     */
     public int winnerIndex() {
         if (players.get(0).getScore() > players.get(1).getScore()) {
             return 0;

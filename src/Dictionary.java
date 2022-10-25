@@ -1,6 +1,6 @@
 /** Dictionary Class - Checks whether the word is in the dictionary or not
 *
-* @author Monishkumar Sivakumar
+* @author Monishkumar Sivakumar 101115115
 **/
 import java.io.File;
 import java.io.FileNotFoundException;
