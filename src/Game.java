@@ -152,7 +152,7 @@ public class Game {
      */
     public boolean tilesInRack(ArrayList<String> tiles, int index) {
         ArrayList<String> tilesNeeded = tiles;
-        ArrayList<String> playerRack = players.get(index).getRack();
+        ArrayList<String> playerRack = new ArrayList<String>(players.get(index).getRack());
 
         for (String s: tilesNeeded) {
             if (!(playerRack.contains(s))) { //check if tiles needed are in player's rack
@@ -174,7 +174,7 @@ public class Game {
         String stringTiles = board.checkLetters(getSecondWord(userInput), getPos(userInput));
         String listTiles[] = stringTiles.split("");
         ArrayList<String> tilesNeeded = new ArrayList<>();
-        ArrayList<String> playerRack = players.get(index).getRack();
+
 
         for(String s: listTiles) { //add lowerCase letters to tilesNeeded
             if (s.equals(s.toLowerCase())) {
