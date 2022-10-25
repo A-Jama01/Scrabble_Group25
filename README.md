@@ -1,6 +1,4 @@
 # Scrabble_Group25
-@author Monishkumar Sivakumar 101115115
-
 ## Milestone 1
 **Deliverables: **
 
