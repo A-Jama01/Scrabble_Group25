@@ -1,6 +1,12 @@
 # Scrabble_Group25
+## Authors
+Monishkumar Sivakumar <br />
+Abdurahman Jama <br />
+Christina Dang <br />
+Henry Lin <br />
+
 ## Milestone 1
-**Deliverables: **
+** Deliverables: **
 
 Readme File (@author: Monishkumar Sivakumar) - The readme file contains the Deilverables and its authors for Milestone 1. It also contains the roadmap for the tasks that must be completed for the next milestone, as well as the known issues for the current iteration of the game.
 
