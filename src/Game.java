@@ -21,6 +21,7 @@ public class Game {
     private Word word;
     private ArrayList<Player> players;
     private boolean gameOver;
+    private boolean firstTurn;
 
     /**
      * Create the game and initialise all other classes needed to play the game.
@@ -35,6 +36,7 @@ public class Game {
         Player p1 = new Player("Player1");
         Player p2 = new Player("Player2");
         gameOver = false;
+        firstTurn = true;
 
         //add players
         players.add(p1);
@@ -108,7 +110,7 @@ public class Game {
             return true;
         }
         ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
-
+        //call tallypoints
         if (tilesInRack(tilesNeeded, index)) {
             if (legalPlacement(userInput)) {
                 players.get(index).addPoints(tallyPoints(userInput)); //adds points to curr player
@@ -207,10 +209,17 @@ public class Game {
                 return false;
             }
         }
-        if (!board.place(getSecondWord(userInput), getPos(userInput))) { //return false if tile couldn't be placed
-            return false;
+        if (firstTurn){//return false if word doesn't cross center on first turn
+            if (board.wordCrossesCentre(getSecondWord(userInput), getPos(userInput))) {
+                board.place(getSecondWord(userInput), getPos(userInput));
+                firstTurn = false;
+                return true;
+            }
         }
-        return true;
+        else if (board.wordIsAttached(getSecondWord(userInput), getPos(userInput))) {
+                return board.place(getSecondWord(userInput), getPos(userInput));
+        }
+        return false;
     }
 
     /**
