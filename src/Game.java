@@ -107,10 +107,12 @@ public class Game {
             gameOver = true;
             return true;
         }
-        else if (tilesInRack(userInput, index)) {
+        ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
+
+        if (tilesInRack(tilesNeeded, index)) {
             if (legalPlacement(userInput)) {
                 players.get(index).addPoints(tallyPoints(userInput)); //adds points to curr player
-                removeTiles(userInput, index);
+                removeTiles(tilesNeeded, index);
                 return true;
             }
         }
@@ -144,12 +146,12 @@ public class Game {
     /**
      * Checks if tiles to form word are in the player's rack
      *
-     * @param userInput String inputted by the user
+     * @param tiles tiles needed for word
      * @param index Index of the current player
      * @return True if tiles are in rack and false otherwise
      */
-    public boolean tilesInRack(String userInput, int index) {
-        ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
+    public boolean tilesInRack(ArrayList<String> tiles, int index) {
+        ArrayList<String> tilesNeeded = tiles;
         ArrayList<String> playerRack = players.get(index).getRack();
 
         for (String s: tilesNeeded) {
@@ -214,11 +216,11 @@ public class Game {
     /**
      * Remove the tiles used to make word from the players rack
      *
-     * @param userInput String inputted by the user
+     * @param tiles Tiles used to create word
      * @param index Index of the current player
      */
-    public void removeTiles(String userInput, int index) {
-        ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
+    public void removeTiles(ArrayList<String> tiles, int index) {
+        ArrayList<String> tilesNeeded = tiles;
 
         for(String s: tilesNeeded) {
             players.get(index).removeTile(s);
@@ -282,7 +284,7 @@ public class Game {
         }
         return 1;
     }
-    public static void main(String args) {
+    public static void main(String[] args) {
         Game game = new Game();
         game.play();
     }
