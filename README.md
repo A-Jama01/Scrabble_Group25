@@ -29,7 +29,7 @@ Parser Class (@author: Christina Dang) - The parser class places the input the p
 ## Known Issues
 
 ## Roadmap
-**Milestone 2 **
+**Milestone 2**
 - Create a View and Controller for the scrabble game, so that it isn't text based anymore.
 
 - Unit tests must be created.
@@ -39,5 +39,5 @@ Parser Class (@author: Christina Dang) - The parser class places the input the p
 
 - The game must include AI, Blank Tiles and Premium Squares.
 
-**Milestone 4 **
+**Milestone 4**
 - The game must have save/load features, undo/redo features and custom boards
