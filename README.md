@@ -5,10 +5,10 @@
 **Deliverables: <br />**
 Readme File (@author: Monishkumar Sivakumar) - <br />
 UML Diagrams (@authors: Monishkumar Sivakumar, Abdurahman Jama, Christina Dang, Henry Lin) - <br />
-Game Class (@author: ) -
-Player Class (@author: ) -
-Board Class (@author: ) -
-Word Class (@author: ) -
-Dictionary Class (@author: ) - 
-Bag Class (@author: ) -
-Parser Class (@author: ) -
+Game Class (@author: ) - <br />
+Player Class (@author: ) - <br />
+Board Class (@author: ) - <br />
+Word Class (@author: ) - <br />
+Dictionary Class (@author: ) - <br />
+Bag Class (@author: ) - <br />
+Parser Class (@author: ) - <br />
