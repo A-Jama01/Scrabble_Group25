@@ -26,7 +26,7 @@ public class Bag {
      * @return letter string, the drawn leter tile
      */
     public String drawTile(){
-            int randomValue = (int)Math.floor(Math.random()*letterBag.size() +1);
+            int randomValue = (int)Math.floor(Math.random()*letterBag.size());
             String letter = letterBag.get(randomValue);
             letterBag.remove(randomValue);
             return letter;
