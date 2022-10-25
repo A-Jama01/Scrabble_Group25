@@ -12,6 +12,8 @@ Readme File (@author: Monishkumar Sivakumar) - The readme file contains the Deil
 
 UML Diagrams (@authors: Monishkumar Sivakumar, Abdurahman Jama, Christina Dang, Henry Lin) - The UML diagrams contain all the classes and how they connect and interact with each other.
 
+Sequence Diagram (@author: Monishkumar Sivakumar) - The sequence diagram models the interactions between the various classes when important events occur. The five events that are modelled, are **Starting the game, Placing a Tile, Calcaulating Score, Refilling the Players Rack with Letters, and ending the game**.
+
 Game Class (@author: Abdurahman Jama) - The game class creates an instance of the other classes, and uses their methods to create a text based Scrabble game.
 
 Player Class (@author: Abdurahman Jama) - The player class stores the data of each player, this includes their score, their name and what letters they have.
