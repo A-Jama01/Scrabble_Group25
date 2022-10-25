@@ -110,10 +110,11 @@ public class Game {
             return true;
         }
         ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
-        //call tallypoints
+        int pointsScored = tallyPoints(userInput);
+
         if (tilesInRack(tilesNeeded, index)) {
             if (legalPlacement(userInput)) {
-                players.get(index).addPoints(tallyPoints(userInput)); //adds points to curr player
+                players.get(index).addPoints(pointsScored); //adds points to curr player
                 removeTiles(tilesNeeded, index);
                 return true;
             }
