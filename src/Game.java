@@ -109,7 +109,22 @@ public class Game {
             gameOver = true;
             return true;
         }
+
+        else if (userInput.equals("")) {
+            System.out.println("No input received try again");
+            return false;
+        }
+        String[] checkSize = userInput.split(" ");//return error if # of words is smaller or larger than 2
+        if (checkSize.length > 2 || checkSize.length < 2) {
+            System.out.println("Invalid input received try again");
+            return false;
+        }
         ArrayList<String> tilesNeeded = tilesNeeded(userInput, index);
+
+        if (tilesNeeded == null) {//check if tilesNeeded is null
+            System.out.println("Invalid input received try again");
+            return false;
+        }
         int pointsScored = tallyPoints(userInput);
 
         if (tilesInRack(tilesNeeded, index)) {
@@ -131,7 +146,7 @@ public class Game {
      * @return String representing a word's position
      */
     public String getPos(String userInput) {
-        String position = userInput.split(" ")[0];
+        String position = userInput.toUpperCase().split(" ")[0];
         return position;
     }
 
@@ -142,7 +157,10 @@ public class Game {
      * @return String representing a word
      */
     public String getSecondWord(String userInput) {
-        String secondWord = userInput.split(" ")[1];
+        if (userInput.equals("")) {
+            return "";
+        }
+        String secondWord = userInput.toUpperCase().split(" ")[1];
         return secondWord;
     }
 
@@ -175,6 +193,11 @@ public class Game {
      */
     public ArrayList<String> tilesNeeded(String userInput, int index) {
         String stringTiles = board.checkLetters(getSecondWord(userInput), getPos(userInput));
+
+        if(stringTiles == null) {
+            return null;
+        }
+
         String listTiles[] = stringTiles.split("");
         ArrayList<String> tilesNeeded = new ArrayList<>();
 
