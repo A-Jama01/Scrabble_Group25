@@ -17,8 +17,8 @@ public class Board {
     public static final String EMPTY = " ";
 
     public enum column {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O}
-    public final int BOARD_WIDTH = column.values().length;
-    public final int BOARD_HEIGHT = 15;
+    public static final int BOARD_WIDTH = column.values().length;
+    public static final int BOARD_HEIGHT = 15;
 
     /**
      * Create a Board object with default size and
@@ -67,6 +67,7 @@ public class Board {
                 col = column.valueOf(position.substring(2, 3)).ordinal();
                 dir = 0;
             } else { return null; }
+            if (BOARD_HEIGHT < row + 1) { return null; }
             return new int[]{col, row, dir};
         } catch (StringIndexOutOfBoundsException | IllegalArgumentException | NullPointerException e) {
             System.err.println(e.getMessage());
