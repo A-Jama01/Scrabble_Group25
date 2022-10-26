@@ -68,7 +68,7 @@ public class Board {
                 dir = 0;
             } else { return null; }
             return new int[]{col, row, dir};
-        } catch (IllegalArgumentException | NullPointerException e) {
+        } catch (StringIndexOutOfBoundsException | IllegalArgumentException | NullPointerException e) {
             System.err.println(e.getMessage());
             return null;
         }
