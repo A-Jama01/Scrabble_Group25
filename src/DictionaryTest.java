@@ -1,3 +1,8 @@
+/** DictionaryTest Class - The class tests the Dictionary Class
+ *
+ * @author Monishkumar Sivakumar 101115115
+ **/
+
 import org.junit.*;
 import static org.junit.Assert.*;
 
@@ -21,5 +26,13 @@ public class DictionaryTest {
     @Test
     public void testWrongWord(){
         assertTrue(dict.check("asdfg") == false);
+    }
+
+    @Test
+    public void failingTest(){
+        Integer word = 11;
+        if (word.getClass().equals(String.class) != true){
+            fail("The input is an integer");
+        }
     }
 }
