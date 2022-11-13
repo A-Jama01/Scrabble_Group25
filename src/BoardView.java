@@ -41,16 +41,14 @@ public class BoardView extends JFrame {
             add(label);
             for (int col = 0; col < Board.HEIGHT; col++) {
                 JButton tile = new JButton();
-                tile.setActionCommand("try " + Board.column.values()[col].toString() + col);
-                // JUNK CODE _
-                int finalCol = col;
-                int finalRow = row;
-                tile.addActionListener(e -> setFloatingTile(finalCol, finalRow, "Z"));
-                // JUNK CODE ^
+                tile.setActionCommand("try " + col + " " + row);
+                // addActionListener(controller);
                 buttons[col][row] = tile;
                 add(tile);
             }
         }
+
+        setSize(750, 750);
     }
 
     /**
@@ -78,12 +76,6 @@ public class BoardView extends JFrame {
      * @return A letter that was swapped out, or null if none
      */
     public String setFloatingTile(int col, int row, String letter) {
-        // JUNK CODE _
-        if (col == 14 && row == 14) {
-            System.out.println(getFloatingWord());
-            return null;
-        }
-        // JUNK CODE ^
         switch (floating.size()) {
             case 0:
                 floatingCol = col;
@@ -161,18 +153,5 @@ public class BoardView extends JFrame {
             return word.toString();
         }
         return null;
-    }
-
-    public static void main(String[] args) {
-        Board b = new Board();
-
-        BoardView bv = new BoardView(b);
-        bv.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        bv.setSize(750, 750);
-        bv.setVisible(true);
-
-        b.place("HELLO", "H8");
-        b.place("WORLD", "12G");
-        bv.refresh();
     }
 }
