@@ -18,6 +18,7 @@ public class ScrabbleController implements ActionListener {
     public ScrabbleController(Game game) {
         this.game = game;
         this.selectedTile = "";
+        tilesPlaced = new ArrayList<>();
     }
 
     @Override
@@ -45,21 +46,26 @@ public class ScrabbleController implements ActionListener {
 
         if (e.getSource() == playButton) { //play button pressed
             if (game.place() == true) { //place() maybe takes in arraylist of tilesplaced
-                game.removeTiles(tilesToRemove(tilesPlaced)); //remove tiles of current play
-                //game.topUpRack() topup the rack of current player
-                //update gui to reflect changes
+                game.removeTiles(tilesToRemove(tilesPlaced), game.getCurrPlayer()); //remove tiles of current player
+                game.topUpRack(); //topup the rack of current player
+                game.switchTurn();
+                switchPlayerTiles(getCurrPlayer().getRack());
                 tilesPlaced.removeAll(tilesPlaced);
             }
             else {
-                resetBoard(); //print error message as well
+                resetBoard(); //print error message
             }
 
         }
 
         if (e.getSource() == skipButton) { //skip button pressed
+            game.switchTurn();
+            switchPlayerTiles(getCurrPlayer().getRack());
+        }
+
+        if (e.getSource() == clearButton) {
             resetBoard();
-            switchPlayerTiles();
-            game.passTurn();
+            tilesPlaced.removeAll(tilesPlaced);
         }
     }
 
@@ -86,10 +92,22 @@ public class ScrabbleController implements ActionListener {
     }
 
     public void resetBoard() {
+        for (String s : tilesPlaced) {
+            String[] input = s.split(" ");
+            int x = Integer.parseInt(input[0]);
+            int y = Integer.parseInt(input[1]);
+            boardButton[x][y].getText("");
+        }
+        for (int i = 0; i < 7; i++) {
+            rackButton[i].setFocusable(true);
+        }
 
     }
 
-    public void switchPlayerTiles() {
-
+    public void switchPlayerTiles(ArrayList<String> rack) {
+        for (int i = 0; i < rack.size(); i++) {
+            rackButton[i].setText(rack.get(i));
+            rackButton[i].setFocusable(true);
+        }
     }
 }
