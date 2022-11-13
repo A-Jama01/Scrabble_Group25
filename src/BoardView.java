@@ -124,6 +124,9 @@ public class BoardView extends JFrame {
      */
     public String getFloatingWord() {
         if (floating.size() == 0) { return null; }
+        if (floating.size() == 1 && floatingDir != Board.VERTICAL) { floatingDir = Board.HORIZONTAL; }
+        /* If there is only one floating letter, the direction is not certain.
+        Try horizontal first. The other direction will be tried if a one-letter word is formed. */
 
         StringBuilder word = new StringBuilder(Math.max(Board.WIDTH, Board.HEIGHT));
         int lettersUsed = 0;
@@ -150,10 +153,10 @@ public class BoardView extends JFrame {
             word.append(tile.getText());
         }
         if (lettersUsed == floating.size()) {
-            if (floating.size() == 1 && word.length() == 1) {
+            if (floating.size() == 1 && word.length() == 1 && floatingDir != Board.VERTICAL) {
+                // A one-letter word was formed and the vertical has not been tried;
                 floatingDir = Board.VERTICAL;
                 return getFloatingWord();
-                // If there is only one floating letter, the direction is not certain.
             }
             return word.toString();
         }
