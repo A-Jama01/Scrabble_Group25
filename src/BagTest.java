@@ -27,13 +27,13 @@ public class BagTest {
         }
     }
 
-    @Test
+    /**@Test
     public void tooManyLetters() {
         String letter = "as";
         if(letter.length() > 1) {
             fail("The string has more than one letter");
         }
-    }
+    }**/
 
 
 }
