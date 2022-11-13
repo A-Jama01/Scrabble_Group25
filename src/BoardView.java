@@ -150,6 +150,11 @@ public class BoardView extends JFrame {
             word.append(tile.getText());
         }
         if (lettersUsed == floating.size()) {
+            if (floating.size() == 1 && word.length() == 1) {
+                floatingDir = Board.VERTICAL;
+                return getFloatingWord();
+                // If there is only one floating letter, the direction is not certain.
+            }
             return word.toString();
         }
         return null;
