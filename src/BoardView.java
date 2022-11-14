@@ -23,7 +23,7 @@ public class BoardView extends JPanel {
 
     private Board board;
 
-    public BoardView(Board board) {  // add the controller as a parameter
+    public BoardView(Board board, ScrabbleController controller) {
         this.board = board;
         floating = new ArrayList<>();
         setLayout(new GridLayout(Board.WIDTH + 1, Board.HEIGHT + 1));
@@ -42,7 +42,7 @@ public class BoardView extends JPanel {
             for (int col = 0; col < Board.HEIGHT; col++) {
                 JButton tile = new JButton();
                 tile.setActionCommand("try " + col + " " + row);
-                // addActionListener(controller);
+                tile.addActionListener(controller);
                 buttons[col][row] = tile;
                 add(tile);
             }
