@@ -17,17 +17,19 @@ public class Board {
     public static final String EMPTY = " ";
 
     public enum column {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O}
-    public static final int BOARD_WIDTH = column.values().length;
-    public static final int BOARD_HEIGHT = 15;
+    public static final int WIDTH = column.values().length;
+    public static final int HEIGHT = 15;
+    public static final int HORIZONTAL = 0;
+    public static final int VERTICAL = 1;
 
     /**
      * Create a Board object with default size and
      * all tiles set to empty.
      */
     public Board() {
-        board = new String[BOARD_WIDTH][BOARD_HEIGHT];
-        for (int col = 0; col < BOARD_WIDTH; col++) {
-            for (int row = 0; row < BOARD_HEIGHT; row++) {
+        board = new String[WIDTH][HEIGHT];
+        for (int col = 0; col < WIDTH; col++) {
+            for (int row = 0; row < HEIGHT; row++) {
                 board[col][row] = EMPTY;
             }
         }
@@ -39,7 +41,8 @@ public class Board {
      * format:
      * {column, row, direction},
      * where direction is 0 if horizontal or 1 if vertical,
-     * and column and row are integer indices of the board.
+     * and column and row are integer indices of the board
+     * suitable for a 2D array.
      * If coordinate is not valid, returns null.
      *
      * @param position A position in scrabble notation
@@ -55,19 +58,19 @@ public class Board {
                 // Vertical position
                 col = column.valueOf(position.substring(0, 1)).ordinal();
                 row = Integer.parseInt(position.substring(1)) - 1;
-                dir = 1;
+                dir = VERTICAL;
             } else if (position.length() == 2) {
                 // Horizontal position (single digit)
                 row = Integer.parseInt(position.substring(0, 1)) - 1;
                 col = column.valueOf(position.substring(1, 2)).ordinal();
-                dir = 0;
+                dir = HORIZONTAL;
             } else if (position.length() == 3) {
                 // Horizontal position (two digit)
                 row = Integer.parseInt(position.substring(0, 2)) - 1;
                 col = column.valueOf(position.substring(2, 3)).ordinal();
-                dir = 0;
+                dir = HORIZONTAL;
             } else { return null; }
-            if (BOARD_HEIGHT < row + 1) { return null; }
+            if (HEIGHT < row + 1) { return null; }
             return new int[]{col, row, dir};
         } catch (StringIndexOutOfBoundsException | IllegalArgumentException | NullPointerException e) {
             System.err.println(e.getMessage());
@@ -98,12 +101,12 @@ public class Board {
 
         String letter = null;
 
-        if (dir == 0) {
+        if (dir == HORIZONTAL) {
             if (row == startRow && startCol <= col && col < startCol + word.length()) {
                 int index = col - startCol;
                 letter = word.substring(index, index + 1);
             }
-        } else {  // dir == 1
+        } else {  // dir == VERTICAL
             if (col == startCol && startRow <= row && row < startRow + word.length()) {
                 int index = row - startRow;
                 letter = word.substring(index, index + 1);
@@ -140,11 +143,11 @@ public class Board {
             int dir = tuple[2];
             int horizontalLength;
             int verticalLength;
-            if (dir == 0 && word.length() <= BOARD_WIDTH - col) {
+            if (dir == HORIZONTAL && word.length() <= WIDTH - col) {
                 // There is space in the row
                 horizontalLength = word.length();
                 verticalLength = 1;
-            } else if (dir == 1 && word.length() <= BOARD_HEIGHT - row) {
+            } else if (dir == VERTICAL && word.length() <= HEIGHT - row) {
                 // There is space in the column
                 horizontalLength = 1;
                 verticalLength = word.length();
@@ -159,7 +162,7 @@ public class Board {
                     combined = board[currentCol][upRow] + combined;
                 }
                 // Look for letters below the desired placement (including those to be placed)
-                for (int downRow = row; downRow < BOARD_HEIGHT; downRow++) {
+                for (int downRow = row; downRow < HEIGHT; downRow++) {
                     String currentLetter = getWordLetterAt(currentCol, downRow, word, position);
                     if (board[currentCol][downRow].equals(EMPTY)) {
                         if (currentLetter != null) {
@@ -186,7 +189,7 @@ public class Board {
                     combined = board[leftCol][currentRow] + combined;
                 }
                 // Look for letters right of the desired placement (including those to be placed)
-                for (int rightCol = col; rightCol < BOARD_WIDTH; rightCol++) {
+                for (int rightCol = col; rightCol < WIDTH; rightCol++) {
                     String currentLetter = getWordLetterAt(rightCol, currentRow, word, position);
                     if (board[rightCol][currentRow].equals(EMPTY)) {
                         if (currentLetter != null) {
@@ -229,13 +232,11 @@ public class Board {
         int dir = tuple[2];
 
         if (getCombinationsWith(word, position) != null) {
-            if (dir == 0) {
-                // Place it horizontally
+            if (dir == HORIZONTAL) {
                 for (int i = 0; i < word.length(); i++) {
                     board[col + i][row] = word.substring(i, i + 1);
                 }
-            } else if (dir == 1) {
-                // Place it vertically
+            } else if (dir == VERTICAL) {
                 for (int i = 0; i < word.length(); i++) {
                     board[col][row + i] = word.substring(i, i + 1);
                 }
@@ -271,7 +272,7 @@ public class Board {
      * @return true if the word crosses centre, false otherwise
      */
     public boolean wordCrossesCentre(String word, String position) {
-        return getWordLetterAt(Math.ceilDiv(BOARD_WIDTH, 2) - 1, Math.ceilDiv(BOARD_HEIGHT, 2) - 1, word, position) != null;
+        return getWordLetterAt(Math.ceilDiv(WIDTH, 2) - 1, Math.ceilDiv(HEIGHT, 2) - 1, word, position) != null;
     }
 
     /**
@@ -307,5 +308,18 @@ public class Board {
             s += row + 1;
         }
         return s;
+    }
+
+    /**
+     * Return the letter at the given position.
+     * Returns null if the position is invalid.
+     * @param col The integer column of the board
+     * @param row The integer row of the board
+     * @return The letter at the given position, or null if invalid position
+     */
+    public String letterAt(int col, int row) {
+        if (0 <= col && col <= WIDTH && 0 <= row && row <= HEIGHT) {
+            return board[col][row];
+        } else { return null; }
     }
 }
