@@ -41,6 +41,8 @@ Unit Test (@author: Monishkumar Sivakumar) - There are multiple unit tests for e
 
 Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams have been changed based on the feedback, and they have been changed to include both the views as well as the controller.
 
+UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the new view classes and controller have been added in
+
 ## Known Issues
 - Word's cannot be Placed
 
