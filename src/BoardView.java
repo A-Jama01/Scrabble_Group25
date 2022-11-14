@@ -47,6 +47,7 @@ public class BoardView extends JPanel {
                 add(tile);
             }
         }
+        setPreferredSize(new Dimension(750, 750));
     }
 
     /**
