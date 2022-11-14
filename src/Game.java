@@ -22,6 +22,7 @@ public class Game {
     private ArrayList<Player> players;
     private boolean gameOver;
     private boolean firstTurn;
+    private int currPlayerIndex;
 
     /**
      * Create the game and initialise all other classes needed to play the game.
@@ -37,6 +38,7 @@ public class Game {
         Player p2 = new Player("Player2");
         gameOver = false;
         firstTurn = true;
+        currPlayerIndex = 0;
 
         //add players
         players.add(p1);
@@ -48,11 +50,30 @@ public class Game {
         }
     }
 
+    public boolean place(String word) {
+        if (!dict.check(word)) { //return false if word not in dict
+            return false;
+        }
+
+        return true;
+    }
+
+    public Player getCurrPlayer() {
+        return players.get(currPlayerIndex);
+    }
+
+    public int getCurrPlayerIndex() {
+        return currPlayerIndex;
+    }
+
+    public void switchTurn() {
+        currPlayerIndex ^= 1;
+    }
+
     /**
      * Starts the game. Gameplay loops until game is over.
      */
     public void play(){
-        int currPlayerIndex = 0;
         while (!gameOver) { //need to know implementation of parser class and board
             System.out.println(board); //Print Board for each player's turn
             playerTurn(currPlayerIndex);
@@ -316,10 +337,6 @@ public class Game {
             return -1;
         }
         return 1;
-    }
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.play();
     }
 
 }
