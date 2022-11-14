@@ -17,12 +17,22 @@ public class GameView extends JFrame{
     private JLabel label1, label2, label3, label4, score1, score2;
     //private BoardController controller;
 
+
+    /**
+     * The constructor of the GameView class
+     */
+
     public GameView(){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000,1000);
         addComponents(this.getContentPane());
         this.setVisible(true);
     }
+
+    /**
+     * A method to set up the components for the GameView frame
+     * @param pane Container,the frame
+     **/
 
     public void addComponents(Container pane){
 
@@ -45,14 +55,13 @@ public class GameView extends JFrame{
 
         //letter rack player 1
         rack1 = new JPanel();
-        rack1.setLayout(new GridLayout(1,8));
+        rack1.setLayout(new GridLayout(1,7));
         buttonLetters1 = new ArrayList<JButton>();
         for(int i = 0; i<7; i++){
             buttonLetters1.add(new JButton(""));
             //buttonLetters1.get(i).addActionListener(controller);
             rack1.add(buttonLetters1.get(i));
         }
-        rack1.add(new JLabel("  Player 1 Rack"));
 
         c.fill = GridBagConstraints.CENTER;
         c.weighty = 0.5;
@@ -62,7 +71,7 @@ public class GameView extends JFrame{
         c.gridy = 1;
         pane.add(rack1, c);
 
-        //letter rack player 2
+        /*letter rack player 2
         rack2 = new JPanel();
         rack2.setLayout(new GridLayout(1,8));
         buttonLetters2 = new ArrayList<JButton>();
@@ -74,6 +83,7 @@ public class GameView extends JFrame{
         rack2.add(new JLabel("  Player 2 Rack"));
         c.gridy = 2;
         pane.add(rack2, c);
+        */
 
         //action buttons
         buttons = new JPanel();
@@ -129,23 +139,31 @@ public class GameView extends JFrame{
 
     }
 
-    public void updateRack(int player, ArrayList<String> letters){
-        if(player == 1) {
-            for (int i = 0; i < 7; i++) {
-                buttonLetters1.get(i).setText(letters.get(i));
-            }
-        }
-        if(player == 2) {
-            for (int i = 0; i < 7; i++) {
-                buttonLetters2.get(i).setText(letters.get(i));
-            }
+    /**
+     * A method to update the rack buttons to display the letters
+     * @param letters ArrayList<String>, the array of letters
+     */
+    public void updateRack(ArrayList<String> letters){
+        for (int i = 0; i < 7; i++) {
+            buttonLetters1.get(i).setText(letters.get(i));
         }
     }
 
+    /**
+     * A method to update the string texts on the view
+     * @param s1 String
+     * @param s2 String
+     */
     public void updateInfo(String s1, String s2){
         label1.setText(s1);
         label2.setText(s2);
     }
+
+    /**
+     * A method to update the scores on the view
+     * @param playerNum int, the player of which score to update
+     * @param score int, the score
+     */
 
     public void updateScore(int playerNum, int score){
         String scoreText = Integer.toString(score);
