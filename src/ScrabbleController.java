@@ -15,14 +15,14 @@ public class ScrabbleController implements ActionListener {
     private Game game;
     private BoardView boardView;
     private GameView gameView;
-    private String selectedTile;
-    private ArrayList<String> tilesPlaced;
+    private JButton selectedTile;
+    private ArrayList<JButton> tilesPlaced;
 
     public ScrabbleController(Game game, GameView gameView, BoardView boardView) {
         this.game = game;
         this.boardView = boardView;
         this.gameView = gameView;
-        this.selectedTile = "";
+        this.selectedTile = null;
         tilesPlaced = new ArrayList<>();
     }
 
@@ -32,20 +32,21 @@ public class ScrabbleController implements ActionListener {
         JButton button = (JButton) e.getSource();
 
         if (button.getText().length() == 1) { //select tile from rack
-            this.selectedTile = button.getText();
+            this.selectedTile = button;
+
         }
 
         /** Assume board button has setActionCommand with "x y" */
         if (boardActionCommand(e)[0].equals("try") && tileSelected()) {
             boardView.setFloatingTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile);
-            tilesPlaced.add(e.getSource().getText());
-            buttonLetters1[Integer.parseInt(selectedTile)].setFocusable(false);
-            selectedTile = "";
+            tilesPlaced.add(selectedTile);
+            selectedTile.setFocusable(false);
+            selectedTile = null;
         }
 
         if (e.getActionCommand().equals("play")) { //play button pressed
             if (game.place() == true) { //place() maybe takes in arraylist of tilesplaced
-                game.removeTiles(tilesPlaced, game.getCurrPlayer()); //remove tiles of current player
+                game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayer()); //remove tiles of current player
                 //game.topUpRack(); //topup the rack of current player
                 //game.switchTurn();
                 switchPlayerTiles(getCurrPlayer().getRack());
@@ -70,10 +71,18 @@ public class ScrabbleController implements ActionListener {
     }
 
     public boolean tileSelected() {
-        if (selectedTile.equals("")) {
+        if (selectedTile != null) {
             return true;
         }
         return false;
+    }
+
+    public ArrayList<String> stringTilesPlaced(ArrayList<JButton> tilesPlaced) {
+        ArrayList<String> stringTilesPlaced = new ArrayList<>();
+        for (JButton j: tilesPlaced) {
+            stringTilesPlaced.add(j.getText());
+        }
+        return stringTilesPlaced;
     }
 
     public String getTileLetter(String tileIndex) {
