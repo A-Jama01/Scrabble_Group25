@@ -15,8 +15,8 @@ public class GameView extends JFrame{
     private ArrayList<JButton> buttonLetters1;
     private ArrayList<JButton> buttonLetters2;
     private JLabel label1, label2, label3, label4, score1, score2;
-    //private BoardController controller;
-
+    private ScrabbleController controller;
+    private Board board1;
 
     /**
      * The constructor of the GameView class
@@ -36,22 +36,26 @@ public class GameView extends JFrame{
 
     public void addComponents(Container pane){
 
+
         pane.setLayout(new GridBagLayout());
         GridBagConstraints c = new GridBagConstraints();
 
         //change for boardview when done
         //scrabble board
+        //controller = new ScrabbleController(new Game(),this);
+
         board = new JPanel();
         board.setBorder(BorderFactory.createLineBorder(Color.black));
         c.fill = GridBagConstraints.CENTER;
         c.weightx = 0.5;
-        c.ipady = 800;
-        c.ipadx = 800;
+        c.ipady = 500;
+        c.ipadx = 500;
         c.gridx = 0;
         c.gridy = 0;
+        board.add(new BoardView(board1,controller));
         pane.add(board,c);
 
-        //controller = new BoardController(board,this);
+
 
         //letter rack player 1
         rack1 = new JPanel();
@@ -63,7 +67,7 @@ public class GameView extends JFrame{
             String intText = Integer.toString(i);
             buttonLetters1.get(i).setActionCommand(intText);
 
-            //buttonLetters1.get(i).addActionListener(controller);
+            buttonLetters1.get(i).addActionListener(controller);
             rack1.add(buttonLetters1.get(i));
 
         }
@@ -96,19 +100,19 @@ public class GameView extends JFrame{
 
         playButton = new JButton("Play");
         playButton.setActionCommand("play");
-        //playButton.addActionListener(controller);
+        playButton.addActionListener(controller);
         buttons.add(playButton);
         skipButton = new JButton("Skip");
         skipButton.setActionCommand("skip");
-        //skipButton.addActionListener(controller);
+        skipButton.addActionListener(controller);
         buttons.add(skipButton);
         swapButton = new JButton("Swap");
         swapButton.setActionCommand("swap");
-        //swapButton.addActionListener(controller);
+        swapButton.addActionListener(controller);
         buttons.add(swapButton);
         quitButton = new JButton("Quit");
         quitButton.setActionCommand("quit");
-        //quitButton.addActionListener(controller);
+        quitButton.addActionListener(controller);
         buttons.add(quitButton);
 
         c.gridy = 3;
