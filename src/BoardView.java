@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Henry Lin
  */
 
-public class BoardView extends JFrame {
+public class BoardView extends JPanel {
 
     private JButton[][] buttons;
 
@@ -47,8 +47,6 @@ public class BoardView extends JFrame {
                 add(tile);
             }
         }
-
-        setSize(750, 750);
     }
 
     /**
