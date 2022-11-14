@@ -59,8 +59,13 @@ public class GameView extends JFrame{
         buttonLetters1 = new ArrayList<JButton>();
         for(int i = 0; i<7; i++){
             buttonLetters1.add(new JButton(""));
+
+            String intText = Integer.toString(i);
+            buttonLetters1.get(i).setActionCommand(intText);
+
             //buttonLetters1.get(i).addActionListener(controller);
             rack1.add(buttonLetters1.get(i));
+
         }
 
         c.fill = GridBagConstraints.CENTER;
@@ -71,19 +76,19 @@ public class GameView extends JFrame{
         c.gridy = 1;
         pane.add(rack1, c);
 
-        /*letter rack player 2
-        rack2 = new JPanel();
-        rack2.setLayout(new GridLayout(1,8));
-        buttonLetters2 = new ArrayList<JButton>();
-        for(int i = 0; i<7; i++){
-            buttonLetters2.add(new JButton(""));
-            //buttonLetters2.get(i).addActionListener(controller);
-            rack2.add(buttonLetters2.get(i));
-        }
-        rack2.add(new JLabel("  Player 2 Rack"));
-        c.gridy = 2;
-        pane.add(rack2, c);
-        */
+       /*letter rack player 2
+       rack2 = new JPanel();
+       rack2.setLayout(new GridLayout(1,8));
+       buttonLetters2 = new ArrayList<JButton>();
+       for(int i = 0; i<7; i++){
+           buttonLetters2.add(new JButton(""));
+           //buttonLetters2.get(i).addActionListener(controller);
+           rack2.add(buttonLetters2.get(i));
+       }
+       rack2.add(new JLabel("  Player 2 Rack"));
+       c.gridy = 2;
+       pane.add(rack2, c);
+       */
 
         //action buttons
         buttons = new JPanel();
@@ -175,10 +180,29 @@ public class GameView extends JFrame{
         }
     }
 
+    /**
+     * A method to return the letter selected
+     * @param index int, index of button
+     * @return String, letter
+     */
+    public String getLetter(int index){
+        return buttonLetters1.get(index).getText();
+    }
+
+    /**
+     * A method to return the button array
+     * @return buttonLetters1 ArrayList<JButton>
+     */
+    public ArrayList<JButton> getButtonArray(){
+        return buttonLetters1;
+    }
+
+
     public static void main(String[] args) {
         new GameView();
     }
 }
+
 
 
 
