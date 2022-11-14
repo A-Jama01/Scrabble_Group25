@@ -108,7 +108,9 @@ public class BoardView extends JPanel {
 
     /**
      * Return the main word created by the floating tiles and
-     * existing tiles currently on the BoardView.
+     * existing tiles currently on the BoardView. The word is
+     * formatted with a position in the beginning of the string, e.g.:
+     * "H8 HELLO"
      * Returns null if there are no floating tiles or if there
      * are disconnected floating tiles.
      * @return The word created by floating tiles, or null if no word
@@ -121,12 +123,21 @@ public class BoardView extends JPanel {
 
         StringBuilder word = new StringBuilder(Math.max(Board.WIDTH, Board.HEIGHT));
         int lettersUsed = 0;
+        int startingCol = 0;
+        int startingRow = 0;
         int upperLimit = (floatingDir == Board.HORIZONTAL)? Board.WIDTH : Board.HEIGHT;
         int startingLetterIndex = (floatingDir == Board.HORIZONTAL)? floatingCol : floatingRow;
         for (int index = startingLetterIndex - 1; 0 <= index; index--) {
             JButton tile = (floatingDir == Board.HORIZONTAL)?
                     buttons[index][floatingRow] : buttons[floatingCol][index];
             if (tile.getText().equals(Board.EMPTY)) {
+                if (floatingDir == Board.HORIZONTAL) {
+                    startingCol = index;
+                    startingRow = floatingRow;
+                } else {
+                    startingRow = index;
+                    startingCol = floatingCol;
+                }
                 break;
             } else if (floating.contains(tile)) {
                 lettersUsed++;
@@ -149,7 +160,10 @@ public class BoardView extends JPanel {
                 floatingDir = Board.VERTICAL;
                 return getFloatingWord();
             }
-            return word.toString();
+            StringBuilder position = new StringBuilder(" ");
+            position.insert(0, floatingDir == Board.HORIZONTAL? startingRow : Board.column.values()[startingCol]);
+            position.insert(0, floatingDir == Board.HORIZONTAL? Board.column.values()[startingCol] : startingRow);
+            return position + word.toString();
         }
         return null;
     }
