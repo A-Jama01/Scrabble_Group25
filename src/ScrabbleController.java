@@ -38,30 +38,31 @@ public class ScrabbleController implements ActionListener {
 
         /** Assume board button has setActionCommand with "x y" */
         if (boardActionCommand(e)[0].equals("try") && tileSelected()) {
-            boardView.setFloatingTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile);
+            boardView.setFloatingTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile.getText());
             tilesPlaced.add(selectedTile);
             selectedTile.setFocusable(false);
             selectedTile = null;
         }
 
         if (e.getActionCommand().equals("play")) { //play button pressed
-            if (game.place() == true) { //place() maybe takes in arraylist of tilesplaced
-                game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayer()); //remove tiles of current player
-                //game.topUpRack(); //topup the rack of current player
-                //game.switchTurn();
-                switchPlayerTiles(getCurrPlayer().getRack());
+            if (game.place(boardView.getFloatingWord()) == true) { //place() maybe takes in arraylist of tilesplaced
+                game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
+                game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
+                game.switchTurn();
+                switchPlayerTiles(game.getCurrPlayer().getRack());
                 tilesPlaced.removeAll(tilesPlaced);
                 boardView.refresh();
             }
             else {
                 resetBoard(); //print error message
+                tilesPlaced.removeAll(tilesPlaced);
             }
 
         }
 
         if (e.getActionCommand().equals("skip")) { //skip button pressed
             game.switchTurn();
-            switchPlayerTiles(getCurrPlayer().getRack());
+            switchPlayerTiles(game.getCurrPlayer().getRack());
         }
 
         if (e.getActionCommand().equals("reset")) {
@@ -84,15 +85,15 @@ public class ScrabbleController implements ActionListener {
         }
         return stringTilesPlaced;
     }
-
+    /**
     public String getTileLetter(String tileIndex) {
         return rackButton[Integer.parseInt(tileIndex)].getText();
     }
-
+    */
     public String[] boardActionCommand(ActionEvent e) {
         return e.getActionCommand().split(" ");
     }
-
+    /**
     public ArrayList<String> tilesToRemove(ArrayList<String> tilesPlaced) {//r
         ArrayList<String> removeTiles = new ArrayList<>();
         for (String s: tilesPlaced) {
@@ -103,19 +104,20 @@ public class ScrabbleController implements ActionListener {
         }
         return removeTiles;
     }
+    */
 
     public void resetBoard() {
         boardView.refresh();
         for (int i = 0; i < 7; i++) {
-            rackButton[i].setFocusable(true);
+            gameView.getButtonArray().get(i).setFocusable(true);
         }
 
     }
 
     public void switchPlayerTiles(ArrayList<String> rack) {
         for (int i = 0; i < rack.size(); i++) {
-            rackButton[i].setText(rack.get(i));
-            rackButton[i].setFocusable(true);
+            gameView.getButtonArray().get(i).setText(rack.get(i));
+            gameView.getButtonArray().get(i).setFocusable(true);
         }
     }
 }
