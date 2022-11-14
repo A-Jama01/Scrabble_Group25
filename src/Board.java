@@ -309,4 +309,17 @@ public class Board {
         }
         return s;
     }
+
+    /**
+     * Return the letter at the given position.
+     * Returns null if the position is invalid.
+     * @param col The integer column of the board
+     * @param row The integer row of the board
+     * @return The letter at the given position, or null if invalid position
+     */
+    public String letterAt(int col, int row) {
+        if (0 <= col && col <= WIDTH && 0 <= row && row <= HEIGHT) {
+            return board[col][row];
+        } else { return null; }
+    }
 }
