@@ -28,7 +28,21 @@ Bag Class (@author: Christina Dang) - The word class keeps track of what tiles a
 
 Parser Class (@author: Christina Dang) - The parser class places the input the player types into a variable.
 
+## Milestone 2
+**Deliverables:**
+
+BoardView (@author: Henry Lin) - This class will display all the words/letters on the board
+
+GameView (@author: Christina Dang) - This class will display the player's rack, their score, etc.
+
+GameController (@author: Abdurahman Jama) - This class will connect both the views with the rest of the classes
+
+Unit Test (@author: Monishkumar Sivakumar) - There are multiple unit tests for each class and their functions. There are also failing unit tests for incomplete work.
+
+Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams have been changed based on the feedback, and they have been changed to include both the views as well as the controller.
+
 ## Known Issues
+- Word's cannot be Placed
 
 ## Roadmap
 **Milestone 2**
