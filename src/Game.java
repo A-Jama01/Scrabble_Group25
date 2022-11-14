@@ -50,8 +50,11 @@ public class Game {
         }
     }
 
-    public boolean place(String word) {
-        if (!dict.check(word)) { //return false if word not in dict
+    public boolean place(String words) {
+        if (!dict.check(words)) { //return false if word not in dict
+            return false;
+        }
+        if (!board.place(getSecondWord(words), getPos(words))) {
             return false;
         }
 
