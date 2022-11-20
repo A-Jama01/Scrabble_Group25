@@ -7,20 +7,17 @@
 
 import java.awt.event.*;
 import javax.swing.*;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ScrabbleController implements ActionListener {
 
     private Game game;
-    private BoardView boardView;
     private GameView gameView;
     private JButton selectedTile;
     private ArrayList<JButton> tilesPlaced;
 
-    public ScrabbleController(Game game, GameView gameView, BoardView boardView) {
+    public ScrabbleController(Game game, GameView gameView) {
         this.game = game;
-        this.boardView = boardView;
         this.gameView = gameView;
         this.selectedTile = null;
         tilesPlaced = new ArrayList<>();
@@ -28,30 +25,31 @@ public class ScrabbleController implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        /*
         JButton button = (JButton) e.getSource();
 
         if (button.getText().length() == 1) { //select tile from rack
             this.selectedTile = button;
 
         }
+         */
 
         /** Assume board button has setActionCommand with "x y" */
         if (boardActionCommand(e)[0].equals("try") && tileSelected()) {
-            boardView.setFloatingTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile.getText());
+            gameView.placeTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile.getText());
             tilesPlaced.add(selectedTile);
             selectedTile.setFocusable(false);
             selectedTile = null;
         }
 
-        if (e.getActionCommand().equals("play")) { //play button pressed
-            if (game.place(boardView.getFloatingWord()) == true) { //place() maybe takes in arraylist of tilesplaced
+        else if (e.getActionCommand().equals("play")) { //play button pressed
+            if (game.place(gameView.getPlacedWord()) == true) { //place() maybe takes in arraylist of tilesplaced
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
                 game.switchTurn();
                 switchPlayerTiles(game.getCurrPlayer().getRack());
                 tilesPlaced.removeAll(tilesPlaced);
-                boardView.refresh();
+                gameView.updateBoard();
             }
             else {
                 resetBoard(); //print error message
@@ -60,14 +58,18 @@ public class ScrabbleController implements ActionListener {
 
         }
 
-        if (e.getActionCommand().equals("skip")) { //skip button pressed
+        else if (e.getActionCommand().equals("skip")) { //skip button pressed
             game.switchTurn();
             switchPlayerTiles(game.getCurrPlayer().getRack());
         }
 
-        if (e.getActionCommand().equals("reset")) {
+        else if (e.getActionCommand().equals("reset")) {
             resetBoard();
             tilesPlaced.removeAll(tilesPlaced);
+        }
+
+        else if (e.getActionCommand().split(" ")[0].equals("pick")) {
+            selectedTile = gameView.getButtonArray().get(Integer.parseInt(e.getActionCommand().split(" ")[1]));
         }
     }
 
@@ -107,7 +109,7 @@ public class ScrabbleController implements ActionListener {
     */
 
     public void resetBoard() {
-        boardView.refresh();
+        gameView.updateBoard();
         for (int i = 0; i < 7; i++) {
             gameView.getButtonArray().get(i).setFocusable(true);
         }

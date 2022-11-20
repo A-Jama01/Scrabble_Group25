@@ -41,13 +41,14 @@ public class BoardView extends JPanel {
             add(label);
             for (int col = 0; col < Board.HEIGHT; col++) {
                 JButton tile = new JButton();
+                tile.setMargin(new Insets(0,0,0,0));
                 tile.setActionCommand("try " + col + " " + row);
                 tile.addActionListener(controller);
                 buttons[col][row] = tile;
                 add(tile);
             }
         }
-        setPreferredSize(new Dimension(750, 750));
+        setPreferredSize(new Dimension(480, 480));
     }
 
     /**
@@ -132,10 +133,10 @@ public class BoardView extends JPanel {
                     buttons[index][floatingRow] : buttons[floatingCol][index];
             if (tile.getText().equals(Board.EMPTY)) {
                 if (floatingDir == Board.HORIZONTAL) {
-                    startingCol = index;
+                    startingCol = index + 1;
                     startingRow = floatingRow;
                 } else {
-                    startingRow = index;
+                    startingRow = index + 1;
                     startingCol = floatingCol;
                 }
                 break;
@@ -161,8 +162,9 @@ public class BoardView extends JPanel {
                 return getFloatingWord();
             }
             StringBuilder position = new StringBuilder(" ");
-            position.insert(0, floatingDir == Board.HORIZONTAL? startingRow : Board.column.values()[startingCol]);
-            position.insert(0, floatingDir == Board.HORIZONTAL? Board.column.values()[startingCol] : startingRow);
+            int rowNumber = startingRow + 1;
+            position.insert(0, floatingDir == Board.HORIZONTAL? Board.column.values()[startingCol] : rowNumber);
+            position.insert(0, floatingDir == Board.HORIZONTAL? rowNumber : Board.column.values()[startingCol]);
             return position + word.toString();
         }
         return null;

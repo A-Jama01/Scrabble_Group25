@@ -10,21 +10,24 @@ import java.util.ArrayList;
 
 
 public class GameView extends JFrame{
-    private JPanel board,rack1, rack2,buttons, texts, scores;
+    private BoardView board;
+    private JPanel rack1, rack2,buttons, texts, scores;
     private JButton playButton,skipButton,quitButton,swapButton;
     private ArrayList<JButton> buttonLetters1;
     private ArrayList<JButton> buttonLetters2;
     private JLabel label1, label2, label3, label4, score1, score2;
     private ScrabbleController controller;
-    private Board board1;
 
     /**
      * The constructor of the GameView class
      */
 
-    public GameView(){
+    public GameView(Game game){
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000,1000);
+        game.addGameView(this);
+        controller = new ScrabbleController(game, this);
+        board = new BoardView(game.getBoard(), controller);
         addComponents(this.getContentPane());
         this.setVisible(true);
     }
@@ -44,15 +47,13 @@ public class GameView extends JFrame{
         //scrabble board
         //controller = new ScrabbleController(new Game(),this);
 
-        board = new JPanel();
         board.setBorder(BorderFactory.createLineBorder(Color.black));
         c.fill = GridBagConstraints.CENTER;
         c.weightx = 0.5;
-        c.ipady = 500;
-        c.ipadx = 500;
+        c.ipady = 0;
+        c.ipadx = 0;
         c.gridx = 0;
         c.gridy = 0;
-        board.add(new BoardView(board1,controller));
         pane.add(board,c);
 
 
@@ -65,7 +66,7 @@ public class GameView extends JFrame{
             buttonLetters1.add(new JButton(""));
 
             String intText = Integer.toString(i);
-            buttonLetters1.get(i).setActionCommand(intText);
+            buttonLetters1.get(i).setActionCommand("pick " + intText);
 
             buttonLetters1.get(i).addActionListener(controller);
             rack1.add(buttonLetters1.get(i));
@@ -201,9 +202,22 @@ public class GameView extends JFrame{
         return buttonLetters1;
     }
 
+    public void placeTile(int column, int row, String letter) {
+        board.setFloatingTile(column, row, letter);
+    }
+
+    public String getPlacedWord() {
+        return board.getFloatingWord();
+    }
+
+    public void updateBoard() {
+        board.refresh();
+    }
 
     public static void main(String[] args) {
-        new GameView();
+        Game game = new Game();
+        new GameView(game);
+        game.play();
     }
 }
 

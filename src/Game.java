@@ -23,6 +23,7 @@ public class Game {
     private boolean gameOver;
     private boolean firstTurn;
     private int currPlayerIndex;
+    private GameView gameView;
 
     /**
      * Create the game and initialise all other classes needed to play the game.
@@ -51,7 +52,7 @@ public class Game {
     }
 
     public boolean place(String words) {
-        if (!dict.check(words)) { //return false if word not in dict
+        if (!dict.check(getSecondWord(words))) { //return false if word not in dict
             return false;
         }
         if (!board.place(getSecondWord(words), getPos(words))) {
@@ -77,8 +78,9 @@ public class Game {
      * Starts the game. Gameplay loops until game is over.
      */
     public void play(){
-        while (!gameOver) { //need to know implementation of parser class and board
-            System.out.println(board); //Print Board for each player's turn
+        while (!gameOver) {
+            gameView.updateBoard();
+            gameView.updateRack(players.get(currPlayerIndex).getRack());
             playerTurn(currPlayerIndex);
             topUpRack(players.get(currPlayerIndex));
             checkGameState(currPlayerIndex);
@@ -340,6 +342,12 @@ public class Game {
             return -1;
         }
         return 1;
+    }
+
+    public Board getBoard() { return board; }
+
+    public void addGameView(GameView gameView) {
+        this.gameView = gameView;
     }
 
 }
