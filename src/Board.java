@@ -84,7 +84,7 @@ public class Board {
      * be already placed on the board. If the tile
      * does not belong to the word, return null.
      * The letter is uppercase if the tile is already
-     * occupied, lowercase if it is empty.
+     * placed, lowercase if not.
      *
      * @param col     The column to check
      * @param row     The row to check
@@ -115,6 +115,52 @@ public class Board {
         if (letter != null && board[col][row].equals(EMPTY)) { letter = letter.toLowerCase(); }
 
         return letter;
+    }
+
+    /**
+     * Return the longest word that would be formed in the
+     * given position and direction if the given word
+     * were placed. Returns null if the word is 1 letter
+     * or smaller, if there are conflicting letters
+     * on the board, or if the word does not contain
+     * any new letters.
+     * @param col             The column to check
+     * @param row             The row to check
+     * @param dir             The desired direction (VERTICAL or HORIZONTAL)
+     * @param wordBeingPlaced The word being placed
+     * @param wordPosition    The position of wordBeingPlaced in notation
+     * @return
+     */
+    private String longestWordFormedAt(int col, int row, int dir, String wordBeingPlaced, String wordPosition) {
+        StringBuilder combined = new StringBuilder(Math.max(WIDTH, HEIGHT));
+        boolean isHorizontal = dir == HORIZONTAL;
+        int maxIndex = isHorizontal? WIDTH : HEIGHT;
+
+        // Look for letters behind the desired placement
+        for (int indexBehind = row - 1; indexBehind >= 0; indexBehind--) {
+            String currentTile = isHorizontal? board[indexBehind][row] : board[col][indexBehind];
+            if (currentTile.equals(EMPTY)) { break; }
+            combined.insert(0, currentTile);
+        }
+        // Look for letters on and ahead of the desired placement (including those to be placed)
+        for (int indexAhead = row; indexAhead < maxIndex; indexAhead++) {
+            String letterBeingPlaced = getWordLetterAt(col, indexAhead, wordBeingPlaced, wordPosition);
+            String currentTile = isHorizontal? board[indexAhead][row] : board[col][indexAhead];
+            if (currentTile.equals(EMPTY)) {
+                if (letterBeingPlaced != null) {
+                    combined.append(letterBeingPlaced);  // Use the prospective letter
+                } else { break; }
+            } else if (letterBeingPlaced == null) {  // Letter not in main word but already placed
+                combined.append(currentTile);
+            } else if (letterBeingPlaced.equals(currentTile)) {  // Letter in main word and already placed
+                combined.append(letterBeingPlaced);
+            } else { return null; }  // Letter mismatch
+        }
+
+        if (combined.length() > 1 && !combined.toString().toUpperCase().equals(combined.toString())) {
+            return combined.toString();
+        }
+        return null;
     }
 
     /**
@@ -155,55 +201,17 @@ public class Board {
 
             // Look through all coincident columns (vertical words)
             for (int currentCol = col; currentCol < col + horizontalLength; currentCol++) {
-                String combined = "";
-                // Look for letters above the desired placement
-                for (int upRow = row - 1; upRow >= 0
-                        && !board[currentCol][upRow].equals(EMPTY); upRow--) {
-                    combined = board[currentCol][upRow] + combined;
-                }
-                // Look for letters below the desired placement (including those to be placed)
-                for (int downRow = row; downRow < HEIGHT; downRow++) {
-                    String currentLetter = getWordLetterAt(currentCol, downRow, word, position);
-                    if (board[currentCol][downRow].equals(EMPTY)) {
-                        if (currentLetter != null) {
-                            combined += currentLetter;  // Use the prospective letter
-                        } else { break; }
-                    } else if (currentLetter == null) {  // Letter not in main word
-                        combined += board[currentCol][downRow];
-                    } else if (currentLetter.equals(board[currentCol][downRow])) {  // Letter in main word
-                        combined += currentLetter;
-                    } else { return null; }  // Letter mismatch
-                }
-
-                if (combined.length() > 1 && !combined.toUpperCase().equals(combined)) {
-                    combinations.add(combined);  // Only add words that coincide with new tiles
+                String combined = longestWordFormedAt(currentCol, row, VERTICAL, word, position);
+                if (combined != null) {
+                    combinations.add(combined);
                 }
             }
 
             // Look through all coincident rows (horizontal words)
             for (int currentRow = row; currentRow < row + verticalLength; currentRow++) {
-                String combined = "";
-                // Look for letters left of the desired placement
-                for (int leftCol = col - 1; leftCol >= 0
-                        && !board[leftCol][currentRow].equals(EMPTY); leftCol--) {
-                    combined = board[leftCol][currentRow] + combined;
-                }
-                // Look for letters right of the desired placement (including those to be placed)
-                for (int rightCol = col; rightCol < WIDTH; rightCol++) {
-                    String currentLetter = getWordLetterAt(rightCol, currentRow, word, position);
-                    if (board[rightCol][currentRow].equals(EMPTY)) {
-                        if (currentLetter != null) {
-                            combined += currentLetter;  // Use the prospective letter
-                        } else { break; }
-                    } else if (currentLetter == null) {  // Letter not in main word
-                        combined += board[rightCol][currentRow];
-                    } else if (currentLetter.equals(board[rightCol][currentRow])) {  // Letter in main word
-                        combined += currentLetter;
-                    } else { return null; }  // Letter mismatch
-                }
-
-                if (combined.length() > 1 && !combined.toUpperCase().equals(combined)) {
-                    combinations.add(combined);  // Only add words that coincide with new tiles
+                String combined = longestWordFormedAt(col, currentRow, HORIZONTAL, word, position);
+                if (combined != null) {
+                    combinations.add(combined);
                 }
             }
 

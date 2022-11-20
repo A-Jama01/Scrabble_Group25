@@ -41,6 +41,8 @@ public class BoardView extends JPanel {
             add(label);
             for (int col = 0; col < Board.HEIGHT; col++) {
                 JButton tile = new JButton();
+                //tile.setForeground(Color.MAGENTA);
+                //tile.setBackground(Color.WHITE);
                 tile.setMargin(new Insets(0,0,0,0));
                 tile.setActionCommand("try " + col + " " + row);
                 tile.addActionListener(controller);
@@ -161,11 +163,11 @@ public class BoardView extends JPanel {
                 floatingDir = Board.VERTICAL;
                 return getFloatingWord();
             }
-            StringBuilder position = new StringBuilder(" ");
+            StringBuilder position = new StringBuilder();
             int rowNumber = startingRow + 1;
-            position.insert(0, floatingDir == Board.HORIZONTAL? Board.column.values()[startingCol] : rowNumber);
-            position.insert(0, floatingDir == Board.HORIZONTAL? rowNumber : Board.column.values()[startingCol]);
-            return position + word.toString();
+            position.append(floatingDir == Board.HORIZONTAL? rowNumber : Board.column.values()[startingCol]);
+            position.append(floatingDir == Board.HORIZONTAL? Board.column.values()[startingCol] : rowNumber);
+            return position + " " + word;
         }
         return null;
     }
