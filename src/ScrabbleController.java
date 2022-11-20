@@ -44,6 +44,14 @@ public class ScrabbleController implements ActionListener {
 
         else if (e.getActionCommand().equals("play")) { //play button pressed
             if (game.place(gameView.getPlacedWord()) == true) { //place() maybe takes in arraylist of tilesplaced
+
+                if(game.getCurrPlayerIndex() == 0) {
+                    gameView.updateInfo("Player 1 turn made.", "Make your turn now Player 2.");
+                }
+                else{
+                    gameView.updateInfo("Player 2 turn made.", "Make your turn now Player 1.");
+                }
+
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
                 game.switchTurn();
@@ -54,6 +62,7 @@ public class ScrabbleController implements ActionListener {
             else {
                 resetBoard(); //print error message
                 tilesPlaced.removeAll(tilesPlaced);
+                gameView.updateInfo("Invalid word.", "Please pick a new word.");
             }
 
         }
@@ -61,6 +70,12 @@ public class ScrabbleController implements ActionListener {
         else if (e.getActionCommand().equals("skip")) { //skip button pressed
             game.switchTurn();
             switchPlayerTiles(game.getCurrPlayer().getRack());
+            if(game.getCurrPlayerIndex() == 0) {
+                gameView.updateInfo("Player 1 turn skipped.", "Make your turn now Player 2.");
+            }
+            else{
+                gameView.updateInfo("Player 2 turn skipped.", "Make your turn now Player 1.");
+            }
         }
 
         else if (e.getActionCommand().equals("reset")) {
