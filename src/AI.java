@@ -18,7 +18,7 @@ public class AI extends Player{
         super("AI");
         dict = new Dictionary();
         word = new ArrayList<>();
-        alphabet = "ABCDEFGHIJKLMNOP";
+        alphabet = "ABCDEFGHIJKLMNO";
         placeCombo();
         for(int i = 0; i< this.getRack().size(); i++){
             rack += this.getRack().get(i).toString();
