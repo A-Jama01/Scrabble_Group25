@@ -36,6 +36,7 @@ public class Word {
         this.letters.put("X", 8);
         this.letters.put("Y", 4);
         this.letters.put("Z", 10);
+        this.letters.put(Bag.BLANK_TILE, 0);
     }
 
     //This function will check the score of the word inputted
@@ -47,6 +48,28 @@ public class Word {
         }
         return sum;
 
+    }
+
+    public int scoreWithPremiums(String word, String[] premiums) {
+        int wordValue = 1;
+        int sum = 0;
+        String[] letter = word.toUpperCase().split("");
+        for (int i = 0; i < word.length(); i++) {
+            int letterValue = 1;
+            if (premiums[i] != null) {
+                if (premiums[i].equals(Board.DOUBLE_LETTER_SCORE)) {
+                    letterValue = 2;
+                } else if (premiums[i].equals(Board.TRIPLE_LETTER_SCORE)) {
+                    letterValue = 3;
+                } else if (premiums[i].equals(Board.DOUBLE_WORD_SCORE)) {
+                    wordValue *= 2;
+                } else if (premiums[i].equals(Board.TRIPLE_WORD_SCORE)) {
+                    wordValue *= 3;
+                }
+                sum += this.letters.get(letter[i]) * letterValue;
+            }
+        }
+        return sum * wordValue;
     }
 
 }
