@@ -32,9 +32,9 @@ public class ScrabbleController implements ActionListener {
             if (placeTile == null) { // Don't place tile if placement is incorrect
                 return;
             }
-            if (tilesPlaced.size() == 1 && placeTile.equals(tilesPlaced.get(tilesPlaced.size() - 1).getText())) { //swap letter case
-                tilesPlaced.get(tilesPlaced.size() - 1).setEnabled(true);
-                tilesPlaced.remove(tilesPlaced.size() - 1); //remove swapped tile from list of placed tiles
+            if (tilesPlaced.size() >= 1 && isTilePlaced(placeTile)) { //swap letter case
+                tilesPlaced.get(getPlacedTile(placeTile)).setEnabled(true);
+                tilesPlaced.remove(getPlacedTile(placeTile)); //remove swapped tile from list of placed tiles
             }
             tilesPlaced.add(selectedTile);
             selectedTile.setEnabled(false);
@@ -125,4 +125,22 @@ public class ScrabbleController implements ActionListener {
         }
     }
 
+    public boolean isTilePlaced(String letter) {
+        for (JButton b: tilesPlaced) {
+            if (b.getText().equals(letter)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getPlacedTile(String letter) {
+        int index = 0;
+        for (int i = 0; i < tilesPlaced.size(); i++) {
+            if (tilesPlaced.get(i).getText().equals(letter)) {
+                index = i;
+            }
+        }
+        return index;
+    }
 }
