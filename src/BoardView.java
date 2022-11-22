@@ -41,8 +41,14 @@ public class BoardView extends JPanel {
             add(label);
             for (int col = 0; col < Board.HEIGHT; col++) {
                 JButton tile = new JButton();
-                //tile.setForeground(Color.MAGENTA);
-                //tile.setBackground(Color.WHITE);
+                String startingValue = board.letterAt(col, row);
+                tile.setForeground(switch (startingValue) {
+                    case Board.DOUBLE_LETTER_SCORE -> Color.CYAN;
+                    case Board.TRIPLE_LETTER_SCORE -> Color.BLUE;
+                    case Board.DOUBLE_WORD_SCORE   -> Color.MAGENTA;
+                    case Board.TRIPLE_WORD_SCORE   -> Color.RED;
+                    default -> null;
+                });
                 tile.setMargin(new Insets(0,0,0,0));
                 tile.setActionCommand("try " + col + " " + row);
                 tile.addActionListener(controller);

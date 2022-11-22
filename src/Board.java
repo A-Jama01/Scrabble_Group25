@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.BiConsumer;
 
 /**
  * Models the board in Scrabble.
@@ -44,21 +43,21 @@ public class Board {
     /**
      * Create a Board with default size and all
      * tiles set to empty, except for the tiles
-     * in the given HashMap, which contains positions
-     * as keys corresponding to the position's
-     * value. The keys must be formatted as Strings
-     * in notation. An example entry in the HashMap:
-     * ("H8", DOUBLE_WORD_SCORE)
-     * @param presets A HashMap of positions mapped to default values
+     * in the given HashMap, which contains arrays
+     * of positions as keys mapped to the values
+     * to set those tiles to.
+     * @param presets A HashMap of position arrays mapped to default values
      */
-    public Board(HashMap<String, String> presets) {
+    public Board(HashMap<String[], String> presets) {
         new Board();
-        presets.forEach((pos, value) -> {
-            int[] tuple = translateCoordinates(pos);
-            if (tuple == null) return;
-            int col = tuple[0];
-            int row = tuple[1];
-            board[col][row] = value;
+        presets.forEach((posArray, value) -> {
+            for (String pos : posArray) {
+                int[] tuple = translateCoordinates(pos);
+                if (tuple == null) return;
+                int col = tuple[0];
+                int row = tuple[1];
+                board[col][row] = value;
+            }
         });
     }
 
