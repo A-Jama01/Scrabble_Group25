@@ -111,8 +111,8 @@ public class GameView extends JFrame{
         swapButton.setActionCommand("swap");
         swapButton.addActionListener(controller);
         buttons.add(swapButton);
-        quitButton = new JButton("Quit");
-        quitButton.setActionCommand("quit");
+        quitButton = new JButton("Reset");
+        quitButton.setActionCommand("reset");
         quitButton.addActionListener(controller);
         buttons.add(quitButton);
 
@@ -202,8 +202,8 @@ public class GameView extends JFrame{
         return buttonLetters1;
     }
 
-    public void placeTile(int column, int row, String letter) {
-        board.setFloatingTile(column, row, letter);
+    public String placeTile(int column, int row, String letter) {
+        return board.setFloatingTile(column, row, letter);
     }
 
     public String getPlacedWord() {
