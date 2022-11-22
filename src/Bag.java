@@ -8,13 +8,14 @@ import java.util.Arrays;
  */
 
 public class Bag {
+    public static final String BLANK_TILE = "?";
     private ArrayList<String> letterBag = new ArrayList<String>(
             Arrays.asList("E","E","E","E","E","E","E","E","E","E","E","E","X",
                     "A","A","A","A","A","A","A","A","A","K","I","I","I","I","I","I","I","I","I","J",
                     "O","O","O","O","O","O","O","O","N","N","N","N","N","N","R","R","R","R","R","R",
                     "T","T","T","T","T","T","L","L","L","L","S","S","S","S","U","U","U","U","Q",
                     "D","D","D","D","G","G","G","Z","B","B","C","C","M","M","P","P","F","F","H","H",
-                    "V","V","W","W","Y","Y"));
+                    "V","V","W","W","Y","Y", BLANK_TILE, BLANK_TILE));
 
     /**
      * The constructor of the Bag class
