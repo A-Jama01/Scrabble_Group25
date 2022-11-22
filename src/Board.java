@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 /**
  * Models the board in Scrabble.
@@ -21,6 +23,10 @@ public class Board {
     public static final int HEIGHT = 15;
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
+    public static final String DOUBLE_LETTER_SCORE = "2L";
+    public static final String TRIPLE_LETTER_SCORE = "3L";
+    public static final String DOUBLE_WORD_SCORE = "2W";
+    public static final String TRIPLE_WORD_SCORE = "3W";
 
     /**
      * Create a Board object with default size and
@@ -34,6 +40,28 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Create a Board with default size and all
+     * tiles set to empty, except for the tiles
+     * in the given HashMap, which contains positions
+     * as keys corresponding to the position's
+     * value. The keys must be formatted as Strings
+     * in notation. An example entry in the HashMap:
+     * ("H8", DOUBLE_WORD_SCORE)
+     * @param presets A HashMap of positions mapped to default values
+     */
+    public Board(HashMap<String, String> presets) {
+        new Board();
+        presets.forEach((pos, value) -> {
+            int[] tuple = translateCoordinates(pos);
+            if (tuple == null) return;
+            int col = tuple[0];
+            int row = tuple[1];
+            board[col][row] = value;
+        });
+    }
+
 
     /**
      * Return an array containing information about the
@@ -329,5 +357,40 @@ public class Board {
         if (0 <= col && col <= WIDTH && 0 <= row && row <= HEIGHT) {
             return board[col][row];
         } else { return null; }
+    }
+
+    /**
+     * Return an array whose entries contain the signature of any
+     * open premium tiles on the board which would benefit the
+     * given word. The array is the same size as the word, and
+     * each entry corresponds to the letter at the same index.
+     * Entries will either contain a constant string value or
+     * null if there is no premium tile.
+     * If the word is invalid, the returned array contains
+     * all null entries.
+     * @param word     The not-yet-placed word to check
+     * @param position The word's position
+     * @return An array containing null entries for ordinary tiles, and
+     * strings for premium tiles
+     */
+    public String[] getWordMultipliers(String word, String position) {
+        String[] multipliers = new String[word.length()];
+
+        int[] tuple = translateCoordinates(position);
+        if (tuple == null) return multipliers;
+        int startingCol = tuple[0];
+        int startingRow = tuple[1];
+        int dir = tuple[2];
+        int startingIndex = (dir == HORIZONTAL)? startingCol : startingRow;
+        int wordEnd = startingIndex + word.length();
+
+        for (int index = startingIndex; index < wordEnd; index++) {
+            String tile = (dir == HORIZONTAL)? board[index][startingRow] : board[startingCol][index];
+            if (tile.length() > 1) {
+                multipliers[index - startingIndex] = tile;
+            }
+        }
+
+        return multipliers;
     }
 }
