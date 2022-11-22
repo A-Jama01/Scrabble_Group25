@@ -111,8 +111,8 @@ public class GameView extends JFrame{
         swapButton.setActionCommand("swap");
         swapButton.addActionListener(controller);
         buttons.add(swapButton);
-        quitButton = new JButton("Quit");
-        quitButton.setActionCommand("quit");
+        quitButton = new JButton("Reset");
+        quitButton.setActionCommand("reset");
         quitButton.addActionListener(controller);
         buttons.add(quitButton);
 
