@@ -28,7 +28,14 @@ public class ScrabbleController implements ActionListener {
 
         /** Assume board button has setActionCommand with "x y" */
         if (boardActionCommand(e)[0].equals("try") && tileSelected()) {
-            gameView.placeTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile.getText());
+            String placeTile = gameView.placeTile(Integer.parseInt(boardActionCommand(e)[1]), Integer.parseInt(boardActionCommand(e)[2]), selectedTile.getText());
+            if (placeTile == null) { // Don't place tile if placement is incorrect
+                return;
+            }
+            if (tilesPlaced.size() == 1 && placeTile.equals(tilesPlaced.get(tilesPlaced.size() - 1).getText())) { //swap letter case
+                tilesPlaced.get(tilesPlaced.size() - 1).setEnabled(true);
+                tilesPlaced.remove(tilesPlaced.size() - 1); //remove swapped tile from list of placed tiles
+            }
             tilesPlaced.add(selectedTile);
             selectedTile.setEnabled(false);
             selectedTile = null;

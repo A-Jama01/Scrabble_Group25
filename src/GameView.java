@@ -202,8 +202,8 @@ public class GameView extends JFrame{
         return buttonLetters1;
     }
 
-    public void placeTile(int column, int row, String letter) {
-        board.setFloatingTile(column, row, letter);
+    public String placeTile(int column, int row, String letter) {
+        return board.setFloatingTile(column, row, letter);
     }
 
     public String getPlacedWord() {
