@@ -108,7 +108,7 @@ public class BoardView extends JPanel {
         floating.add(target);
         if (target.getText().equals(Board.EMPTY)) {
             target.setText(letter);
-            return null;
+            return " "; //A.JAMA change
         } else {
             String swapped = target.getText();
             target.setText(letter);
