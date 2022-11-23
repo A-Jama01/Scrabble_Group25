@@ -82,7 +82,7 @@ public class BoardView extends JPanel {
      * @param col    The column on the grid
      * @param row    The row on the grid
      * @param letter The letter to place
-     * @return A letter that was swapped out, or null if none
+     * @return A letter that was swapped out, or Board.EMPTY if none
      */
     public String setFloatingTile(int col, int row, String letter) {
         switch (floating.size()) {
@@ -106,9 +106,10 @@ public class BoardView extends JPanel {
         }
         JButton target = buttons[col][row];
         floating.add(target);
-        if (target.getText().equals(Board.EMPTY)) {
+        String targetText = target.getText();
+        if (targetText.equals(Board.EMPTY) || targetText.length() >= 2) {
             target.setText(letter);
-            return " "; //A.JAMA change
+            return Board.EMPTY;
         } else {
             String swapped = target.getText();
             target.setText(letter);
@@ -140,7 +141,8 @@ public class BoardView extends JPanel {
         for (int index = startingLetterIndex - 1; 0 <= index; index--) {
             JButton tile = (floatingDir == Board.HORIZONTAL)?
                     buttons[index][floatingRow] : buttons[floatingCol][index];
-            if (tile.getText().equals(Board.EMPTY)) {
+            String tileText = tile.getText();
+            if (tileText.equals(Board.EMPTY) || tileText.length() >= 2) {
                 if (floatingDir == Board.HORIZONTAL) {
                     startingCol = index + 1;
                     startingRow = floatingRow;
@@ -157,7 +159,8 @@ public class BoardView extends JPanel {
         for (int index = startingLetterIndex; index < upperLimit; index++) {
             JButton tile = (floatingDir == Board.HORIZONTAL)?
                     buttons[index][floatingRow] : buttons[floatingCol][index];
-            if (tile.getText().equals(Board.EMPTY)) {
+            String tileText = tile.getText();
+            if (tileText.equals(Board.EMPTY) || tileText.length() >= 2) {
                 break;
             } else if (floating.contains(tile)) {
                 lettersUsed++;

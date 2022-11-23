@@ -4,6 +4,7 @@
     <root id="archive" name="Scrabble_Group25.jar">
       <element id="module-output" name="Scrabble_Group25" />
       <element id="module-source" name="Scrabble_Group25" />
+      <element id="file-copy" path="$PROJECT_DIR$/Dictionary.txt" />
     </root>
   </artifact>
 </component>

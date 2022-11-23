@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 public class Board {
     private String[][] board;
+    private String[][] premiumSquares;
     public static final String EMPTY = " ";
 
     public enum column {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O}
@@ -38,15 +39,17 @@ public class Board {
                 board[col][row] = EMPTY;
             }
         }
+        premiumSquares = new String[WIDTH][HEIGHT];
     }
 
     /**
      * Create a Board with default size and all
-     * tiles set to empty, except for the tiles
-     * in the given HashMap, which contains arrays
-     * of positions as keys mapped to the values
-     * to set those tiles to.
-     * @param presets A HashMap of position arrays mapped to default values
+     * tiles set to empty, and additionally sets
+     * premium tiles using the given HashMap, which
+     * contains arrays of positions mapped to their
+     * respective premium tile name as a string. Use
+     * the provided constants, e.g. DOUBLE_WORD_SCORE.
+     * @param presets A HashMap of position arrays mapped to premium tile strings
      */
     public Board(HashMap<String[], String> presets) {
         this();
@@ -56,7 +59,7 @@ public class Board {
                 if (tuple == null) return;
                 int col = tuple[0];
                 int row = tuple[1];
-                board[col][row] = value;
+                premiumSquares[col][row] = value;
             }
         });
     }
@@ -293,10 +296,12 @@ public class Board {
             if (dir == HORIZONTAL) {
                 for (int i = 0; i < word.length(); i++) {
                     board[col + i][row] = word.substring(i, i + 1);
+                    premiumSquares[col + i][row] = null;
                 }
             } else if (dir == VERTICAL) {
                 for (int i = 0; i < word.length(); i++) {
                     board[col][row + i] = word.substring(i, i + 1);
+                    premiumSquares[col][row + i] = null;
                 }
             }
             return true;
@@ -371,13 +376,15 @@ public class Board {
     /**
      * Return the letter at the given position.
      * Returns null if the position is invalid.
+     * If the position is an empty premium tile,
+     * return that premium tile's name string.
      * @param col The integer column of the board
      * @param row The integer row of the board
-     * @return The letter at the given position, or null if invalid position
+     * @return The letter or premium square at the given position, or null if invalid position
      */
     public String letterAt(int col, int row) {
         if (0 <= col && col <= WIDTH && 0 <= row && row <= HEIGHT) {
-            return board[col][row];
+            return premiumSquares[col][row] == null? board[col][row] : premiumSquares[col][row];
         } else { return null; }
     }
 
@@ -407,8 +414,8 @@ public class Board {
         int wordEnd = startingIndex + word.length();
 
         for (int index = startingIndex; index < wordEnd; index++) {
-            String tile = (dir == HORIZONTAL)? board[index][startingRow] : board[startingCol][index];
-            if (tile.length() > 1) {
+            String tile = (dir == HORIZONTAL)? premiumSquares[index][startingRow] : premiumSquares[startingCol][index];
+            if (tile != null) {
                 multipliers[index - startingIndex] = tile;
             }
         }
