@@ -4,7 +4,6 @@
 **/
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class Dictionary {
@@ -19,13 +18,23 @@ public class Dictionary {
             File dictionary = new File("Dictionary.txt");
             Scanner words = new Scanner(dictionary);
             boolean flag = false;
+
+            boolean hasBlankTile = word.contains(Bag.BLANK_TILE);
+
             while (words.hasNextLine()) {
                 String data = words.nextLine(); //reads the next line in the file
                 String[] check = data.split(" "); //splits the sentence in the file into seperate words
                 for (String s: check){
-                    if (s.equals(word.toLowerCase())){ //checks whether the input word matches anything in the sentence
-                        System.out.println("Word is Legal");
-                        flag = true;
+                    if (hasBlankTile) {
+                        if (compareWordsWithBlankTile(word, s)) {
+                            System.out.println(s + " is legal");
+                            flag = true;
+                        }
+                    } else {
+                        if (s.equals(word.toLowerCase())) { //checks whether the input word matches anything in the sentence
+                            System.out.println("Word is Legal");
+                            flag = true;
+                        }
                     }
                 }
             }
@@ -36,6 +45,17 @@ public class Dictionary {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public boolean compareWordsWithBlankTile(String wordToCheck, String dictionaryWord) {
+        StringBuilder dummyDictionaryWord = new StringBuilder(dictionaryWord);
+        if (wordToCheck.length() != dictionaryWord.length()) { return false; }
+        for (int i = 0; i < wordToCheck.length(); i++) {
+            if (wordToCheck.substring(i, i + 1).equals(Bag.BLANK_TILE)) {
+                dummyDictionaryWord.replace(i, i + 1, Bag.BLANK_TILE);
+            }
+        }
+        return dummyDictionaryWord.toString().equalsIgnoreCase(wordToCheck);
     }
 
 }
