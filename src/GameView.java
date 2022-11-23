@@ -15,7 +15,7 @@ public class GameView extends JFrame{
     private JButton playButton,skipButton,quitButton,swapButton;
     private ArrayList<JButton> buttonLetters1;
     private ArrayList<JButton> buttonLetters2;
-    private JLabel label1, label2, label3, label4, score1, score2;
+    private JLabel label1, label2, label3, label4, score1, score2, ai1, aiscore;
     private ScrabbleController controller;
 
     /**
@@ -133,16 +133,20 @@ public class GameView extends JFrame{
 
         //player scores
         scores = new JPanel();
-        scores.setLayout(new GridLayout(2,2));
+        scores.setLayout(new GridLayout(2,3));
 
         label3 = new JLabel("Player 1");
         label4 = new JLabel("Player 2");
+        ai1 = new JLabel("AI");
         scores.add(label3);
         scores.add(label4);
+        scores.add(ai1);
         score1 = new JLabel("0");
         score2 = new JLabel("0");
+        aiscore = new JLabel("0");
         scores.add(score1);
         scores.add(score2);
+        scores.add(aiscore);
         c.gridy = 0;
         c.gridx = 1;
         pane.add(scores,c);
@@ -183,6 +187,11 @@ public class GameView extends JFrame{
         if(playerNum == 2){
             score2.setText(scoreText);
         }
+    }
+
+    public void updateScoreAI(int score){
+        String scoreText = Integer.toString(score);
+        aiscore.setText(scoreText);
     }
 
     /**
