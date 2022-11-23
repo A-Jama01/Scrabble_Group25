@@ -43,7 +43,7 @@ Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams have 
 
 UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the new view classes and controller have been added in
 
-##Milestone 3
+## Milestone 3
 Deliverables:
 
 AI (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama) - The class that controls the AI's placement of tiles
