@@ -85,6 +85,10 @@ public class Game {
         topUpRack(ai);
     }
 
+    public Player getAIPlayer() {
+        return ai;
+    }
+
     public Player getCurrPlayer() {
         return players.get(currPlayerIndex);
     }

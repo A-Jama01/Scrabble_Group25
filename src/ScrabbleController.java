@@ -53,6 +53,7 @@ public class ScrabbleController implements ActionListener {
                 }
 
                 gameView.updateScore((game.getCurrPlayerIndex()+1),game.getCurrPlayer().getScore());
+                gameView.updateScoreAI(game.getAIPlayer().getScore());
 
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
