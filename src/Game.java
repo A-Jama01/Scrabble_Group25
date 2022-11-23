@@ -319,7 +319,13 @@ public class Game {
         ArrayList<String> wordCombos = wordCombos(userInput);
         int score = 0;
         for (String s: wordCombos) {
-            score += word.score(s);
+            if (s.equalsIgnoreCase(getSecondWord(userInput))) {
+                // This is the main word
+                score += word.scoreWithPremiums(getSecondWord(userInput),
+                        board.getWordMultipliers(getSecondWord(userInput), getPos(userInput)));
+            } else {
+                score += word.score(s);
+            }
         }
         return score;
     }
