@@ -43,8 +43,22 @@ Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams have 
 
 UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the new view classes and controller have been added in
 
+#Milestone 3
+Deliverables:
+
+AI (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama) - The class that controls the AI's placement of tiles
+
+BoardView (@author: Henry Lin): Updated board view to work with premium tiles
+
+Unit Test (@author: Monishkumar Sivakumar) - The unit tests for each class
+
+UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the scrabble game
+
+Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams for the main functions of game
+
+
 ## Known Issues
-- Word's cannot be Placed
+- The AI places the words randomly, and does not place them legally yet
 
 ## Roadmap
 **Milestone 2**
