@@ -23,6 +23,7 @@ public class Game {
     private boolean gameOver;
     private boolean firstTurn;
     private int currPlayerIndex;
+    private AI ai;
     private GameView gameView;
 
     /**
@@ -37,6 +38,9 @@ public class Game {
         players = new ArrayList<Player>();
         Player p1 = new Player("Player1");
         Player p2 = new Player("Player2");
+
+        ai = new AI();
+
         gameOver = false;
         firstTurn = true;
         currPlayerIndex = 0;
@@ -49,6 +53,8 @@ public class Game {
         for (Player p: players) {
             topUpRack(p);
         }
+
+        topUpRack(ai);
     }
 
     public boolean place(String words) {
@@ -59,7 +65,24 @@ public class Game {
             return false;
         }
 
+        if (getCurrPlayerIndex() == 1) {
+            aiPlay();
+        }
         return true;
+    }
+
+    public void aiPlay() {
+        ai.findWord();
+        int i = 0;
+        String validWord = "";
+        while(!board.place(ai.getWord(i) , ai.getPosition())) {
+            validWord = ai.getWord(i + 1);
+            i++;
+        };
+        validWord = ai.getWord(i);
+        ai.addPoints(tallyPoints(ai.getPlay(i)));
+        ai.removeTilesAI(validWord);
+        topUpRack(ai);
     }
 
     public Player getCurrPlayer() {
