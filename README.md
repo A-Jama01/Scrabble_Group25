@@ -55,7 +55,7 @@ Unit Test (@author: Monishkumar Sivakumar) - The unit tests for each class
 UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the scrabble game
 
 Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams for the main functions of game
-
+https://drive.google.com/file/d/1hxpJzwFUp2tWy0CmCHLe6Q_CXGyLBbbb/view?usp=sharing
 
 ## Known Issues
 - The AI places the words randomly, and does not place them legally yet
