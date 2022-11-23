@@ -67,8 +67,9 @@ public class BoardView extends JPanel {
     public void refresh() {
         for (int col = 0; col < Board.WIDTH; col++) {
             for (int row = 0; row < Board.HEIGHT; row++) {
-                buttons[col][row].setText(board.letterAt(col, row));
-                buttons[col][row].setEnabled(board.letterAt(col, row).equals(Board.EMPTY));
+                String tileLetter = board.letterAt(col, row);
+                buttons[col][row].setText(tileLetter);
+                buttons[col][row].setEnabled(tileLetter.equals(Board.EMPTY) || tileLetter.length() >= 2);
             }
         }
         floating.clear();

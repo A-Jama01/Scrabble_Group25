@@ -49,7 +49,7 @@ public class Board {
      * @param presets A HashMap of position arrays mapped to default values
      */
     public Board(HashMap<String[], String> presets) {
-        new Board();
+        this();
         presets.forEach((posArray, value) -> {
             for (String pos : posArray) {
                 int[] tuple = translateCoordinates(pos);
@@ -59,6 +59,29 @@ public class Board {
                 board[col][row] = value;
             }
         });
+    }
+
+    public static HashMap<String[], String> defaultBoardConfiguration() {
+        HashMap<String[], String> config = new HashMap<>(4);
+        String[] doubleLetterTiles = {
+                "D1", "L1", "G3", "I3", "A4", "H4", "O4", "C7", "G7", "I7", "M7", "D8",
+                "L8", "C9", "G9", "I9", "M9", "A12", "H12", "O12", "G13", "I13", "D15", "L15"
+        };
+        String[] tripleLetterTiles = {
+                "F2", "J2", "B6", "F6", "J6", "N6", "B10", "F10", "J10", "N10", "F14", "J14"
+        };
+        String[] doubleWordTiles = {
+                "B2", "C3", "D4", "E5", "K5", "L4", "M3", "N2", "H8", "B14", "C13", "D12",
+                "E11", "K11", "L12", "M13", "N14"
+        };
+        String[] tripleWordTiles = {
+                "A1", "H1", "O1", "A8", "O8", "A15", "H15", "O15"
+        };
+        config.put(doubleLetterTiles, DOUBLE_LETTER_SCORE);
+        config.put(tripleLetterTiles, TRIPLE_LETTER_SCORE);
+        config.put(doubleWordTiles, DOUBLE_WORD_SCORE);
+        config.put(tripleWordTiles, TRIPLE_WORD_SCORE);
+        return config;
     }
 
 
@@ -156,7 +179,7 @@ public class Board {
      * @param dir             The desired direction (VERTICAL or HORIZONTAL)
      * @param wordBeingPlaced The word being placed
      * @param wordPosition    The position of wordBeingPlaced in notation
-     * @return
+     * @return The word formed, or null if letters conflict or not a new word
      */
     private String longestWordFormedAt(int col, int row, int dir, String wordBeingPlaced, String wordPosition) {
         StringBuilder combined = new StringBuilder(Math.max(WIDTH, HEIGHT));

@@ -32,7 +32,7 @@ public class Game {
         parser = new Parser();
         dict = new Dictionary();
         bag = new Bag();
-        board = new Board();
+        board = new Board(Board.defaultBoardConfiguration());
         word = new Word();
         players = new ArrayList<Player>();
         Player p1 = new Player("Player1");
