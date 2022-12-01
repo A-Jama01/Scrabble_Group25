@@ -188,16 +188,19 @@ public class Board {
         StringBuilder combined = new StringBuilder(Math.max(WIDTH, HEIGHT));
         boolean isHorizontal = dir == HORIZONTAL;
         int maxIndex = isHorizontal? WIDTH : HEIGHT;
+        int startIndex = isHorizontal? col : row;
 
         // Look for letters behind the desired placement
-        for (int indexBehind = row - 1; indexBehind >= 0; indexBehind--) {
+        for (int indexBehind = startIndex - 1; indexBehind >= 0; indexBehind--) {
             String currentTile = isHorizontal? board[indexBehind][row] : board[col][indexBehind];
             if (currentTile.equals(EMPTY)) { break; }
             combined.insert(0, currentTile);
         }
         // Look for letters on and ahead of the desired placement (including those to be placed)
-        for (int indexAhead = row; indexAhead < maxIndex; indexAhead++) {
-            String letterBeingPlaced = getWordLetterAt(col, indexAhead, wordBeingPlaced, wordPosition);
+        for (int indexAhead = startIndex; indexAhead < maxIndex; indexAhead++) {
+            String letterBeingPlaced = isHorizontal?
+                    getWordLetterAt(indexAhead, row, wordBeingPlaced, wordPosition) :
+                    getWordLetterAt(col, indexAhead, wordBeingPlaced, wordPosition);
             String currentTile = isHorizontal? board[indexAhead][row] : board[col][indexAhead];
             if (currentTile.equals(EMPTY)) {
                 if (letterBeingPlaced != null) {
