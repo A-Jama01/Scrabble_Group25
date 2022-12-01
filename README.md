@@ -28,7 +28,37 @@ Bag Class (@author: Christina Dang) - The word class keeps track of what tiles a
 
 Parser Class (@author: Christina Dang) - The parser class places the input the player types into a variable.
 
+## Milestone 2
+**Deliverables:**
+
+BoardView (@author: Henry Lin) - This class will display all the words/letters on the board
+
+GameView (@author: Christina Dang) - This class will display the player's rack, their score, etc.
+
+GameController (@author: Abdurahman Jama) - This class will connect both the views with the rest of the classes
+
+Unit Test (@author: Monishkumar Sivakumar) - There are multiple unit tests for each class and their functions. There are also failing unit tests for incomplete work.
+
+Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams have been changed based on the feedback, and they have been changed to include both the views as well as the controller.
+
+UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the new view classes and controller have been added in
+
+## Milestone 3
+Deliverables:
+
+AI (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama) - The class that controls the AI's placement of tiles
+
+BoardView (@author: Henry Lin): Updated board view to work with premium tiles
+
+Unit Test (@author: Monishkumar Sivakumar) - The unit tests for each class
+
+UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Diagrams for the scrabble game
+
+Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams for the main functions of game
+https://drive.google.com/file/d/1hxpJzwFUp2tWy0CmCHLe6Q_CXGyLBbbb/view?usp=sharing
+
 ## Known Issues
+- The AI places the words randomly, and does not place them legally yet
 
 ## Roadmap
 **Milestone 2**

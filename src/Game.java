@@ -22,6 +22,9 @@ public class Game {
     private ArrayList<Player> players;
     private boolean gameOver;
     private boolean firstTurn;
+    private int currPlayerIndex;
+    private AI ai;
+    private GameView gameView;
 
     /**
      * Create the game and initialise all other classes needed to play the game.
@@ -30,13 +33,17 @@ public class Game {
         parser = new Parser();
         dict = new Dictionary();
         bag = new Bag();
-        board = new Board();
+        board = new Board(Board.defaultBoardConfiguration());
         word = new Word();
         players = new ArrayList<Player>();
         Player p1 = new Player("Player1");
         Player p2 = new Player("Player2");
+
+        ai = new AI();
+
         gameOver = false;
         firstTurn = true;
+        currPlayerIndex = 0;
 
         //add players
         players.add(p1);
@@ -46,15 +53,61 @@ public class Game {
         for (Player p: players) {
             topUpRack(p);
         }
+
+        topUpRack(ai);
+    }
+
+    public boolean place(String words) {
+        if (!dict.check(getSecondWord(words))) { //return false if word not in dict
+            return false;
+        }
+        if (!board.place(getSecondWord(words), getPos(words))) {
+            return false;
+        }
+
+        if (getCurrPlayerIndex() == 1) {
+            aiPlay();
+        }
+        return true;
+    }
+
+    public void aiPlay() {
+        ai.findWord();
+        int i = 0;
+        String validWord = "";
+        while(!board.place(ai.getWord(i) , ai.getPosition())) {
+            validWord = ai.getWord(i + 1);
+            i++;
+        };
+        validWord = ai.getWord(i);
+        ai.addPoints(tallyPoints(ai.getPlay(i)));
+        ai.removeTilesAI(validWord);
+        topUpRack(ai);
+    }
+
+    public Player getAIPlayer() {
+        return ai;
+    }
+
+    public Player getCurrPlayer() {
+        return players.get(currPlayerIndex);
+    }
+
+    public int getCurrPlayerIndex() {
+        return currPlayerIndex;
+    }
+
+    public void switchTurn() {
+        currPlayerIndex ^= 1;
     }
 
     /**
      * Starts the game. Gameplay loops until game is over.
      */
     public void play(){
-        int currPlayerIndex = 0;
-        while (!gameOver) { //need to know implementation of parser class and board
-            System.out.println(board); //Print Board for each player's turn
+        while (!gameOver) {
+            gameView.updateBoard();
+            gameView.updateRack(players.get(currPlayerIndex).getRack());
             playerTurn(currPlayerIndex);
             topUpRack(players.get(currPlayerIndex));
             checkGameState(currPlayerIndex);
@@ -270,7 +323,13 @@ public class Game {
         ArrayList<String> wordCombos = wordCombos(userInput);
         int score = 0;
         for (String s: wordCombos) {
-            score += word.score(s);
+            if (s.equalsIgnoreCase(getSecondWord(userInput))) {
+                // This is the main word
+                score += word.scoreWithPremiums(getSecondWord(userInput),
+                        board.getWordMultipliers(getSecondWord(userInput), getPos(userInput)));
+            } else {
+                score += word.score(s);
+            }
         }
         return score;
     }
@@ -317,9 +376,11 @@ public class Game {
         }
         return 1;
     }
-    public static void main(String[] args) {
-        Game game = new Game();
-        game.play();
+
+    public Board getBoard() { return board; }
+
+    public void addGameView(GameView gameView) {
+        this.gameView = gameView;
     }
 
 }
