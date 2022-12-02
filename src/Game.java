@@ -1,5 +1,5 @@
 import java.util.*;
-
+import javax.swing.*;
 
 /**
  * Main class of Scrabble game. Initialize this class and call the play
@@ -23,38 +23,111 @@ public class Game {
     private boolean gameOver;
     private boolean firstTurn;
     private int currPlayerIndex;
-    private AI ai;
+    private ArrayList<AI> ai;
     private GameView gameView;
 
     /**
      * Create the game and initialise all other classes needed to play the game.
      */
     public Game() {
+        String[] choices = { "1", "2", "3", "4"};
+        String player = (String) JOptionPane.showInputDialog(null, "Choose now...",
+                "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                choices,
+                choices[0]);
+        String aiNum = null;
+        players = new ArrayList<Player>();
+        switch (player){
+            case "1": {
+                String[] number = {"1", "2", "3"};
+                aiNum = (String) JOptionPane.showInputDialog(null, "Choose now...",
+                        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                        number,
+                        number[0]);
+                Player p1 = new Player("Player1", 0);
+                players.add(p1);
+                break;
+            }case "2": {
+                String[] number = {"0", "1", "2"};
+                aiNum = (String) JOptionPane.showInputDialog(null, "Choose now...",
+                        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                        number,
+                        number[0]);
+                Player p1 = new Player("Player1", 0);
+                Player p2 = new Player("Player2", 0);
+                players.add(p1);
+                players.add(p2);
+                break;
+            }case "3": {
+                String[] number = {"0", "1"};
+                aiNum = (String) JOptionPane.showInputDialog(null, "Choose now...",
+                        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                        number,
+                        number[0]);
+                Player p1 = new Player("Player1", 0);
+                Player p2 = new Player("Player2", 0);
+                Player p3 = new Player("Player3", 0);
+                players.add(p1);
+                players.add(p2);
+                players.add(p3);
+                break;
+            }case "4":
+                Player p1 = new Player("Player1", 0);
+                Player p2 = new Player("Player2", 0);
+                Player p3 = new Player("Player3", 0);
+                Player p4 = new Player("Player4", 0);
+                players.add(p1);
+                players.add(p2);
+                players.add(p3);
+                players.add(p4);;
+                break;
+        }
+
         parser = new Parser();
         dict = new Dictionary();
         bag = new Bag();
         board = new Board(Board.defaultBoardConfiguration());
         word = new Word();
-        players = new ArrayList<Player>();
-        Player p1 = new Player("Player1");
-        Player p2 = new Player("Player2");
+        ai = new ArrayList<AI>();
 
-        ai = new AI();
+        switch (Objects.requireNonNull(aiNum)){
+            case "1":{
+                AI ai1 = new AI(1);
+                ai.add(ai1);
+                break;
+            }
+            case "2":{
+                AI ai1 = new AI(1);
+                AI ai2 = new AI(2);
+                ai.add(ai1);
+                ai.add(ai2);
+                break;
+            }
+            case "3":{
+                AI ai1 = new AI(1);
+                AI ai2 = new AI(2);
+                AI ai3 = new AI(3);
+                ai.add(ai1);
+                ai.add(ai2);
+                ai.add(ai3);
+                break;
+            }
+        }
+
+        System.out.println(aiNum + " This is the aiNum");
 
         gameOver = false;
         firstTurn = true;
         currPlayerIndex = 0;
-
-        //add players
-        players.add(p1);
-        players.add(p2);
 
         //initialize players rack
         for (Player p: players) {
             topUpRack(p);
         }
 
-        topUpRack(ai);
+        for (AI a: ai){
+            topUpRack(a);
+        }
     }
 
     public boolean place(String words) {
@@ -65,28 +138,30 @@ public class Game {
             return false;
         }
 
-        if (getCurrPlayerIndex() == 1) {
+        if (getCurrPlayerIndex() == players.size() - 1) {
             aiPlay();
         }
         return true;
     }
 
     public void aiPlay() {
-        ai.findWord();
-        int i = 0;
-        String validWord = "";
-        while(!board.place(ai.getWord(i) , ai.getPosition())) {
-            validWord = ai.getWord(i + 1);
-            i++;
-        };
-        validWord = ai.getWord(i);
-        ai.addPoints(tallyPoints(ai.getPlay(i)));
-        ai.removeTilesAI(validWord);
-        topUpRack(ai);
+        for (int i = 0; i < ai.size(); i++){
+            ai.get(i).findWord();
+            int j = 0;
+            String validWord = "";
+            while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
+                validWord = ai.get(i).getWord(j + 1);
+                i++;
+            };
+            validWord = ai.get(i).getWord(j);
+            ai.get(i).addPoints(tallyPoints(ai.get(i).getPlay(j)));
+            ai.get(i).removeTilesAI(validWord);
+            topUpRack(ai.get(i));
+        }
     }
 
-    public Player getAIPlayer() {
-        return ai;
+    public Player getAIPlayer(int num) {
+        return ai.get(num);
     }
 
     public Player getCurrPlayer() {
@@ -98,7 +173,11 @@ public class Game {
     }
 
     public void switchTurn() {
-        currPlayerIndex ^= 1;
+        if (currPlayerIndex == players.size() - 1){
+            currPlayerIndex = 0;
+        } else{
+            currPlayerIndex += 1;
+        }
     }
 
     /**
@@ -111,7 +190,12 @@ public class Game {
             playerTurn(currPlayerIndex);
             topUpRack(players.get(currPlayerIndex));
             checkGameState(currPlayerIndex);
-            currPlayerIndex ^= 1; //toggle between player1 and player2
+            //currPlayerIndex ^= 1; //toggle between player1 and player2
+            if (currPlayerIndex == players.size() - 1){
+                currPlayerIndex = 0;
+            } else{
+                currPlayerIndex += 1;
+            }
         }
         endMsg();
     }

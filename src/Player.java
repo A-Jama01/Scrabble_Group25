@@ -11,15 +11,18 @@ public class Player {
     private int score;
     private ArrayList<String> rack;
 
+    private int ai;
+
     /**
      * Create a player
      *
      * @param name Player's name
      */
-    public Player(String name) {
+    public Player(String name, int ai) {
         this.name = name;
         this.score = 0;
         this.rack = new ArrayList<>();
+        this.ai = ai;
     }
 
     /**
@@ -29,6 +32,15 @@ public class Player {
      */
     public String getName() {
         return this.name;
+    }
+
+    /**
+     * Getter for player's ai
+     *
+     * @return int representing whether a player is an ai or not
+     */
+    public int getAI() {
+        return this.ai;
     }
 
     /**

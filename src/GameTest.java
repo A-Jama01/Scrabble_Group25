@@ -28,7 +28,7 @@ public class GameTest {
 
     @Test
     public void topUpRack(){
-        Player p1 = new Player("one");
+        Player p1 = new Player("one", 0);
         Integer before = p1.rackSize();
         game.topUpRack(p1);
         Integer after = p1.rackSize();
