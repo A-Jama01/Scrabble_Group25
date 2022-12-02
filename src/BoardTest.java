@@ -3,6 +3,7 @@
  * @author Monishkumar Sivakumar 101115115
  **/
 
+import com.sun.source.tree.AssertTree;
 import org.junit.*;
 
 import java.util.ArrayList;
@@ -40,6 +41,36 @@ public class BoardTest {
         String pos = "H8";
         combinations = board.getCombinationsWith(word, pos);
         assertTrue(combinations != null);
+    }
+
+    @Test
+    public void testMultipleCombinations() {
+        ArrayList<String> combinations;
+        String word = "HELLO";
+        String pos = "1A";
+        assertTrue(board.place(word, pos));
+        String secondWord = "SCRABBLE";
+        String secondPos = "2A";
+        combinations = board.getCombinationsWith(secondWord, secondPos);
+        assertTrue(combinations.contains("Hs"));
+        assertTrue(combinations.contains("Ec"));
+        assertTrue(combinations.contains("Lr"));
+        assertTrue(combinations.contains("La"));
+        assertTrue(combinations.contains("Ob"));
+        assertTrue(combinations.contains("scrabble"));
+        assertEquals(6, combinations.size());
+    }
+
+    @Test
+    public void testThreeWordsCombining() {
+        ArrayList<String> combinations;
+        assertTrue(board.place("HELLO", "H8"));
+        assertTrue(board.place("WORLD", "J8"));
+        combinations = board.getCombinationsWith("DO", "I10");
+        assertEquals(3, combinations.size());
+        assertTrue(combinations.contains("LdR"));
+        assertTrue(combinations.contains("LoL"));
+        assertTrue(combinations.contains("do"));
     }
 
     @Test
