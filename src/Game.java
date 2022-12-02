@@ -57,7 +57,7 @@ public class Game {
         topUpRack(ai);
     }
 
-    public boolean place(String words) {
+    public boolean place(String words) { //prob not gonna use
         if (getSecondWord(words).length() < 2) { //Check if word is atleast 2 letters
             return false;
         }
@@ -69,7 +69,7 @@ public class Game {
         if (!legalPlacement(words)) {
             return false;
         }
-        /**
+        /*
         if (!board.place(getSecondWord(words), getPos(words))) {
             return false;
         }
@@ -164,12 +164,8 @@ public class Game {
      * @return True if user inputs pass, quit and a valid & legal word
      */
     public boolean handleInput(String userInput, int index) {
-        if (userInput.equals("pass")) {//
-            return true;
-        }
-        else if (userInput.equals("quit")) {
-            gameOver = true;
-            return true;
+        if (userInput == null) {
+            return false;
         }
 
         else if (userInput.equals("")) {

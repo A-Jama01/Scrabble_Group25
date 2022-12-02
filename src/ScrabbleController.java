@@ -42,8 +42,8 @@ public class ScrabbleController implements ActionListener {
         }
 
         else if (e.getActionCommand().equals("play")) { //play button pressed
-            game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex());
-            if (game.place(gameView.getPlacedWord()) == true) { //place() maybe takes in arraylist of tilesplaced
+            //game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex());
+            if (game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex())) { //place() maybe takes in arraylist of tilesplaced
 
                 if(game.getCurrPlayerIndex() == 0) {
                     gameView.updateInfo("Player 1 turn made.", "Make your turn now Player 2.");
