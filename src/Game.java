@@ -65,10 +65,15 @@ public class Game {
         if (!dict.check(getSecondWord(words))) { //return false if word not in dict
             return false;
         }
+
+        if (!legalPlacement(words)) {
+            return false;
+        }
+        /**
         if (!board.place(getSecondWord(words), getPos(words))) {
             return false;
         }
-
+        */
         if (getCurrPlayerIndex() == 1) {
             aiPlay();
         }
