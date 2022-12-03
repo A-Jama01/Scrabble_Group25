@@ -31,8 +31,8 @@ public class Game {
      */
     public Game() {
         String[] choices = { "1", "2", "3", "4"};
-        String player = (String) JOptionPane.showInputDialog(null, "Choose now...",
-                "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+        String player = (String) JOptionPane.showInputDialog(null, "Choose the amount of Players",
+                "Players", JOptionPane.QUESTION_MESSAGE, null,
                 choices,
                 choices[0]);
         String aiNum = null;
@@ -40,8 +40,8 @@ public class Game {
         switch (player){
             case "1": {
                 String[] number = {"1", "2", "3"};
-                aiNum = (String) JOptionPane.showInputDialog(null, "Choose now...",
-                        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                aiNum = (String) JOptionPane.showInputDialog(null, "Choose the amount of AI's",
+                        "AI", JOptionPane.QUESTION_MESSAGE, null,
                         number,
                         number[0]);
                 Player p1 = new Player("Player1", 0);
@@ -49,8 +49,8 @@ public class Game {
                 break;
             }case "2": {
                 String[] number = {"0", "1", "2"};
-                aiNum = (String) JOptionPane.showInputDialog(null, "Choose now...",
-                        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                aiNum = (String) JOptionPane.showInputDialog(null, "Choose the amount of AI's",
+                        "AI", JOptionPane.QUESTION_MESSAGE, null,
                         number,
                         number[0]);
                 Player p1 = new Player("Player1", 0);
@@ -60,8 +60,8 @@ public class Game {
                 break;
             }case "3": {
                 String[] number = {"0", "1"};
-                aiNum = (String) JOptionPane.showInputDialog(null, "Choose now...",
-                        "The Choice of a Lifetime", JOptionPane.QUESTION_MESSAGE, null,
+                aiNum = (String) JOptionPane.showInputDialog(null, "Choose the amount of AI's",
+                        "AI", JOptionPane.QUESTION_MESSAGE, null,
                         number,
                         number[0]);
                 Player p1 = new Player("Player1", 0);
