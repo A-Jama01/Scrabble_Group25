@@ -134,7 +134,7 @@ public class Game {
         if (getSecondWord(words).length() < 2) { //Check if word is atleast 2 letters
             return false;
         }
-        
+
         if (!dict.check(getSecondWord(words))) { //return false if word not in dict
             return false;
         }
