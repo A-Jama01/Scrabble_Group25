@@ -14,8 +14,8 @@ public class AI extends Player{
     private ArrayList<String> position;
     private String alphabet;
 
-    public AI(){
-        super("AI");
+    public AI(int num){
+        super("AI" + num, 1);
         dict = new Dictionary();
         word = new ArrayList<>();
         position = new ArrayList<>();
