@@ -163,7 +163,7 @@ public class Game {
             while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
                 validWord = ai.get(i).getWord(j + 1);
                 i++;
-            };
+            }
             validWord = ai.get(i).getWord(j);
             ai.get(i).addPoints(tallyPoints(ai.get(i).getPlay(j)));
             ai.get(i).removeTilesAI(validWord);
@@ -275,6 +275,12 @@ public class Game {
             if (legalPlacement(userInput)) {
                 players.get(index).addPoints(pointsScored); //adds points to curr player
                 removeTiles(tilesNeeded, index);
+
+                //AI playing (remove this later)
+                if (getCurrPlayerIndex() == players.size() - 1) {
+                    aiPlay();
+                }
+
                 return true;
             }
         }
