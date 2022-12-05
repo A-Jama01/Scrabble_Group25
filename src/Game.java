@@ -80,6 +80,7 @@ public class Game {
                 players.add(p2);
                 players.add(p3);
                 players.add(p4);;
+                aiNum = "0";
                 break;
         }
 
@@ -90,7 +91,7 @@ public class Game {
         word = new Word();
         ai = new ArrayList<AI>();
 
-        switch (Objects.requireNonNull(aiNum)){
+        switch (aiNum){
             case "1":{
                 AI ai1 = new AI(1);
                 ai.add(ai1);
@@ -125,8 +126,10 @@ public class Game {
             topUpRack(p);
         }
 
-        for (AI a: ai){
-            topUpRack(a);
+        if (aiNum != "0"){
+            for (AI a: ai){
+                topUpRack(a);
+            }
         }
     }
 
@@ -147,8 +150,8 @@ public class Game {
             return false;
         }
         */
-
-        if (getCurrPlayerIndex() == players.size() - 1) {
+        
+        if (getCurrPlayerIndex() == players.size() - 1 && players.size() != 4) {
 
             aiPlay();
         }
