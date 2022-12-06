@@ -74,6 +74,7 @@ public class AI extends Player{
         for (int i = 0; i < 15; i++) {
             for (int j = 1; j <= 15; j++) {
                 position.add(alphabet.charAt(i) + String.valueOf(j));
+                position.add(String.valueOf(j) + alphabet.charAt(i));
             }
         }
     }
@@ -93,16 +94,16 @@ public class AI extends Player{
         }
     }
 
-    public String getPosition() {
-        return position.get((int) (Math.random() * (224)));
+    public String getPosition(int index) {
+        return position.get(index);
     }
 
     public String getWord(int index) {
         return word.get(index);
     }
 
-    public String getPlay(int index) {
-        return getPosition() + " " + getWord(index);
+    public String getPlay(int postionIndex, int wordIndex) {
+        return getPosition(postionIndex) + " " + getWord(wordIndex);
     }
 
     public void removeTilesAI(String words) {
@@ -122,6 +123,14 @@ public class AI extends Player{
             return true;
         }
         return false;
+    }
+
+    public int numOfWords() {
+        return word.size();
+    }
+
+    public int numOfPositions() {
+        return position.size();
     }
 
 }

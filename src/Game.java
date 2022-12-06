@@ -161,17 +161,31 @@ public class Game {
     public void aiPlay() {
         for (int i = 0; i < ai.size(); i++){
             ai.get(i).findWord();
-            int j = 0;
+            int j;
             String validWord = "";
             if (ai.get(i).noWords()) {// skip if no words can be made
                 continue;
             }
-            while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
-                validWord = ai.get(i).getWord(j + 1);
-                j++;
+            //while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
+                //validWord = ai.get(i).getWord(j + 1);
+                //j++;
+            //}
+            boolean placed = false;
+            int points = 0;
+            for(j = 0; j < ai.get(i).numOfWords(); j++) {
+                for (int k = 0; k < ai.get(i).numOfPositions(); k++) {
+                    points = tallyPoints(ai.get(i).getPlay(k, j));
+                    if (legalPlacement(ai.get(i).getPlay(k, j))) {
+                        placed = true;
+                        break;
+                    }
+                }
+                if (placed) { //if word has been placed break out of loop
+                    break;
+                }
             }
             validWord = ai.get(i).getWord(j);
-            ai.get(i).addPoints(tallyPoints(ai.get(i).getPlay(j)));
+            ai.get(i).addPoints(points);
             ai.get(i).removeTilesAI(validWord);
             topUpRack(ai.get(i));
         }
@@ -384,6 +398,9 @@ public class Game {
      */
     public boolean legalPlacement(String userInput) {
         ArrayList<String> wordCombos = wordCombos(userInput);
+        if (wordCombos == null) {
+            return false;
+        }
         for (String s: wordCombos) {
             if (!dict.check(s)) { //return false if a word combination is false
                 return false;
@@ -424,6 +441,9 @@ public class Game {
      */
     public int tallyPoints(String userInput) {
         ArrayList<String> wordCombos = wordCombos(userInput);
+        if (wordCombos == null) {
+            return 0;
+        }
         int score = 0;
         for (String s: wordCombos) {
             if (s.equalsIgnoreCase(getSecondWord(userInput))) {
