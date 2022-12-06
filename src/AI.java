@@ -38,7 +38,7 @@ public class AI extends Player{
         //dict = new Dictionary();
         char[] rackTest = rack;
         if (n == combos.length()) {
-            if (dict.check(combos.toString()) == true && wordValid(combos.toString())){
+            if (dict.checkSet(combos.toString()) && wordValid(combos.toString())){
                 word.add(combos.toString());
                 //placeCombo(word);
             }
@@ -47,9 +47,11 @@ public class AI extends Player{
         for (char letter : rackTest) {
             combos.setCharAt(n, letter);
             wordCombo(combos, n + 1, rackTest);
+            /**
             if (word.size() >= 10) {
                 break;
             }
+             */
         }
     }
 
@@ -83,9 +85,11 @@ public class AI extends Player{
         for (int length = 2; length <= rackTest.length; length++) {
             combos.setLength(length);
             wordCombo(combos, 0, rackTest);
+            /**
             if (word.size() >= 10) {
                 break;
             }
+             */
         }
     }
 
@@ -112,6 +116,13 @@ public class AI extends Player{
     }
 
     public void emptyWord() {word.clear();}
+
+    public boolean noWords() {
+        if (word.size() == 0) {
+            return true;
+        }
+        return false;
+    }
 
 }
 

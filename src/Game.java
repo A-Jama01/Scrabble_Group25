@@ -150,7 +150,7 @@ public class Game {
             return false;
         }
         */
-        
+
         if (getCurrPlayerIndex() == players.size() - 1 && players.size() != 4) {
 
             aiPlay();
@@ -163,9 +163,12 @@ public class Game {
             ai.get(i).findWord();
             int j = 0;
             String validWord = "";
+            if (ai.get(i).noWords()) {// skip if no words can be made
+                continue;
+            }
             while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
                 validWord = ai.get(i).getWord(j + 1);
-                i++;
+                j++;
             }
             validWord = ai.get(i).getWord(j);
             ai.get(i).addPoints(tallyPoints(ai.get(i).getPlay(j)));

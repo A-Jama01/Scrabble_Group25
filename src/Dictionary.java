@@ -4,11 +4,14 @@
 **/
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.HashSet;
 import java.util.Scanner;
 
 public class Dictionary {
-
-    public Dictionary(){}
+    private HashSet<String> dictSet;
+    public Dictionary(){
+        createSet();
+    }
 
     // This function will take a String input and will read through a text file to check
     // whether the word is in the file or not. If its in the file, the function will
@@ -56,6 +59,27 @@ public class Dictionary {
             }
         }
         return dummyDictionaryWord.toString().equalsIgnoreCase(wordToCheck);
+    }
+
+    public void createSet() {
+        try {
+            Scanner s = new Scanner(new File("Dictionary.txt"));
+            dictSet = new HashSet<>();
+            while (s.hasNextLine()) {
+                dictSet.add(s.nextLine());
+            }
+            s.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean checkSet(String word) {
+        if (dictSet.contains(word.toLowerCase())) {
+            System.out.println(word);
+            return true;
+        }
+        return false;
     }
 
 }
