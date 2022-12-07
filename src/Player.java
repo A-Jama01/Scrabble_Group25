@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.Serializable;
 
 /**
  * Player of the scrabble game. Each player stores its score,
@@ -6,7 +7,7 @@ import java.util.*;
  *
  * @author Abdurahman Jama 101162633
  */
-public class Player {
+public class Player implements Serializable{
     private String name;
     private int score;
     private ArrayList<String> rack;

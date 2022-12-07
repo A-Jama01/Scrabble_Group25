@@ -1,12 +1,12 @@
 import java.util.*;
-
+import java.io.Serializable;
 /**
  *
  *
  * @authors Abdurahman Jama 1011626333, Monishkumar Sivakumar 101115115
  */
 
-public class AI extends Player{
+public class AI extends Player implements Serializable{
     private Dictionary dict;
     private ArrayList<String> word;
     private String stringRack = "";

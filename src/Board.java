@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
 /**
  * Models the board in Scrabble.
@@ -13,7 +14,7 @@ import java.util.HashMap;
  * @author Henry Lin
  */
 
-public class Board {
+public class Board implements Serializable{
     private String[][] board;
     private String[][] premiumSquares;
     public static final String EMPTY = " ";
