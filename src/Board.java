@@ -400,6 +400,34 @@ public class Board {
     }
 
     /**
+     * Place a word on the board which has had a blank tile changed to
+     * an actual letter. Does the same thing as place() except it also
+     * sets the premiumSquares value of the given indices (where
+     * blank tiles were used) to have a 0 multiplier.
+     * @param word         The word to place
+     * @param position     The position of the word
+     * @param blankIndices An array of indices of the word which use blank tiles
+     * @return true if placement is successful, false otherwise
+     */
+    public boolean placeWithBlankTile(String word, String position, int[] blankIndices) {
+        boolean success = place(word, position);
+        if (success) {
+            int[] tuple = translateCoordinates(position);
+            int col = tuple[0];
+            int row = tuple[1];
+            int dir = tuple[2];
+            for (int index : blankIndices) {
+                if (dir == HORIZONTAL) {
+                    premiumSquares[col + index][row] = Bag.BLANK_TILE;
+                } else {
+                    premiumSquares[col][row + index] = Bag.BLANK_TILE;
+                }
+            }
+        }
+        return success;
+    }
+
+    /**
      * Check which letters of a word are already on the board,
      * and return the word with lowercase letters where the
      * letters are not yet placed.
@@ -475,7 +503,8 @@ public class Board {
      */
     public String letterAt(int col, int row) {
         if (0 <= col && col <= WIDTH && 0 <= row && row <= HEIGHT) {
-            return premiumSquares[col][row] == null? board[col][row] : premiumSquares[col][row];
+            return (premiumSquares[col][row] == null || !board[col][row].equals(EMPTY))?
+                    board[col][row] : premiumSquares[col][row];
         } else { return null; }
     }
 

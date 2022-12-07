@@ -74,6 +74,17 @@ public class BoardTest {
     }
 
     @Test
+    public void testPlacementWithBlankTile() {
+        int[] blankIndices = {0, 4};  // H and O were blank tiles
+        assertTrue(board.placeWithBlankTile("HELLO", "A1", blankIndices));
+        String[] expectedPremiums = new String[]{Bag.BLANK_TILE, null, null, null, Bag.BLANK_TILE};
+        String[] actualPremiums = board.getWordMultipliers("HELLO", "A1");
+        for (int i = 0; i < expectedPremiums.length; i++) {
+            assertEquals(expectedPremiums[i], actualPremiums[i]);
+        }
+    }
+
+    @Test
     public void checkLetters(){
         String word = "hey";
         String pos = "H8";
