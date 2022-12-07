@@ -5,7 +5,7 @@
 import java.util.HashMap;
 import java.io.Serializable;
 public class Word implements Serializable{
-
+    private static final long serialVersionUID = 1;
     private HashMap<String, Integer> letters = new HashMap<String, Integer>();
 
     //This function initializes the values for the Scrabble Letters

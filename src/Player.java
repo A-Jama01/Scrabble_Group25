@@ -11,7 +11,7 @@ public class Player implements Serializable{
     private String name;
     private int score;
     private ArrayList<String> rack;
-
+    private static final long serialVersionUID = 1;
     private int ai;
 
     /**

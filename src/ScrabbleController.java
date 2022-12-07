@@ -13,7 +13,7 @@ import java.util.*;
 import java.io.Serializable;
 
 public class ScrabbleController implements ActionListener, Serializable {
-
+    private static final long serialVersionUID = 1;
     private Game game;
     private GameView gameView;
     private JButton selectedTile;

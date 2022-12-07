@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class AI extends Player implements Serializable{
     private Dictionary dict;
+    private static final long serialVersionUID = 1;
     private ArrayList<String> word;
     private String stringRack = "";
     private char[] rackTest;

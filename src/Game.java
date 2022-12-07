@@ -15,6 +15,7 @@ import java.io.Serializable;
  * @author Abdurahman Jama 1011626333
  */
 public class Game implements Serializable{
+    private static final long serialVersionUID = 1;
     private Parser parser;
     private Dictionary dict;
     private Bag bag;

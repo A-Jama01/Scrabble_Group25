@@ -10,6 +10,7 @@ import java.io.Serializable;
 
 public class Bag implements Serializable{
     public static final String BLANK_TILE = "?";
+    private static final long serialVersionUID = 1;
     private ArrayList<String> letterBag = new ArrayList<String>(
             Arrays.asList("E","E","E","E","E","E","E","E","E","E","E","E","X",
                     "A","A","A","A","A","A","A","A","A","K","I","I","I","I","I","I","I","I","I","J",
@@ -21,6 +22,7 @@ public class Bag implements Serializable{
     /**
      * The constructor of the Bag class
      */
+
     public Bag() {}
 
     /**
