@@ -5,8 +5,9 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Dictionary {
+public class Dictionary implements Serializable{
 
     public Dictionary(){}
 

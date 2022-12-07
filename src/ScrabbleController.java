@@ -7,9 +7,12 @@
 
 import java.awt.event.*;
 import javax.swing.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.io.Serializable;
 
-public class ScrabbleController implements ActionListener {
+public class ScrabbleController implements ActionListener, Serializable {
 
     private Game game;
     private GameView gameView;
@@ -155,4 +158,17 @@ public class ScrabbleController implements ActionListener {
         return game;
     }
 
+    public void loadGame() {
+        String file = GameView.askFile();
+        if(file != null){
+            try{
+                byte[] file_bytes = Files.readAllBytes(Paths.get(file));
+                Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
+                game = new_game;
+            }
+            catch (Exception e){
+                e.printStackTrace(System.err);
+            }
+        }
+    }
 }

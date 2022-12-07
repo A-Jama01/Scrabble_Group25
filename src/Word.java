@@ -3,8 +3,8 @@
 * @author Monishkumar Sivakumar 101115115
 **/
 import java.util.HashMap;
-
-public class Word {
+import java.io.Serializable;
+public class Word implements Serializable{
 
     private HashMap<String, Integer> letters = new HashMap<String, Integer>();
 

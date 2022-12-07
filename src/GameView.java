@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.io.File;
 
 /**
  * The game frame of the Scrabble game.
@@ -12,11 +13,12 @@ import java.util.ArrayList;
 public class GameView extends JFrame{
     private BoardView board;
     private JPanel rack1, rack2,buttons, texts, scores;
-    private JButton playButton,skipButton,quitButton,swapButton;
+    private JButton playButton,skipButton,quitButton,swapButton, saveButton, loadButton;
     private ArrayList<JButton> buttonLetters1;
     private ArrayList<JButton> buttonLetters2;
     private JLabel label1, label2, label3, label4, score1, score2, ai1, aiscore;
     private ScrabbleController controller;
+    private static GameView self;
 
     /**
      * The constructor of the GameView class
@@ -115,6 +117,14 @@ public class GameView extends JFrame{
         quitButton.setActionCommand("reset");
         quitButton.addActionListener(controller);
         buttons.add(quitButton);
+        saveButton = new JButton("Save");
+        saveButton.setActionCommand("save");
+        saveButton.addActionListener(new Save(controller));
+        buttons.add(saveButton);
+        loadButton = new JButton("Load");
+        loadButton.setActionCommand("load");
+        loadButton.addActionListener(new Load(controller));
+        buttons.add(loadButton);
 
         c.gridy = 3;
         pane.add(buttons,c);
@@ -228,6 +238,9 @@ public class GameView extends JFrame{
         new GameView(game);
         game.play();
     }
+
+    public static String askFile() { return loadFile.getInstance().show_file_dialog(self, "."); }
+
 }
 
 
