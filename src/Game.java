@@ -179,7 +179,7 @@ public class Game {
         if (currPlayerIndex == players.size() - 1){
             currPlayerIndex = 0;
         } else{
-            currPlayerIndex += 1;
+            currPlayerIndex = currPlayerIndex + 1;
         }
     }
 
@@ -197,7 +197,7 @@ public class Game {
             if (currPlayerIndex == players.size() - 1){
                 currPlayerIndex = 0;
             } else{
-                currPlayerIndex += 1;
+                currPlayerIndex = currPlayerIndex + 1;
             }
         }
         endMsg();
