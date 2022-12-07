@@ -12,18 +12,18 @@ public class Player implements Serializable{
     private int score;
     private ArrayList<String> rack;
     private static final long serialVersionUID = 1;
-    private int ai;
+    //private int ai;
 
     /**
      * Create a player
      *
      * @param name Player's name
      */
-    public Player(String name, int ai) {
+    public Player(String name) {
         this.name = name;
         this.score = 0;
         this.rack = new ArrayList<>();
-        this.ai = ai;
+       // this.ai = ai;
     }
 
     /**
@@ -40,9 +40,9 @@ public class Player implements Serializable{
      *
      * @return int representing whether a player is an ai or not
      */
-    public int getAI() {
+    /**public int getAI() {
         return this.ai;
-    }
+    }**/
 
     /**
      * Getter for player's score

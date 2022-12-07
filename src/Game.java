@@ -46,7 +46,7 @@ public class Game implements Serializable{
                         "AI", JOptionPane.QUESTION_MESSAGE, null,
                         number,
                         number[0]);
-                Player p1 = new Player("Player1", 0);
+                Player p1 = new Player("Player1");
                 players.add(p1);
                 break;
             }case "2": {
@@ -55,8 +55,8 @@ public class Game implements Serializable{
                         "AI", JOptionPane.QUESTION_MESSAGE, null,
                         number,
                         number[0]);
-                Player p1 = new Player("Player1", 0);
-                Player p2 = new Player("Player2", 0);
+                Player p1 = new Player("Player1");
+                Player p2 = new Player("Player2");
                 players.add(p1);
                 players.add(p2);
                 break;
@@ -66,18 +66,18 @@ public class Game implements Serializable{
                         "AI", JOptionPane.QUESTION_MESSAGE, null,
                         number,
                         number[0]);
-                Player p1 = new Player("Player1", 0);
-                Player p2 = new Player("Player2", 0);
-                Player p3 = new Player("Player3", 0);
+                Player p1 = new Player("Player1");
+                Player p2 = new Player("Player2");
+                Player p3 = new Player("Player3");
                 players.add(p1);
                 players.add(p2);
                 players.add(p3);
                 break;
             }case "4":
-                Player p1 = new Player("Player1", 0);
-                Player p2 = new Player("Player2", 0);
-                Player p3 = new Player("Player3", 0);
-                Player p4 = new Player("Player4", 0);
+                Player p1 = new Player("Player1");
+                Player p2 = new Player("Player2");
+                Player p3 = new Player("Player3");
+                Player p4 = new Player("Player4");
                 players.add(p1);
                 players.add(p2);
                 players.add(p3);

@@ -16,7 +16,7 @@ public class AI extends Player implements Serializable{
     private String alphabet;
 
     public AI(int num){
-        super("AI" + num, 1);
+        super("AI" + num);
         dict = new Dictionary();
         word = new ArrayList<>();
         position = new ArrayList<>();
