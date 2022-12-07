@@ -163,6 +163,14 @@ public class Game {
         }
     }
 
+    public boolean aiExist(){
+        boolean check = false;
+        if (ai.isEmpty()){
+            check = true;
+        }
+        return check;
+    }
+
     public Player getAIPlayer(int num) {
         return ai.get(num);
     }
