@@ -1,5 +1,6 @@
 import java.util.*;
 import javax.swing.*;
+import java.io.Serializable;
 
 /**
  * Main class of Scrabble game. Initialize this class and call the play
@@ -13,7 +14,7 @@ import javax.swing.*;
  *
  * @author Abdurahman Jama 1011626333
  */
-public class Game {
+public class Game implements Serializable{
     private Parser parser;
     private Dictionary dict;
     private Bag bag;

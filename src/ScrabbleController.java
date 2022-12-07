@@ -150,4 +150,9 @@ public class ScrabbleController implements ActionListener {
         }
         return index;
     }
+
+    public Game getGame(){
+        return game;
+    }
+
 }
