@@ -1,3 +1,12 @@
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -85,6 +94,85 @@ public class Board {
         config.put(doubleWordTiles, DOUBLE_WORD_SCORE);
         config.put(tripleWordTiles, TRIPLE_WORD_SCORE);
         return config;
+    }
+
+    /**
+     * Factory method for producing a new Board with a
+     * premium square configuration from an XML file.
+     * The XML file should contain one element BoardConfiguration
+     * which contains any number of sub-elements. These elements
+     * should be named according to their square type, using
+     * the constants defined in this class (e.g. DOUBLE_WORD_SCORE)
+     * and the prefix "Square". The position of the square is
+     * contained within the element.
+     * An example XML configuration:
+     * <BoardConfiguration>
+     *     <Square2W>H8</Square2W>
+     * </BoardConfiguration>
+     * If an error prevents the configuration from being read,
+     * an empty Board is returned.
+     * @param file The XML file containing the configuration
+     * @return The new Board
+     */
+    public static Board getBoardFromXMLConfig(File file) {
+        SAXParserFactory spf = SAXParserFactory.newInstance();
+        SAXParser parser;
+        try {
+            parser = spf.newSAXParser();
+        } catch (ParserConfigurationException | SAXException e) {
+            System.err.println(e.getMessage());
+            return new Board();
+        }
+        HashMap<String[], String> config = new HashMap<>();
+        DefaultHandler dh = new DefaultHandler() {
+            ArrayList<String> doubleLetterSquares = new ArrayList<>();
+            ArrayList<String> tripleLetterSquares = new ArrayList<>();
+            ArrayList<String> doubleWordSquares = new ArrayList<>();
+            ArrayList<String> tripleWordSquares = new ArrayList<>();
+            ArrayList<String> currentType;
+
+            @Override
+            public void startElement(String u, String ln, String qName, Attributes a) {
+                currentType = switch (qName) {
+                    case "Square" + DOUBLE_LETTER_SCORE -> doubleLetterSquares;
+                    case "Square" + TRIPLE_LETTER_SCORE -> tripleLetterSquares;
+                    case "Square" + DOUBLE_WORD_SCORE -> doubleWordSquares;
+                    case "Square" + TRIPLE_WORD_SCORE -> tripleWordSquares;
+                    default -> null;
+                };
+            }
+            @Override
+            public void endElement(String uri, String localName, String qName) {
+                if (qName.equals("BoardConfiguration")) {
+                    int premiumCount = doubleLetterSquares.size() + tripleLetterSquares.size() +
+                            doubleWordSquares.size() + tripleWordSquares.size();
+                    int maximumCount = Math.max(
+                            Math.max(doubleLetterSquares.size(), tripleLetterSquares.size()),
+                            Math.max(doubleWordSquares.size(), tripleWordSquares.size())
+                    );
+                    config.put(doubleLetterSquares.toArray(new String[0]), DOUBLE_LETTER_SCORE);
+                    config.put(tripleLetterSquares.toArray(new String[0]), TRIPLE_LETTER_SCORE);
+                    config.put(doubleWordSquares.toArray(new String[0]), DOUBLE_WORD_SCORE);
+                    config.put(tripleWordSquares.toArray(new String[0]), TRIPLE_WORD_SCORE);
+                }
+            }
+            @Override
+            public void characters(char[] ch, int start, int length) {
+                if (currentType != null) {
+                    String text = new String(ch, start, length);
+                    if (!text.isBlank()) {
+                        currentType.add(new String(ch, start, length));
+                    }
+                }
+            }
+        };
+        try {
+            parser.parse(file, dh);
+        } catch (SAXException | IOException e) {
+            System.err.println(e.getMessage());
+            return new Board();
+        }
+        return new Board(config);
     }
 
 
