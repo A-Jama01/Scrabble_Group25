@@ -19,7 +19,7 @@ public class BagTest {
         assertTrue(bag.drawTile().matches("[a-zA-Z]+") == true);
     }
 
-    @Test
+   /** @Test
     public void failBag() {
         String letter = "11";
         if(letter.matches("[a-zA-Z]+") == false) {
@@ -27,13 +27,13 @@ public class BagTest {
         }
     }
 
-    /**@Test
+    @Test
     public void tooManyLetters() {
         String letter = "as";
         if(letter.length() > 1) {
             fail("The string has more than one letter");
         }
-    }**/
+    } **/
 
 
 }

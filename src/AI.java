@@ -1,21 +1,22 @@
 import java.util.*;
-
+import java.io.Serializable;
 /**
  *
  *
  * @authors Abdurahman Jama 1011626333, Monishkumar Sivakumar 101115115
  */
 
-public class AI extends Player{
+public class AI extends Player implements Serializable{
     private Dictionary dict;
+    private static final long serialVersionUID = 1;
     private ArrayList<String> word;
     private String stringRack = "";
     private char[] rackTest;
     private ArrayList<String> position;
     private String alphabet;
 
-    public AI(){
-        super("AI");
+    public AI(int num){
+        super("AI" + num);
         dict = new Dictionary();
         word = new ArrayList<>();
         position = new ArrayList<>();

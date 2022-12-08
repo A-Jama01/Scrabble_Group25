@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.io.Serializable;
 
 /**
  * Models the board in Scrabble.
@@ -22,11 +23,11 @@ import java.util.HashMap;
  * @author Henry Lin
  */
 
-public class Board {
+public class Board implements Serializable{
     private String[][] board;
     private String[][] premiumSquares;
     public static final String EMPTY = " ";
-
+    private static final long serialVersionUID = 1;
     public enum column {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O}
     public static final int WIDTH = column.values().length;
     public static final int HEIGHT = 15;
