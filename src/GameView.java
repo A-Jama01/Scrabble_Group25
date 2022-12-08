@@ -240,6 +240,7 @@ public class GameView extends JFrame{
 
     public static String askFile() { return loadFile.getInstance().show_file_dialog(self, "."); }
 
+    public void setBoard(Board board) { this.board.setBoard(board); }
 }
 
 

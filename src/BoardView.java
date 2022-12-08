@@ -181,4 +181,6 @@ public class BoardView extends JPanel {
         }
         return null;
     }
+
+    public void setBoard(Board board) { this.board = board; }
 }
