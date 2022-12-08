@@ -167,19 +167,19 @@ public class Game {
                 continue;
             }
             ai.get(i).createPlays();
-            if (ai.get(i).getPossiblePlays().size() == 0) {
+
+            if (firstTurn) { //Create possible plays if it is the first move
+                ai.get(i).createFirstMove();
+            }
+
+            if (ai.get(i).getPossiblePlays().size() == 0) {//skip play can't be made
                 continue;
             }
-            //while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
-                //validWord = ai.get(i).getWord(j + 1);
-                //j++;
-            //}
             boolean placed = false;
             int points = 0;
             for(j = 0; j < ai.get(i).getPossiblePlays().size(); j++) {
                 points = tallyPoints(ai.get(i).getPossiblePlays().get(j));
                 if (legalPlacement(ai.get(i).getPossiblePlays().get(j))) {
-                    points = tallyPoints(ai.get(i).getPossiblePlays().get(j));
                     validWord = ai.get(i).getPossiblePlays().get(j);
                     break;
                 }

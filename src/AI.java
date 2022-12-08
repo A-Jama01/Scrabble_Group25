@@ -152,50 +152,70 @@ public class AI extends Player{
     public void clearPossiblePlays() {possiblePlays.clear();}
 
     public void createPlays() {
-        ArrayList<String> boardRows = new ArrayList<>();
-        TreeMap<Integer, String> rowWords = new TreeMap<Integer, String>();
+        ArrayList<String> boardRows = new ArrayList<>();    //gets words in each row
+        ArrayList<String> boardCols = new ArrayList<>();    //gets words in each col
+        TreeMap<Integer, String> rowWords = new TreeMap<Integer, String>(); //holds starting index and word (of each word)
+        TreeMap<Integer, String> colWords = new TreeMap<Integer, String>();
         int wordStartIndex = -1;
         for(int i = 0; i < board.HEIGHT; i++) {
             for (int j = 0; j < board.WIDTH; j++) {
                 addLetters(boardRows, j, i);
+                addLetters(boardCols, i, j);
             }
             getPosWords(boardRows, rowWords, wordStartIndex);
+            getPosWords(boardCols, colWords, wordStartIndex);
 
-            int offset = 2;
+            getPossiblePlays(rowWords, i, true);
+            getPossiblePlays(colWords, i, false);
 
-            Set s = rowWords.entrySet();
-            Iterator iterator = s.iterator();
+            boardRows.clear();
+            boardCols.clear();
+        }
+    }
 
-            while (iterator.hasNext()) { //Checks if play can be made in front
-                Map.Entry m = (Map.Entry)iterator.next();
-                int nextWordBegIndex;
-                int maxWordComboSize;
-                int currEndOfWordIndex = (Integer)m.getKey() + rowWords.get((Integer)m.getKey()).length();
-                if (iterator.hasNext()) {
-                    nextWordBegIndex = (Integer)((Map.Entry)iterator.next()).getKey();
-                }
-                else {
-                    nextWordBegIndex = board.WIDTH;
-                }
-                maxWordComboSize = nextWordBegIndex - (currEndOfWordIndex + offset);
+    private void getPossiblePlays(TreeMap<Integer, String> dirWords, int i, boolean isHorizontal) {
+        int offset = 2;
 
-                if (maxWordComboSize <= 0) {//go to next word if not enough space to place new tiles
-                    continue;
-                }
-                ArrayList<String> combosOfRightLength = getWordsUpToNLetters(maxWordComboSize);
+        Set s = dirWords.entrySet();
+        Iterator iterator = s.iterator();
 
-                for (int l = 0; l < combosOfRightLength.size(); l++) {
-                    String tryWord = (String)m.getValue() + combosOfRightLength.get(l);
-                    if (!dict.checkSet(tryWord)) {
-                        continue;
-                    }
-                    String position = String.valueOf(i + 1) + String.valueOf(Board.column.values()[(Integer)m.getKey()]);
-                    String play = position + " " + tryWord;
-                    possiblePlays.add(play);
-                }
+        while (iterator.hasNext()) { //Checks if play can be made in front
+            Map.Entry m = (Map.Entry)iterator.next();
+            int nextWordBegIndex;
+            int maxWordComboSize;
+            int currEndOfWordIndex = (Integer)m.getKey() + dirWords.get((Integer)m.getKey()).length();
+            if (iterator.hasNext()) {
+                nextWordBegIndex = (Integer)((Map.Entry)iterator.next()).getKey();
+            }
+            else {
+                nextWordBegIndex = board.WIDTH;
+            }
+            maxWordComboSize = nextWordBegIndex - (currEndOfWordIndex + offset);
+
+            if (maxWordComboSize <= 0) {//go to next word if not enough space to place new tiles
+                continue;
+            }
+            addAfterWord(i, m, maxWordComboSize, isHorizontal);
+        }
+    }
+
+    private void addAfterWord(int i, Map.Entry m, int maxWordComboSize, boolean isHorizontal) {
+        ArrayList<String> combosOfRightLength = getWordsUpToNLetters(maxWordComboSize);
+        String position = "";
+        for (int l = 0; l < combosOfRightLength.size(); l++) {
+            String tryWord = (String) m.getValue() + combosOfRightLength.get(l);
+            if (!dict.checkSet(tryWord)) {
+                continue;
+            }
+            if (isHorizontal) {
+                position = String.valueOf(i + 1) + String.valueOf(Board.column.values()[(Integer) m.getKey()]);
 
             }
-            boardRows.clear();
+            else if (!isHorizontal) {
+                position = String.valueOf(Board.column.values()[i]) + String.valueOf((Integer) m.getKey() + 1);
+            }
+            String play = position + " " + tryWord;
+            possiblePlays.add(play);
         }
     }
 
@@ -255,5 +275,19 @@ public class AI extends Player{
         return false;
     }
 
+    public void createFirstMove() {
+        ArrayList<String> words = new ArrayList<String>();
+        words = getWordList();
+        Collections.sort(words, (a, b)->Integer.compare(a.length(), b.length()));
+        for (int i = words.size() - 1; i >= 0; i--) {
+            if (dict.checkSet(words.get(i))) {
+                String col = String.valueOf(Board.column.values()[((int) Math.ceil((8 - (words.get(i).length() / 2)))) - 1]);
+
+                String play = "8" + col + " " + words.get(i);
+                possiblePlays.add(play);
+                break;
+            }
+        }
+    }
 }
 
