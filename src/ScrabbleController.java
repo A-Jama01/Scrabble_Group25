@@ -73,6 +73,7 @@ public class ScrabbleController implements ActionListener {
 
         else if (e.getActionCommand().equals("skip")) { //skip button pressed
             game.switchTurn();
+            gameView.updateBoard();
             switchPlayerTiles(game.getCurrPlayer().getRack());
             if(game.getCurrPlayerIndex() == 0) {
                 gameView.updateInfo("Player 1 turn skipped.", "Make your turn now Player 2.");

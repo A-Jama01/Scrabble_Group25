@@ -93,21 +93,21 @@ public class Game {
 
         switch (aiNum){
             case "1":{
-                AI ai1 = new AI(1);
+                AI ai1 = new AI(1, board);
                 ai.add(ai1);
                 break;
             }
             case "2":{
-                AI ai1 = new AI(1);
-                AI ai2 = new AI(2);
+                AI ai1 = new AI(1, board);
+                AI ai2 = new AI(2, board);
                 ai.add(ai1);
                 ai.add(ai2);
                 break;
             }
             case "3":{
-                AI ai1 = new AI(1);
-                AI ai2 = new AI(2);
-                AI ai3 = new AI(3);
+                AI ai1 = new AI(1, board);
+                AI ai2 = new AI(2, board);
+                AI ai3 = new AI(3, board);
                 ai.add(ai1);
                 ai.add(ai2);
                 ai.add(ai3);
@@ -166,28 +166,29 @@ public class Game {
             if (ai.get(i).noWords()) {// skip if no words can be made
                 continue;
             }
+            ai.get(i).createPlays();
+            if (ai.get(i).getPossiblePlays().size() == 0) {
+                continue;
+            }
             //while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
                 //validWord = ai.get(i).getWord(j + 1);
                 //j++;
             //}
             boolean placed = false;
             int points = 0;
-            for(j = 0; j < ai.get(i).numOfWords(); j++) {
-                for (int k = 0; k < ai.get(i).numOfPositions(); k++) {
-                    points = tallyPoints(ai.get(i).getPlay(k, j));
-                    if (legalPlacement(ai.get(i).getPlay(k, j))) {
-                        placed = true;
-                        break;
-                    }
-                }
-                if (placed) { //if word has been placed break out of loop
+            for(j = 0; j < ai.get(i).getPossiblePlays().size(); j++) {
+                points = tallyPoints(ai.get(i).getPossiblePlays().get(j));
+                if (legalPlacement(ai.get(i).getPossiblePlays().get(j))) {
+                    points = tallyPoints(ai.get(i).getPossiblePlays().get(j));
+                    validWord = ai.get(i).getPossiblePlays().get(j);
                     break;
                 }
             }
-            validWord = ai.get(i).getWord(j);
+
             ai.get(i).addPoints(points);
             ai.get(i).removeTilesAI(validWord);
             topUpRack(ai.get(i));
+            ai.get(i).clearPossiblePlays();
         }
     }
 
@@ -205,7 +206,9 @@ public class Game {
 
     public void switchTurn() {
         if (currPlayerIndex == players.size() - 1){
+            //aiPlay();
             currPlayerIndex = 0;
+            aiPlay();
         } else{
             currPlayerIndex += 1;
         }
@@ -297,9 +300,9 @@ public class Game {
                 removeTiles(tilesNeeded, index);
 
                 //AI playing (remove this later)
-                if (getCurrPlayerIndex() == players.size() - 1) {
-                    aiPlay();
-                }
+                //if (getCurrPlayerIndex() == players.size() - 1) {
+                    //aiPlay();
+                //}
 
                 return true;
             }
