@@ -24,10 +24,10 @@ import java.io.Serializable;
  */
 
 public class Board implements Serializable{
+    private static final long serialVersionUID = 1;
     private String[][] board;
     private String[][] premiumSquares;
     public static final String EMPTY = " ";
-    private static final long serialVersionUID = 1;
     public enum column {A, B, C, D, E, F, G, H, I, J, K, L, M, N, O}
     public static final int WIDTH = column.values().length;
     public static final int HEIGHT = 15;

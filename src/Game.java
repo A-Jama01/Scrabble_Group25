@@ -213,6 +213,9 @@ public class Game implements Serializable{
         endMsg();
     }
 
+    public ArrayList<String> getPlayerRack(){
+        return players.get(currPlayerIndex).getRack();
+    }
     /**
      * Top up player's rack to 7. As long as there are tiles left in the bag.
      *
@@ -480,9 +483,9 @@ public class Game implements Serializable{
         this.gameView = gameView;
     }
 
-/**    public GameView getGameView(){
+   public GameView getGameView(){
         return this.gameView;
     }
-**/
+
 }
 

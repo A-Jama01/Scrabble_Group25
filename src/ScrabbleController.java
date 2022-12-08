@@ -165,9 +165,11 @@ public class ScrabbleController implements ActionListener, Serializable {
                 byte[] file_bytes = Files.readAllBytes(Paths.get(file));
                 Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
                 game = new_game;
-                //game.addGameView(game.getGameView());
-
-                game.play();
+                gameView.setBoard(game.getBoard());
+                gameView.updateBoard();
+                System.out.println(game.getPlayerRack());
+                gameView.updateRack(game.getPlayerRack());
+                //game.play();
             }
             catch (Exception e){
                 e.printStackTrace(System.err);
