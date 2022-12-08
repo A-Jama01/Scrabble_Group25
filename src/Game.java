@@ -480,5 +480,9 @@ public class Game implements Serializable{
         this.gameView = gameView;
     }
 
+/**    public GameView getGameView(){
+        return this.gameView;
+    }
+**/
 }
 

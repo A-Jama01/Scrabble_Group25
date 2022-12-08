@@ -2,7 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.io.File;
-
 /**
  * The game frame of the Scrabble game.
  *
