@@ -7,10 +7,13 @@
 
 import java.awt.event.*;
 import javax.swing.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.io.Serializable;
 
-public class ScrabbleController implements ActionListener {
-
+public class ScrabbleController implements ActionListener, Serializable {
+    private static final long serialVersionUID = 1;
     private Game game;
     private GameView gameView;
     private JButton selectedTile;
@@ -53,7 +56,10 @@ public class ScrabbleController implements ActionListener {
                 }
 
                 gameView.updateScore((game.getCurrPlayerIndex()+1),game.getCurrPlayer().getScore());
-                gameView.updateScoreAI(game.getAIPlayer().getScore());
+                //Need to update this for multiple AI
+                if(game.aiExist() == false){
+                    gameView.updateScoreAI(game.getAIPlayer(0).getScore());
+                }
 
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
@@ -146,5 +152,26 @@ public class ScrabbleController implements ActionListener {
             }
         }
         return index;
+    }
+
+    public Game getGame(){
+        return game;
+    }
+
+    public void loadGame() {
+        String file = GameView.askFile();
+        if(file != null){
+            try{
+                byte[] file_bytes = Files.readAllBytes(Paths.get(file));
+                Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
+                game = new_game;
+                //game.addGameView(game.getGameView());
+
+                game.play();
+            }
+            catch (Exception e){
+                e.printStackTrace(System.err);
+            }
+        }
     }
 }

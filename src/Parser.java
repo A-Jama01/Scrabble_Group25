@@ -1,14 +1,14 @@
 import java.util.Scanner;
-
+import java.io.Serializable;
 /**
  * The Parser class to get inputs
  *
  * @author Christina Dang 101141609
  */
 
-public class Parser {
+public class Parser implements Serializable{
     private String line;
-
+    private static final long serialVersionUID = 1;
     /**
      * A method to get the input of the user
      *

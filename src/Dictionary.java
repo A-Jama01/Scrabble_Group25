@@ -5,9 +5,10 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Dictionary {
-
+public class Dictionary implements Serializable{
+    private static final long serialVersionUID = 1;
     public Dictionary(){}
 
     // This function will take a String input and will read through a text file to check

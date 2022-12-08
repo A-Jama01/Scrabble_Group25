@@ -1,4 +1,5 @@
 import java.util.*;
+import java.io.Serializable;
 
 /**
  * Player of the scrabble game. Each player stores its score,
@@ -6,10 +7,12 @@ import java.util.*;
  *
  * @author Abdurahman Jama 101162633
  */
-public class Player {
+public class Player implements Serializable{
     private String name;
     private int score;
     private ArrayList<String> rack;
+    private static final long serialVersionUID = 1;
+    //private int ai;
 
     /**
      * Create a player
@@ -20,6 +23,7 @@ public class Player {
         this.name = name;
         this.score = 0;
         this.rack = new ArrayList<>();
+       // this.ai = ai;
     }
 
     /**
@@ -30,6 +34,15 @@ public class Player {
     public String getName() {
         return this.name;
     }
+
+    /**
+     * Getter for player's ai
+     *
+     * @return int representing whether a player is an ai or not
+     */
+    /**public int getAI() {
+        return this.ai;
+    }**/
 
     /**
      * Getter for player's score
