@@ -65,6 +65,8 @@ public class Word implements Serializable{
                     wordValue *= 2;
                 } else if (premiums[i].equals(Board.TRIPLE_WORD_SCORE)) {
                     wordValue *= 3;
+                } else if (premiums[i].equals(Bag.BLANK_TILE)) {
+                    letterValue = 0;
                 }
                 sum += this.letters.get(letter[i]) * letterValue;
             }
