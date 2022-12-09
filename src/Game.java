@@ -422,6 +422,30 @@ public class Game implements Serializable{
      * @return True if userInput contains a word that is in dictionary and can be placed on board
      */
     public boolean legalPlacement(String userInput) {
+        StringBuilder mainWord = new StringBuilder(getSecondWord(userInput));
+        String pos = getPos(userInput);
+        ArrayList<Integer> blankTiles = new ArrayList<>();
+        int[] blankTileIndices = null;
+        for (int index = 0; index < mainWord.length(); index++) {
+            if (mainWord.substring(index, index + 1).equals(Bag.BLANK_TILE)) {
+                blankTiles.add(index);
+            }
+        }
+        boolean hasBlankTile = blankTiles.size() > 0;
+        if (hasBlankTile) {
+            blankTileIndices = new int[blankTiles.size()];
+            String[] alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+                                 "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+            for (int i = 0; i < blankTiles.size(); i++) {
+                int tileIndex = blankTiles.get(i);
+                blankTileIndices[i] = tileIndex;
+                String selection;
+                selection = (String) JOptionPane.showInputDialog(null, "Select a letter for the blank tile at " + tileIndex + 1,
+                        "Use Blank Tile", JOptionPane.QUESTION_MESSAGE, null, alphabet, alphabet[0]);
+                mainWord.replace(tileIndex, tileIndex + 1, selection);
+            }
+        }
+
         ArrayList<String> wordCombos = wordCombos(userInput);
         if (wordCombos == null) {
             return false;
@@ -432,14 +456,21 @@ public class Game implements Serializable{
             }
         }
         if (firstTurn){//return false if word doesn't cross center on first turn
-            if (board.wordCrossesCentre(getSecondWord(userInput), getPos(userInput))) {
-                board.place(getSecondWord(userInput), getPos(userInput));
+            if (board.wordCrossesCentre(mainWord.toString(), pos)) {
+                if (hasBlankTile) {
+                    board.placeWithBlankTile(mainWord.toString(), pos, blankTileIndices);
+                } else {
+                    board.place(mainWord.toString(), pos);
+                }
                 firstTurn = false;
                 return true;
             }
-        }
-        else if (board.wordIsAttached(getSecondWord(userInput), getPos(userInput))) {
-                return board.place(getSecondWord(userInput), getPos(userInput));
+        } else if (board.wordIsAttached(mainWord.toString(), pos)) {
+            if (hasBlankTile) {
+                board.placeWithBlankTile(mainWord.toString(), pos, blankTileIndices);
+            } else {
+                return board.place(mainWord.toString(), pos);
+            }
         }
         return false;
     }
