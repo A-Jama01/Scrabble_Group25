@@ -240,6 +240,15 @@ public class Game {
      * @param p Player in Scrabble game
      */
     public void topUpRack(Player p) {
+        if (p.getName().contains("AI")) { //if player is an AI don't add blank tiles
+
+            while(p.rackSize() < 7 && bag.getSize() > 2) {
+                String drawnTile = bag.drawTile();
+                if (!drawnTile.equals(Bag.BLANK_TILE)) {
+                    p.addTile(drawnTile);
+                }
+            }
+        }
         while ((p.rackSize() < 7) && (bag.getSize() != 0)) {
             p.addTile(bag.drawTile()); //assuming bag has method that will remove tile and return the tile removed
         }
