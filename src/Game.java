@@ -242,7 +242,7 @@ public class Game {
     public void topUpRack(Player p) {
         if (p.getName().contains("AI")) { //if player is an AI don't add blank tiles
 
-            while(p.rackSize() < 7 && bag.getSize() > 2) {
+            while(p.rackSize() < 7 && bag.getSize() != 0) {
                 String drawnTile = bag.drawTile();
                 if (!drawnTile.equals(Bag.BLANK_TILE)) {
                     p.addTile(drawnTile);
