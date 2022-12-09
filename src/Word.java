@@ -54,6 +54,7 @@ public class Word implements Serializable{
         int wordValue = 1;
         int sum = 0;
         String[] letter = word.toUpperCase().split("");
+
         for (int i = 0; i < word.length(); i++) {
             int letterValue = 1;
             if (premiums[i] != null) {
@@ -62,12 +63,16 @@ public class Word implements Serializable{
                 } else if (premiums[i].equals(Board.TRIPLE_LETTER_SCORE)) {
                     letterValue = 3;
                 } else if (premiums[i].equals(Board.DOUBLE_WORD_SCORE)) {
-                    wordValue *= 2;
+                    wordValue = 2;
                 } else if (premiums[i].equals(Board.TRIPLE_WORD_SCORE)) {
-                    wordValue *= 3;
+                    wordValue = 3;
                 } else if (premiums[i].equals(Bag.BLANK_TILE)) {
                     letterValue = 0;
                 }
+                sum += this.letters.get(letter[i]) * letterValue;
+            }
+            else{
+                letterValue = 1;
                 sum += this.letters.get(letter[i]) * letterValue;
             }
         }

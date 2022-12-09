@@ -10,20 +10,24 @@ import java.io.File;
 
 
 public class GameView extends JFrame{
+    private int playerCount, aiCount;
     private BoardView board;
     private JPanel rack1, rack2,buttons, texts, scores;
     private JButton playButton,skipButton,quitButton,swapButton, saveButton, loadButton;
     private ArrayList<JButton> buttonLetters1;
     private ArrayList<JButton> buttonLetters2;
-    private JLabel label1, label2, label3, label4, score1, score2, ai1, aiscore;
+    private JLabel label1, label2, label3, label4, label5, label6, score1, score2, score3, score4;
+    private ArrayList<JLabel> playerLabels, playerScores;
     private ScrabbleController controller;
     private static GameView self;
+    private Game gameClass;
 
     /**
      * The constructor of the GameView class
      */
 
     public GameView(Game game){
+        gameClass = game;
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000,1000);
         game.addGameView(this);
@@ -142,20 +146,43 @@ public class GameView extends JFrame{
 
         //player scores
         scores = new JPanel();
-        scores.setLayout(new GridLayout(2,3));
+        scores.setLayout(new GridLayout(2,4));
 
-        label3 = new JLabel("Player 1");
-        label4 = new JLabel("Player 2");
-        ai1 = new JLabel("AI");
-        scores.add(label3);
-        scores.add(label4);
-        scores.add(ai1);
+        playerLabels = new ArrayList<JLabel>();
+        playerCount = gameClass.getPlayersSize();
+        aiCount = gameClass.getAISize();
+
+        label3 = new JLabel("");
+        label4 = new JLabel("");
+        label5 = new JLabel("");
+        label6 = new JLabel("");
+        playerLabels.add(label3);
+        playerLabels.add(label4);
+        playerLabels.add(label5);
+        playerLabels.add(label6);
+
+        for(int i = 0; i<playerCount; i++){
+            playerLabels.get(i).setText("Player " + (i+1));
+            scores.add(playerLabels.get(i));
+        }
+        for(int i = 0; i<aiCount; i++){
+            playerLabels.get(i+playerCount).setText("AI " + (i+1));
+            scores.add(playerLabels.get(i+playerCount));
+        }
+
         score1 = new JLabel("0");
         score2 = new JLabel("0");
-        aiscore = new JLabel("0");
-        scores.add(score1);
-        scores.add(score2);
-        scores.add(aiscore);
+        score3 = new JLabel("0");
+        score4 = new JLabel("0");
+        playerScores = new ArrayList<JLabel>();
+        playerScores.add(score1);
+        playerScores.add(score2);
+        playerScores.add(score3);
+        playerScores.add(score4);
+
+        for(int i = 0; i<playerCount+aiCount; i++){
+            scores.add(playerScores.get(i));
+        }
         c.gridy = 0;
         c.gridx = 1;
         pane.add(scores,c);
@@ -196,11 +223,17 @@ public class GameView extends JFrame{
         if(playerNum == 2){
             score2.setText(scoreText);
         }
+        if(playerNum == 3){
+            score3.setText(scoreText);
+        }
+        if(playerNum == 4){
+            score4.setText(scoreText);
+        }
     }
 
-    public void updateScoreAI(int score){
+    public void updateScoreAI(int aiNum,int score){
         String scoreText = Integer.toString(score);
-        aiscore.setText(scoreText);
+        playerScores.get(playerCount+aiNum).setText(scoreText);
     }
 
     /**

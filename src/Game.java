@@ -191,6 +191,7 @@ public class Game implements Serializable{
             ai.get(i).removeTilesAI(validWord);
             topUpRack(ai.get(i));
             ai.get(i).clearPossiblePlays();
+            gameView.updateScoreAI(i, getAIPlayer(i).getScore());
         }
     }
 
@@ -557,6 +558,10 @@ public class Game implements Serializable{
     }
 
     public Board getBoard() { return board; }
+
+    public int getPlayersSize(){ return players.size();}
+
+    public int getAISize(){ return ai.size();}
 
     public void addGameView(GameView gameView) {
         this.gameView = gameView;

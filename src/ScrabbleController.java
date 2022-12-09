@@ -57,10 +57,6 @@ public class ScrabbleController implements ActionListener, Serializable {
 
                 gameView.updateScore((game.getCurrPlayerIndex()+1),game.getCurrPlayer().getScore());
 
-                //Need to update this for multiple AI
-                if(game.aiExist() == false){
-                    gameView.updateScoreAI(game.getAIPlayer(0).getScore());
-                }
 
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
