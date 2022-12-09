@@ -441,18 +441,18 @@ public class Game implements Serializable{
                 int tileIndex = blankTiles.get(i);
                 blankTileIndices[i] = tileIndex;
                 String selection;
-                selection = (String) JOptionPane.showInputDialog(null, "Select a letter for the blank tile at " + tileIndex + 1,
+                selection = (String) JOptionPane.showInputDialog(null, "Select a letter for the blank tile at " + (tileIndex + 1),
                         "Use Blank Tile", JOptionPane.QUESTION_MESSAGE, null, alphabet, alphabet[0]);
                 mainWord.replace(tileIndex, tileIndex + 1, selection);
             }
         }
 
-        ArrayList<String> wordCombos = wordCombos(userInput);
+        ArrayList<String> wordCombos = board.getCombinationsWith(mainWord.toString(), pos);
         if (wordCombos == null) {
             return false;
         }
         for (String s: wordCombos) {
-            if (!dict.check(s)) { //return false if a word combination is false
+            if (!dict.checkSet(s)) { //return false if a word combination is false
                 return false;
             }
         }
@@ -571,5 +571,14 @@ public class Game implements Serializable{
         return this.gameView;
     }
 
+    public void swapTiles(ArrayList<String> tiles) {
+        if (tilesInRack(tiles, getCurrPlayerIndex())) {
+            for (String tile : tiles) {
+                getCurrPlayer().removeTile(tile);
+                bag.returnTile(tile);
+            }
+        }
+        topUpRack(getCurrPlayer());
+    }
 }
 

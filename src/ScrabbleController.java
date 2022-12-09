@@ -93,6 +93,31 @@ public class ScrabbleController implements ActionListener, Serializable {
         else if (e.getActionCommand().split(" ")[0].equals("pick")) {
             selectedTile = gameView.getButtonArray().get(Integer.parseInt(e.getActionCommand().split(" ")[1]));
         }
+
+        else if (e.getActionCommand().equals("swap")) {
+            ArrayList<String> dummyRack = new ArrayList<>(game.getPlayerRack());
+            ArrayList<String> tilesToSwap = new ArrayList<>();
+            String nextTile;
+            do {
+                nextTile = (String)JOptionPane.showInputDialog(null, "Select a tile to swap",
+                        "Swap Tiles", JOptionPane.QUESTION_MESSAGE, null, dummyRack.toArray(), dummyRack.get(0));
+                if (nextTile != null) {
+                    tilesToSwap.add(nextTile);
+                    dummyRack.remove(nextTile);
+                }
+            } while (nextTile != null);
+            if (tilesToSwap.size() > 0) {
+                game.swapTiles(tilesToSwap);
+                gameView.updateRack(game.getPlayerRack());
+
+                /* End turn (commented out for testing)
+                game.switchTurn();
+                gameView.updateBoard();
+                switchPlayerTiles(game.getCurrPlayer().getRack());
+                gameView.updateInfo("Tiles swapped", "Make your turn now Player " + game.getCurrPlayerIndex());
+                 */
+            }
+        }
     }
 
     public boolean tileSelected() {
