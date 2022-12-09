@@ -135,8 +135,8 @@ public class Game implements Serializable{
         }
     }
 
-    public boolean place(String words) { //prob not gonna use
-        if (getSecondWord(words).length() < 2) { //Check if word is atleast 2 letters
+    public boolean place(String words) { //probably not going use
+        if (getSecondWord(words).length() < 2) { //Check if word is at least 2 letters
             return false;
         }
 

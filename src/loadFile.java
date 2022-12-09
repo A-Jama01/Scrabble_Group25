@@ -1,11 +1,11 @@
-
+/** LoadFile Class - This class access the directory to locate files
+ *
+ * @author Monishkumar Sivakumar 101115115
+ **/
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-/**
- * monopoly.DialogProvider provides easy debuging dialogs for the game.
- */
 public class loadFile {
     public static loadFile self;
 
