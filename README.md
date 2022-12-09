@@ -58,7 +58,7 @@ Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams for t
 https://drive.google.com/file/d/1hxpJzwFUp2tWy0CmCHLe6Q_CXGyLBbbb/view?usp=sharing
 
 ## Known Issues
-- The AI places the words randomly, and does not place them legally yet
+- When placing a single in the horizontal direction to make a 2 letter word, it doesn't work, unless you try making a 3+ letter word that doesn't exist in the dictionary. Once that word fails (as it doesn't exist), you can create the 2 letter word.
 
 ## Roadmap
 **Milestone 2**
