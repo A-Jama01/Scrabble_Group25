@@ -45,8 +45,8 @@ public class ScrabbleController implements ActionListener, Serializable {
         }
 
         else if (e.getActionCommand().equals("play")) { //play button pressed
-            game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex());
-            if (game.place(gameView.getPlacedWord()) == true) { //place() maybe takes in arraylist of tilesplaced
+            //game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex());
+            if (game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex())) { //place() maybe takes in arraylist of tilesplaced
 
                 if(game.getCurrPlayerIndex() == 0) {
                     gameView.updateInfo("Player 1 turn made.", "Make your turn now Player 2.");
@@ -56,6 +56,7 @@ public class ScrabbleController implements ActionListener, Serializable {
                 }
 
                 gameView.updateScore((game.getCurrPlayerIndex()+1),game.getCurrPlayer().getScore());
+
                 //Need to update this for multiple AI
                 if(game.aiExist() == false){
                     gameView.updateScoreAI(game.getAIPlayer(0).getScore());
@@ -78,6 +79,7 @@ public class ScrabbleController implements ActionListener, Serializable {
 
         else if (e.getActionCommand().equals("skip")) { //skip button pressed
             game.switchTurn();
+            gameView.updateBoard();
             switchPlayerTiles(game.getCurrPlayer().getRack());
             if(game.getCurrPlayerIndex() == 0) {
                 gameView.updateInfo("Player 1 turn skipped.", "Make your turn now Player 2.");

@@ -95,21 +95,21 @@ public class Game implements Serializable{
 
         switch (aiNum){
             case "1":{
-                AI ai1 = new AI(1);
+                AI ai1 = new AI(1, board);
                 ai.add(ai1);
                 break;
             }
             case "2":{
-                AI ai1 = new AI(1);
-                AI ai2 = new AI(2);
+                AI ai1 = new AI(1, board);
+                AI ai2 = new AI(2, board);
                 ai.add(ai1);
                 ai.add(ai2);
                 break;
             }
             case "3":{
-                AI ai1 = new AI(1);
-                AI ai2 = new AI(2);
-                AI ai3 = new AI(3);
+                AI ai1 = new AI(1, board);
+                AI ai2 = new AI(2, board);
+                AI ai3 = new AI(3, board);
                 ai.add(ai1);
                 ai.add(ai2);
                 ai.add(ai3);
@@ -135,15 +135,26 @@ public class Game implements Serializable{
         }
     }
 
-    public boolean place(String words) {
-        if (!dict.check(getSecondWord(words))) { //return false if word not in dict
-            return false;
-        }
-        if (!board.place(getSecondWord(words), getPos(words))) {
+    public boolean place(String words) { //prob not gonna use
+        if (getSecondWord(words).length() < 2) { //Check if word is atleast 2 letters
             return false;
         }
 
+        if (!dict.check(getSecondWord(words))) { //return false if word not in dict
+            return false;
+        }
+
+        if (!legalPlacement(words)) {
+            return false;
+        }
+        /*
+        if (!board.place(getSecondWord(words), getPos(words))) {
+            return false;
+        }
+        */
+
         if (getCurrPlayerIndex() == players.size() - 1 && players.size() != 4) {
+
             aiPlay();
         }
         return true;
@@ -152,16 +163,34 @@ public class Game implements Serializable{
     public void aiPlay() {
         for (int i = 0; i < ai.size(); i++){
             ai.get(i).findWord();
-            int j = 0;
+            int j;
             String validWord = "";
-            while(!board.place(ai.get(i).getWord(j) , ai.get(i).getPosition())) {
-                validWord = ai.get(i).getWord(j + 1);
-                i++;
-            };
-            validWord = ai.get(i).getWord(j);
-            ai.get(i).addPoints(tallyPoints(ai.get(i).getPlay(j)));
+            if (ai.get(i).noWords()) {// skip if no words can be made
+                continue;
+            }
+            ai.get(i).createPlays();
+
+            if (firstTurn) { //Create possible plays if it is the first move
+                ai.get(i).createFirstMove();
+            }
+
+            if (ai.get(i).getPossiblePlays().size() == 0) {//skip play can't be made
+                continue;
+            }
+            boolean placed = false;
+            int points = 0;
+            for(j = 0; j < ai.get(i).getPossiblePlays().size(); j++) {
+                points = tallyPoints(ai.get(i).getPossiblePlays().get(j));
+                if (legalPlacement(ai.get(i).getPossiblePlays().get(j))) {
+                    validWord = ai.get(i).getPossiblePlays().get(j);
+                    break;
+                }
+            }
+
+            ai.get(i).addPoints(points);
             ai.get(i).removeTilesAI(validWord);
             topUpRack(ai.get(i));
+            ai.get(i).clearPossiblePlays();
         }
     }
 
@@ -187,7 +216,9 @@ public class Game implements Serializable{
 
     public void switchTurn() {
         if (currPlayerIndex == players.size() - 1){
+            //aiPlay();
             currPlayerIndex = 0;
+            aiPlay();
         } else{
             currPlayerIndex = currPlayerIndex + 1;
         }
@@ -222,6 +253,15 @@ public class Game implements Serializable{
      * @param p Player in Scrabble game
      */
     public void topUpRack(Player p) {
+        if (p.getName().contains("AI")) { //if player is an AI don't add blank tiles
+
+            while(p.rackSize() < 7 && bag.getSize() != 0) {
+                String drawnTile = bag.drawTile();
+                if (!drawnTile.equals(Bag.BLANK_TILE)) {
+                    p.addTile(drawnTile);
+                }
+            }
+        }
         while ((p.rackSize() < 7) && (bag.getSize() != 0)) {
             p.addTile(bag.drawTile()); //assuming bag has method that will remove tile and return the tile removed
         }
@@ -255,12 +295,8 @@ public class Game implements Serializable{
      * @return True if user inputs pass, quit and a valid & legal word
      */
     public boolean handleInput(String userInput, int index) {
-        if (userInput.equals("pass")) {//
-            return true;
-        }
-        else if (userInput.equals("quit")) {
-            gameOver = true;
-            return true;
+        if (userInput == null) {
+            return false;
         }
 
         else if (userInput.equals("")) {
@@ -284,6 +320,12 @@ public class Game implements Serializable{
             if (legalPlacement(userInput)) {
                 players.get(index).addPoints(pointsScored); //adds points to curr player
                 removeTiles(tilesNeeded, index);
+
+                //AI playing (remove this later)
+                //if (getCurrPlayerIndex() == players.size() - 1) {
+                    //aiPlay();
+                //}
+
                 return true;
             }
         }
@@ -381,6 +423,9 @@ public class Game implements Serializable{
      */
     public boolean legalPlacement(String userInput) {
         ArrayList<String> wordCombos = wordCombos(userInput);
+        if (wordCombos == null) {
+            return false;
+        }
         for (String s: wordCombos) {
             if (!dict.check(s)) { //return false if a word combination is false
                 return false;
@@ -421,6 +466,9 @@ public class Game implements Serializable{
      */
     public int tallyPoints(String userInput) {
         ArrayList<String> wordCombos = wordCombos(userInput);
+        if (wordCombos == null) {
+            return 0;
+        }
         int score = 0;
         for (String s: wordCombos) {
             if (s.equalsIgnoreCase(getSecondWord(userInput))) {
