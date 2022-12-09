@@ -24,9 +24,6 @@ public class AI extends Player{
         alphabet = "ABCDEFGHIJKLMNO";
         this.board = board;
         this.possiblePlays = new ArrayList<String>();
-        for (String s: this.getRack()) {
-            word.add(s);
-        }
         placeCombo();
         //getAIRack();
         //rackTest = rack.toCharArray();
@@ -45,7 +42,7 @@ public class AI extends Player{
         //dict = new Dictionary();
         char[] rackTest = rack;
         if (n == combos.length()) {
-            if (/*dict.checkSet(combos.toString()) && */wordValid(combos.toString())){
+            if (wordValid(combos.toString())){
                 word.add(combos.toString());
                 //placeCombo(word);
             }
@@ -222,9 +219,12 @@ public class AI extends Player{
 
     private ArrayList<String> getWordsUpToNLetters(int n) {
         ArrayList<String> upToNLetters = new ArrayList<String>();
+        for (String s: this.getRack()) {
+            word.add(s);
+        }
         for (String s: getWordList()) {
             if (s.length() > n) {
-                break;
+                continue;
             }
             upToNLetters.add(s);
         }
