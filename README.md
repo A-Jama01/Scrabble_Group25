@@ -70,6 +70,10 @@ UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin, Monishkumar S
 
 Redo/Undo (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama, Henry Lin) - Can undo/redo moves
 
+## Changes From Previous Milestone
+- The bugs highlighted by the TA were fixed and dealt with.
+- All the required features for Milestone 4 was implemented
+
 ## Known Issues
 - When placing a single in the horizontal direction to make a 2 letter word, it doesn't work, unless you try making a 3+ letter word that doesn't exist in the dictionary. Once that word fails (as it doesn't exist), you can create the 2 letter word. Creating words more than 2 letters horizontally works though.
 
