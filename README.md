@@ -92,6 +92,7 @@ Redo/Undo (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama, Henr
 - The game must have save/load features, undo/redo features and custom boards
 
 ## UML Diagram
+![image](https://user-images.githubusercontent.com/63323924/206828886-ff8289e4-0c36-4594-a780-292c55500743.png)
 
 ## Sequence Diagram
 ![image](https://user-images.githubusercontent.com/63323924/206828864-c0edaae2-41df-49c7-adeb-759dd7974b7a.png)
