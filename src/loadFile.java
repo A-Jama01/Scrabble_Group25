@@ -1,4 +1,5 @@
-/** LoadFile Class - This class access the directory to locate files
+/** LoadFile Class - This class accesses the directory to locate files
+ * and provides a dialog for the users to interact with when choosing a file
  *
  * @author Monishkumar Sivakumar 101115115
  **/
