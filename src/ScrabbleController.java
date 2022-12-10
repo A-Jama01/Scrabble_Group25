@@ -51,8 +51,16 @@ public class ScrabbleController implements ActionListener, Serializable {
                 if(game.getCurrPlayerIndex() == 0) {
                     gameView.updateInfo("Player 1 turn made.", "Make your turn now Player 2.");
                 }
-                else{
-                    gameView.updateInfo("Player 2 turn made.", "Make your turn now Player 1.");
+                else if(game.getCurrPlayerIndex() == 1 && (game.getPlayersSize()>2)){
+                    gameView.updateInfo("Player 2 turn made.", "Make your turn now Player 3.");
+                }
+                else if(game.getCurrPlayerIndex() == 2 && (game.getPlayersSize()>3)){
+                    gameView.updateInfo("Player 3 turn made.", "Make your turn now Player 4.");
+                }
+                else if(game.getCurrPlayerIndex() == 3){
+                    gameView.updateInfo("Player 4 turn made.", "Make your turn now Player 1.");
+                }else{
+                    gameView.updateInfo("AI turn made.", "Make your turn now Player 1.");
                 }
 
                 gameView.updateScore((game.getCurrPlayerIndex()+1),game.getCurrPlayer().getScore());
@@ -77,11 +85,20 @@ public class ScrabbleController implements ActionListener, Serializable {
             game.switchTurn();
             gameView.updateBoard();
             switchPlayerTiles(game.getCurrPlayer().getRack());
-            if(game.getCurrPlayerIndex() == 0) {
+            if(game.getCurrPlayerIndex()-1 == 0) {
                 gameView.updateInfo("Player 1 turn skipped.", "Make your turn now Player 2.");
             }
+            else if(game.getCurrPlayerIndex()-1 == 1  && (game.getPlayersSize()>2)){
+                gameView.updateInfo("Player 2 turn skipped.", "Make your turn now Player 3.");
+            }
+            else if(game.getCurrPlayerIndex()-1 == 2  && (game.getPlayersSize()>3)){
+                gameView.updateInfo("Player 3 turn skipped.", "Make your turn now Player 4.");
+            }
+            else if(game.getCurrPlayerIndex()-1 == 3){
+                gameView.updateInfo("Player 4 turn skipped.", "Make your turn now Player 1.");
+            }
             else{
-                gameView.updateInfo("Player 2 turn skipped.", "Make your turn now Player 1.");
+                gameView.updateInfo("Player " + game.getPlayersSize() +" turn skipped.", "Make your turn now Player 1.");
             }
         }
 
