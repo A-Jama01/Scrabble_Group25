@@ -210,6 +210,7 @@ public class ScrabbleController implements ActionListener, Serializable {
                 System.out.println(game.getPlayerRack());
                 gameView.updateRack(game.getPlayerRack());
                 gameView.refreshScore(game);
+                gameView.updateInfo("Board is loaded", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
                 //game.play();
             }
             catch (Exception e){
