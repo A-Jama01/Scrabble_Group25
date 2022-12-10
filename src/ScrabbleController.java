@@ -19,11 +19,16 @@ public class ScrabbleController implements ActionListener, Serializable {
     private JButton selectedTile;
     private ArrayList<JButton> tilesPlaced;
 
+    private int placeCount;
+    private int totalCount;
+
     public ScrabbleController(Game game, GameView gameView) {
         this.game = game;
         this.gameView = gameView;
         this.selectedTile = null;
         tilesPlaced = new ArrayList<>();
+        this.placeCount = 0;
+        this.totalCount = 0;
     }
 
     @Override
@@ -47,7 +52,6 @@ public class ScrabbleController implements ActionListener, Serializable {
         else if (e.getActionCommand().equals("play")) { //play button pressed
             //game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex());
             if (game.handleInput(gameView.getPlacedWord(), game.getCurrPlayerIndex())) { //place() maybe takes in arraylist of tilesplaced
-
                 if(game.getCurrPlayerIndex() == 0) {
                     gameView.updateInfo("Player 1 turn made.", "Make your turn now Player 2.");
                 }
@@ -68,10 +72,15 @@ public class ScrabbleController implements ActionListener, Serializable {
 
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
+                //saveMoves = new SaveMoves(this);
                 game.switchTurn();
                 switchPlayerTiles(game.getCurrPlayer().getRack());
                 tilesPlaced.removeAll(tilesPlaced);
                 gameView.updateBoard();
+                SaveMoves saveMoves = new  SaveMoves(this);
+                saveMoves.save(placeCount);
+                placeCount++;
+                totalCount++;
             }
             else {
                 resetBoard(); //print error message
@@ -99,6 +108,57 @@ public class ScrabbleController implements ActionListener, Serializable {
             }
             else{
                 gameView.updateInfo("Player " + game.getPlayersSize() +" turn skipped.", "Make your turn now Player 1.");
+            }
+            SaveMoves saveMoves = new  SaveMoves(this);
+            saveMoves.save(placeCount);
+            placeCount++;
+            totalCount++;
+        }
+
+        else if (e.getActionCommand().equals("undo")){
+            if (placeCount > 0){
+                String file = "states/scrabble_" + (placeCount - 2) + ".bin";
+                try{
+                    byte[] file_bytes = Files.readAllBytes(Paths.get(file));
+                    Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
+                    game = new_game;
+                    gameView.setBoard(game.getBoard());
+                    gameView.updateBoard();
+                    System.out.println(game.getPlayerRack());
+                    gameView.updateRack(game.getPlayerRack());
+                    gameView.refreshScore(game);
+                    gameView.updateInfo("Turn is undone", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
+                    //game.play();
+                }
+                catch (Exception ex){
+                    ex.printStackTrace(System.err);
+                }
+                placeCount--;
+            } else{
+                gameView.updateInfo("Cannot undo anymore", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
+            }
+        }
+        else if (e.getActionCommand().equals("redo")){
+            if (placeCount  < totalCount){
+                String file = "states/scrabble_" + (placeCount) + ".bin";
+                try{
+                    byte[] file_bytes = Files.readAllBytes(Paths.get(file));
+                    Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
+                    game = new_game;
+                    gameView.setBoard(game.getBoard());
+                    gameView.updateBoard();
+                    System.out.println(game.getPlayerRack());
+                    gameView.updateRack(game.getPlayerRack());
+                    gameView.refreshScore(game);
+                    gameView.updateInfo("Turn is redone", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
+                    //game.play();
+                }
+                catch (Exception ex){
+                    ex.printStackTrace(System.err);
+                }
+                placeCount++;
+            }else{
+                gameView.updateInfo("Cannot redo anymore", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
             }
         }
 
@@ -218,4 +278,5 @@ public class ScrabbleController implements ActionListener, Serializable {
             }
         }
     }
+
 }

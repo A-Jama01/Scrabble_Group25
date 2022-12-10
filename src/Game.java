@@ -151,6 +151,7 @@ public class Game implements Serializable{
                 topUpRack(a);
             }
         }
+
     }
 
     public boolean place(String words) { //probably not going use

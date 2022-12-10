@@ -13,7 +13,7 @@ public class GameView extends JFrame{
     private int playerCount, aiCount;
     private BoardView board;
     private JPanel rack1, rack2,buttons, texts, scores;
-    private JButton playButton,skipButton,quitButton,swapButton, saveButton, loadButton;
+    private JButton playButton,skipButton,quitButton,swapButton, saveButton, loadButton, undoButton, redoButton;
     private ArrayList<JButton> buttonLetters1;
     private ArrayList<JButton> buttonLetters2;
     private JLabel label1, label2, label3, label4, label5, label6, score1, score2, score3, score4;
@@ -21,6 +21,7 @@ public class GameView extends JFrame{
     private ScrabbleController controller;
     private static GameView self;
     private Game gameClass;
+
 
     /**
      * The constructor of the GameView class
@@ -107,6 +108,7 @@ public class GameView extends JFrame{
         playButton = new JButton("Play");
         playButton.setActionCommand("play");
         playButton.addActionListener(controller);
+
         buttons.add(playButton);
         skipButton = new JButton("Skip");
         skipButton.setActionCommand("skip");
@@ -128,6 +130,14 @@ public class GameView extends JFrame{
         loadButton.setActionCommand("load");
         loadButton.addActionListener(new Load(controller));
         buttons.add(loadButton);
+        undoButton = new JButton("Undo");
+        undoButton.setActionCommand("undo");
+        undoButton.addActionListener(controller);
+        buttons.add(undoButton);
+        redoButton = new JButton("Redo");
+        redoButton.setActionCommand("redo");
+        redoButton.addActionListener(controller);
+        buttons.add(redoButton);
 
         c.gridy = 3;
         pane.add(buttons,c);
