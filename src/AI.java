@@ -24,11 +24,13 @@ public class AI extends Player{
         alphabet = "ABCDEFGHIJKLMNO";
         this.board = board;
         this.possiblePlays = new ArrayList<String>();
-        placeCombo();
-        //getAIRack();
-        //rackTest = rack.toCharArray();
+
     }
 
+    /**
+     *
+     * @return String representation of AI's Rack
+     */
     public String getAIRack() {
         stringRack = "";
         for(int i = 0; i< this.getRack().size(); i++){
@@ -37,14 +39,19 @@ public class AI extends Player{
         return stringRack;
     }
 
-
+    /**
+     * Create word combinations from AI's rack
+     *
+     * @param combos creates letter combinations from rack
+     * @param n is the smallest letter combination
+     * @param rack ai's current rack
+     */
     public void wordCombo(StringBuilder combos, int n, char[] rack){
         //dict = new Dictionary();
         char[] rackTest = rack;
         if (n == combos.length()) {
             if (wordValid(combos.toString())){
                 word.add(combos.toString());
-                //placeCombo(word);
             }
             return;
         }
@@ -54,6 +61,12 @@ public class AI extends Player{
         }
     }
 
+    /**
+     * Checks if word can be made from
+     *
+     * @param input is word to be checked if it can be made from AI's tiles.
+     * @return True if input can be made from AI's tiles, return false otherwise.
+     */
     public boolean wordValid(String input) {
         String rack = "";
         for (String s: this.getRack()) {
@@ -69,15 +82,9 @@ public class AI extends Player{
         return true;
     }
 
-    public void placeCombo(){
-        for (int i = 0; i < 15; i++) {
-            for (int j = 1; j <= 15; j++) {
-                position.add(alphabet.charAt(i) + String.valueOf(j));
-                position.add(String.valueOf(j) + alphabet.charAt(i));
-            }
-        }
-    }
-
+    /**
+     * Creates all letter combinations from AI's rack
+     */
     public void findWord(){ //call
         getAIRack();
         char[] rackTest = stringRack.toCharArray();
@@ -85,30 +92,23 @@ public class AI extends Player{
         for (int length = 2; length <= rackTest.length; length++) {
             combos.setLength(length);
             wordCombo(combos, 0, rackTest);
-            /**
-            if (word.size() >= 10) {
-                break;
-            }
-             */
         }
     }
 
-    public String getPosition(int index) {
-        return position.get(index);
-    }
-
-    public String getWord(int index) {
-        return word.get(index);
-    }
-
+    /**
+     * Get list of word combinations
+     *
+     * @return ArrayList of all possible words combinations created from the rack
+     */
     public ArrayList<String> getWordList() {
         return word;
     }
 
-    public String getPlay(int postionIndex, int wordIndex) {
-        return getPosition(postionIndex) + " " + getWord(wordIndex);
-    }
-
+    /**
+     * Remove tiles used to place words.
+     *
+     * @param words is the word to be removed
+     */
     public void removeTilesAI(String words) {
         String[] tilestoRemove = words.split("");
         for (String s : tilestoRemove) {
@@ -119,8 +119,16 @@ public class AI extends Player{
         emptyWord();
     }
 
+    /**
+     * Remove all word combinations.
+     */
     public void emptyWord() {word.clear();}
 
+    /**
+     * Checks if there is any word combinations from rack.
+     *
+     * @return True if there are no word combinations, false otherwise.
+     */
     public boolean noWords() {
         if (word.size() == 0) {
             return true;
@@ -128,26 +136,23 @@ public class AI extends Player{
         return false;
     }
 
-    public int numOfWords() {
-        return word.size();
-    }
-
-    public int numOfPositions() {
-        return position.size();
-    }
-
-    public ArrayList<String> getWordsOnBoard() {
-        ArrayList<String> wordList = new ArrayList<>();
-
-        return wordList;
-    }
-
+    /**
+     * Retrieve possible legal plays.
+     *
+     * @return ArrayList of possible plays.
+     */
     public ArrayList<String> getPossiblePlays() {
         return possiblePlays;
     }
 
+    /**
+     * Remove all possible moves.
+     */
     public void clearPossiblePlays() {possiblePlays.clear();}
 
+    /**
+     * Create possible legal moves for AI.
+     */
     public void createPlays() {
         ArrayList<String> boardRows = new ArrayList<>();    //gets words in each row
         ArrayList<String> boardCols = new ArrayList<>();    //gets words in each col
@@ -275,6 +280,9 @@ public class AI extends Player{
         return false;
     }
 
+    /**
+     * Create first move that is the longest legal move from rack.
+     */
     public void createFirstMove() {
         ArrayList<String> words = new ArrayList<String>();
         words = getWordList();
