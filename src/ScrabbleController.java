@@ -73,10 +73,10 @@ public class ScrabbleController implements ActionListener, Serializable {
                 game.removeTiles(stringTilesPlaced(tilesPlaced), game.getCurrPlayerIndex()); //remove tiles of current player
                 game.topUpRack(game.getCurrPlayer()); //topup the rack of current player
                 //saveMoves = new SaveMoves(this);
+                game.switchTurn();
                 switchPlayerTiles(game.getCurrPlayer().getRack());
                 tilesPlaced.removeAll(tilesPlaced);
                 gameView.updateBoard();
-                game.switchTurn();
                 SaveMoves saveMoves = new  SaveMoves(this);
                 saveMoves.save(placeCount);
                 placeCount++;
@@ -118,22 +118,20 @@ public class ScrabbleController implements ActionListener, Serializable {
         else if (e.getActionCommand().equals("undo")){
             if (placeCount > 0){
                 String file = "states/scrabble_" + (placeCount - 1) + ".bin";
-                if(file != null){
-                    try{
-                        byte[] file_bytes = Files.readAllBytes(Paths.get(file));
-                        Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
-                        game = new_game;
-                        gameView.setBoard(game.getBoard());
-                        gameView.updateBoard();
-                        System.out.println(game.getPlayerRack());
-                        gameView.updateRack(game.getPlayerRack());
-                        gameView.refreshScore(game);
-                        gameView.updateInfo("Turn is undone", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
-                        //game.play();
-                    }
-                    catch (Exception ex){
-                        ex.printStackTrace(System.err);
-                    }
+                try{
+                    byte[] file_bytes = Files.readAllBytes(Paths.get(file));
+                    Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
+                    game = new_game;
+                    gameView.setBoard(game.getBoard());
+                    gameView.updateBoard();
+                    System.out.println(game.getPlayerRack());
+                    gameView.updateRack(game.getPlayerRack());
+                    gameView.refreshScore(game);
+                    gameView.updateInfo("Turn is undone", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
+                    //game.play();
+                }
+                catch (Exception ex){
+                    ex.printStackTrace(System.err);
                 }
                 placeCount--;
             } else{
@@ -142,23 +140,21 @@ public class ScrabbleController implements ActionListener, Serializable {
         }
         else if (e.getActionCommand().equals("redo")){
             if (placeCount  < totalCount){
-                String file = "states/scrabble_" + (placeCount + 1) + ".bin";
-                if(file != null){
-                    try{
-                        byte[] file_bytes = Files.readAllBytes(Paths.get(file));
-                        Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
-                        game = new_game;
-                        gameView.setBoard(game.getBoard());
-                        gameView.updateBoard();
-                        System.out.println(game.getPlayerRack());
-                        gameView.updateRack(game.getPlayerRack());
-                        gameView.refreshScore(game);
-                        gameView.updateInfo("Turn is redone", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
-                        //game.play();
-                    }
-                    catch (Exception ex){
-                        ex.printStackTrace(System.err);
-                    }
+                String file = "states/scrabble_" + (placeCount) + ".bin";
+                try{
+                    byte[] file_bytes = Files.readAllBytes(Paths.get(file));
+                    Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
+                    game = new_game;
+                    gameView.setBoard(game.getBoard());
+                    gameView.updateBoard();
+                    System.out.println(game.getPlayerRack());
+                    gameView.updateRack(game.getPlayerRack());
+                    gameView.refreshScore(game);
+                    gameView.updateInfo("Turn is redone", "Player " + (game.getCurrPlayerIndex() + 1) +"'s turn");
+                    //game.play();
+                }
+                catch (Exception ex){
+                    ex.printStackTrace(System.err);
                 }
                 placeCount++;
             }else{

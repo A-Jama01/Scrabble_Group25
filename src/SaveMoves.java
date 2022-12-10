@@ -11,6 +11,7 @@ public class SaveMoves {
 
     ScrabbleController game;
     //private int num;
+    File file;
 
     public SaveMoves(ScrabbleController _game){
         this.game = _game;
@@ -28,12 +29,14 @@ public class SaveMoves {
         }
 
         try{
-            Files.write(new File(file_name).toPath(), Serialization.write_base64(game.getGame()).getBytes());
+            file = new File(file_name);
+            Files.write(file.toPath(), Serialization.write_base64(game.getGame()).getBytes());
         }
         catch (Exception ex){
             ex.printStackTrace(System.err);
         }
 
         Serialization.write_base64(game.getGame());
+        file.deleteOnExit();
     }
 }
