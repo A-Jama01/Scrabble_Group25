@@ -1,4 +1,6 @@
+import java.io.File;
 import java.util.*;
+import javax.print.attribute.standard.JobOriginatingUserName;
 import javax.swing.*;
 import java.io.Serializable;
 
@@ -89,9 +91,25 @@ public class Game implements Serializable{
         parser = new Parser();
         dict = new Dictionary();
         bag = new Bag();
-        board = new Board(Board.defaultBoardConfiguration());
         word = new Word();
         ai = new ArrayList<AI>();
+
+        String boardOptions[] = {"Use default", "Custom board from XML file"};
+        int customBoard = JOptionPane.showOptionDialog(null, "Select a board option:",
+                "Board Setup", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                boardOptions, boardOptions[0]);
+        if (customBoard == JOptionPane.YES_OPTION) {
+            board = new Board(Board.defaultBoardConfiguration());
+        } else if (customBoard == JOptionPane.NO_OPTION) {
+            JFileChooser fileChooser = new JFileChooser(".");
+            int selection = fileChooser.showOpenDialog(null);
+            if (selection == JFileChooser.APPROVE_OPTION) {
+                board = Board.getBoardFromXMLConfig(fileChooser.getSelectedFile());
+            }
+        }
+        if (board == null) {
+            board = new Board(Board.defaultBoardConfiguration());
+        }
 
         switch (aiNum){
             case "1":{
