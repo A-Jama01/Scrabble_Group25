@@ -3,6 +3,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 /**
+ * BoardView is a JPanel that displays a board.
+ * It also provides methods to place "floating tiles" on the
+ * board, and return the word created by those tiles.
+ * Floating tiles are tiles which a player is attempting to place
+ * on the board. They are visible on the BoardView but do
+ * not affect the actual state of the board. The getFloatingWord
+ * method returns the word that is formed by the floating tiles
+ * and any placed tiles.
  * @author Henry Lin
  */
 
@@ -23,6 +31,12 @@ public class BoardView extends JPanel {
 
     private Board board;
 
+    /**
+     * Create a BoardView for the given board, and set up buttons
+     * to be listened to by the given controller.
+     * @param board      The board to display
+     * @param controller The controller that will listen to buttons
+     */
     public BoardView(Board board, ScrabbleController controller) {
         this.board = board;
         floating = new ArrayList<>();
@@ -182,13 +196,20 @@ public class BoardView extends JPanel {
         return null;
     }
 
+    /**
+     * Set a new Board for this BoardView to display.
+     * Used for save/load functionality.
+     * Changes the colours of the tiles to reflect any
+     * changes in the premium squares.
+     * @param board The new Board to display on this BoardView
+     */
     public void setBoard(Board board) {
         this.board = board;
         refresh();
         for (int row = 0; row < Board.HEIGHT; row++) {
             for (int col = 0; col < Board.HEIGHT; col++) {
                 JButton tile = buttons[col][row];
-                buttons[col][row].setForeground(switch (tile.getText()) {
+                tile.setForeground(switch (tile.getText()) {
                     case Board.DOUBLE_LETTER_SCORE -> Color.CYAN;
                     case Board.TRIPLE_LETTER_SCORE -> Color.BLUE;
                     case Board.DOUBLE_WORD_SCORE   -> Color.MAGENTA;
