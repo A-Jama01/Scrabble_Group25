@@ -1,3 +1,8 @@
+/** Serialization Class - This class serializes all the classes which are serializable,
+ * so that they can be saved
+ *
+ * @author Monishkumar Sivakumar 101115115
+ **/
 import java.io.*;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;

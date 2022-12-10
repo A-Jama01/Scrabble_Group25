@@ -1,4 +1,7 @@
-
+/** Load Class - This class loads up previous games
+ *
+ * @author Monishkumar Sivakumar 101115115
+ **/
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

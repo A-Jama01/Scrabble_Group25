@@ -1,3 +1,7 @@
+/** Save Class - This class saves the scrabble game using the date and time
+ *
+ * @author Monishkumar Sivakumar 101115115
+ **/
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
