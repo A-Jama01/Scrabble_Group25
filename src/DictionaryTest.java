@@ -28,6 +28,12 @@ public class DictionaryTest {
         assertTrue(dict.check("asdfg") == false);
     }
 
+    @Test
+    public void testCheckSetCorrectWord() {assertTrue(dict.checkSet("hello"));}
+
+    @Test
+    public void testCheckSetIncorrectWord() {assertFalse(dict.checkSet("KLJDFKL:JFDS"));}
+
     /**@Test
     public void failingTest(){
         Integer word = 11;
