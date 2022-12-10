@@ -57,6 +57,19 @@ UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin) - The UML Dia
 Sequence Diagrams (@author: Monishkumar Sivakumar) - The sequence diagrams for the main functions of game
 https://drive.google.com/file/d/1hxpJzwFUp2tWy0CmCHLe6Q_CXGyLBbbb/view?usp=sharing
 
+## Milestone 4
+Deliverables:
+
+Bug Fixes (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama, Henry Lin) - Fixed all the bugs
+
+Save/Load (@author: Monishkumar Sivakumar):  Game can load and save files
+
+Custom Board (@author: Henry Lin) - Created XML custom board
+
+UML Diagrams (@author: Abdurahman Jama, Christina Dang, Henry Lin, Monishkumar Sivakumar) - The UML Diagrams for the scrabble game
+
+Redo/Undo (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama, Henry Lin) - Can undo/redo moves
+
 ## Known Issues
 - When placing a single in the horizontal direction to make a 2 letter word, it doesn't work, unless you try making a 3+ letter word that doesn't exist in the dictionary. Once that word fails (as it doesn't exist), you can create the 2 letter word. Creating words more than 2 letters horizontally works though.
 
