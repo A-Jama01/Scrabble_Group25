@@ -90,3 +90,8 @@ Redo/Undo (@author: Monishkumar Sivakumar, Christina Dang, Abdurahman Jama, Henr
 
 **Milestone 4**
 - The game must have save/load features, undo/redo features and custom boards
+
+## UML Diagram
+
+## Sequence Diagram
+![image](https://user-images.githubusercontent.com/63323924/206828864-c0edaae2-41df-49c7-adeb-759dd7974b7a.png)
