@@ -571,6 +571,7 @@ public class Game implements Serializable{
 
     /**
      * Gets the index of the player with the highest score or a negative in case of tie
+     *
      * @return  Index of winner
      */
     public int winnerIndex() {

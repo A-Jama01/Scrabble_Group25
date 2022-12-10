@@ -175,6 +175,13 @@ public class AI extends Player{
         }
     }
 
+    /**
+     * Create possiblePlays in a given row or column.
+     *
+     * @param dirWords holds starting index of word and word itself
+     * @param i
+     * @param isHorizontal
+     */
     private void getPossiblePlays(TreeMap<Integer, String> dirWords, int i, boolean isHorizontal) {
         int offset = 2;
 
@@ -252,6 +259,13 @@ public class AI extends Player{
         }
     }
 
+    /**
+     * Adds letters in row or column to ArrayList
+     *
+     *  @param boardRows ArrayList that stores letters in row or column
+     * @param i row
+     * @param j colun
+     */
     private void addLetters(ArrayList<String> boardRows, int i, int j) {
         if (isEmptyPosition(board.letterAt(i, j))) {
             boardRows.add(" ");
@@ -261,6 +275,13 @@ public class AI extends Player{
         }
     }
 
+    /**
+     * Checks if position on board is empty
+     *
+     * @param letter is param to be checked
+     *
+     * @return True if position is empty, false otherwise.
+     */
     public boolean isEmptyPosition(String letter) {
         if (letter == null) {
             return true;
