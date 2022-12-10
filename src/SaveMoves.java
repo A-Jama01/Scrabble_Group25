@@ -1,4 +1,5 @@
-/** Save Class - This class saves the scrabble game using the date and time
+/** SaveMoves Class - This class saves the scrabble game after each move
+ * so that when a player undos a move or redoes a move, the previous saved can be pulled up
  *
  * @author Monishkumar Sivakumar 101115115
  **/
