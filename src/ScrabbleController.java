@@ -182,17 +182,15 @@ public class ScrabbleController implements ActionListener, Serializable {
                     tilesToSwap.add(nextTile);
                     dummyRack.remove(nextTile);
                 }
-            } while (nextTile != null);
+            } while (nextTile != null && dummyRack.size() > 0);
             if (tilesToSwap.size() > 0) {
                 game.swapTiles(tilesToSwap);
                 gameView.updateRack(game.getPlayerRack());
 
-                /* End turn (commented out for testing)
                 game.switchTurn();
                 gameView.updateBoard();
                 switchPlayerTiles(game.getCurrPlayer().getRack());
-                gameView.updateInfo("Tiles swapped", "Make your turn now Player " + game.getCurrPlayerIndex());
-                 */
+                gameView.updateInfo("Tiles swapped", "Make your turn now Player " + (game.getCurrPlayerIndex() + 1));
             }
         }
     }

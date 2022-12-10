@@ -182,5 +182,20 @@ public class BoardView extends JPanel {
         return null;
     }
 
-    public void setBoard(Board board) { this.board = board; }
+    public void setBoard(Board board) {
+        this.board = board;
+        refresh();
+        for (int row = 0; row < Board.HEIGHT; row++) {
+            for (int col = 0; col < Board.HEIGHT; col++) {
+                JButton tile = buttons[col][row];
+                buttons[col][row].setForeground(switch (tile.getText()) {
+                    case Board.DOUBLE_LETTER_SCORE -> Color.CYAN;
+                    case Board.TRIPLE_LETTER_SCORE -> Color.BLUE;
+                    case Board.DOUBLE_WORD_SCORE   -> Color.MAGENTA;
+                    case Board.TRIPLE_WORD_SCORE   -> Color.RED;
+                    default -> null;
+                });
+            }
+        }
+    }
 }
