@@ -117,7 +117,7 @@ public class ScrabbleController implements ActionListener, Serializable {
 
         else if (e.getActionCommand().equals("undo")){
             if (placeCount > 0){
-                String file = "states/scrabble_" + (placeCount - 1) + ".bin";
+                String file = "states/scrabble_" + (placeCount - 2) + ".bin";
                 try{
                     byte[] file_bytes = Files.readAllBytes(Paths.get(file));
                     Game new_game = (Game)Serialization.read_base64(new String(file_bytes));
