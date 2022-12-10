@@ -275,8 +275,58 @@ public class GameView extends JFrame{
 
     public void setBoard(Board board) { this.board.setBoard(board); }
 
-    public void refreshScore(){
+    public void refreshScore(Game newGameClass){
+        gameClass = newGameClass;
         scores.removeAll();
+
+        playerCount = gameClass.getPlayersSize();
+        aiCount = gameClass.getAISize();
+
+        scores = new JPanel();
+        scores.setLayout(new GridLayout(2,4));
+
+        playerLabels = new ArrayList<JLabel>();
+
+        label3 = new JLabel("");
+        label4 = new JLabel("");
+        label5 = new JLabel("");
+        label6 = new JLabel("");
+        playerLabels.add(label3);
+        playerLabels.add(label4);
+        playerLabels.add(label5);
+        playerLabels.add(label6);
+
+        for(int i = 0; i<playerCount; i++){
+            playerLabels.get(i).setText("Player " + (i+1));
+            scores.add(playerLabels.get(i));
+        }
+        for(int i = 0; i<aiCount; i++){
+            playerLabels.get(i+playerCount).setText("AI " + (i+1));
+            scores.add(playerLabels.get(i+playerCount));
+        }
+
+        score1 = new JLabel("0");
+        score2 = new JLabel("0");
+        score3 = new JLabel("0");
+        score4 = new JLabel("0");
+        playerScores = new ArrayList<JLabel>();
+        playerScores.add(score1);
+        playerScores.add(score2);
+        playerScores.add(score3);
+        playerScores.add(score4);
+
+        for(int i = 0; i<playerCount+aiCount; i++){
+            scores.add(playerScores.get(i));
+        }
+
+        for(int i = 0; i<playerCount; i++){
+            playerScores.get(i).setText(Integer.toString(gameClass.getPlayers().get(i).getScore()));
+        }
+        for(int i = 0; i<aiCount; i++){
+            playerScores.get(i+playerCount).setText(Integer.toString(gameClass.getAIs().get(i).getScore()));
+        }
+
+        this.getContentPane().add(scores);
     }
 
 }

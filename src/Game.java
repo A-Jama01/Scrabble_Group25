@@ -203,6 +203,13 @@ public class Game implements Serializable{
         return check;
     }
 
+    public ArrayList<AI> getAIs() {
+        return ai;
+    }
+    public ArrayList<Player> getPlayers() {
+        return players;
+    }
+
     public Player getAIPlayer(int num) {
         return ai.get(num);
     }
